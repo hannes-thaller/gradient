@@ -1,0 +1,14 @@
+repositories:
+  - name: gradient-service-message
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-message
+    path: ../gradient-service-message
+  - name: gradient-service-project
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-project
+    path: ../gradient-service-project
+  - name: gradient-service-code
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-code
+    path: ../gradient-service-code
+  - name: gradient-service-event
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-event
+    path: ../gradient-service-event
+
