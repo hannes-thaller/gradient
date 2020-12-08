@@ -1,4 +1,10 @@
 repositories:
+  - name: gradient-service-api
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-api
+    path: ../gradient-service-api
+  - name: pulasr-client-extensions
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/pulsar-extensions
+    path: ../pulsar-extensions
   - name: gradient-service-message
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-message
     path: ../gradient-service-message
@@ -8,7 +14,12 @@ repositories:
   - name: gradient-service-code
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-code
     path: ../gradient-service-code
-  - name: gradient-service-event
-    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-event
-    path: ../gradient-service-event
-
+  - name: gradient-service-monitoring
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-monitoring
+    path: ../gradient-service-monitoring
+  - name: gradient-service-dataset
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-dataset
+    path: ../gradient-service-dataset
+  - name: gradient-annotations-jvm
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-annotations-jvm
+    path: ../gradient-annotations-jvm

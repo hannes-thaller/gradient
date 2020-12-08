@@ -7,9 +7,14 @@ from invoke import task
 @task(default=True)
 def check(c):
     print("Checking system for dependencies...")
-    if not shutil.which("docker"):
+    if shutil.which("docker"):
+        print("docker ... OK")
+    else:
         print("Could not find docker")
-    if not shutil.which("docker-compose"):
+
+    if shutil.which("docker-compose"):
+        print("docker-compose ... OK")
+    else:
         print("Could not find docker-compose")
 
 
@@ -59,3 +64,15 @@ def publish_local(c):
                     c.run("./gradlew clean assemble publishToMavenLocal")
         else:
             print(f"Skipping missing project: {it['name']}")
+
+@task
+def generate_proto(c):
+    dir_project = pathlib.Path(__file__).parent.joinpath("gradient", "model")
+    dir_api = pathlib.Path(next(it for it in c.config["repositories"])["path"])
+    dir_api = "/home/hannes/Projects/Sourceflow/gradient-service-api"
+    cmd = f"protoc " \
+    f"-I=/home/hannes/Projects/Sourceflow/gradient-service-api " \
+    f"--python_out=/home/hannes/Projects/Sourceflow/gradient-service/gradient/model " \
+    f"--proto_path=/home/hannes/Projects/Sourceflow/gradient-service-api/introspect/src/main/proto/ " \
+    f"/home/hannes/Projects/Sourceflow/gradient-service-api/introspect/src/main/proto/*.proto"
+    c.run(cmd)
