@@ -1,10 +1,9 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     id("idea")
     id("maven-publish")
     id("java")
     kotlin("jvm") version "1.3.72"
+    id("application")
 }
 
 group = "org.sourceflow"
@@ -21,12 +20,15 @@ val mavenSourceflow = Action<MavenArtifactRepository> {
         includeGroup("org.sourceflow")
     }
 }
+val gradient: Configuration by configurations.creating
+
 
 repositories {
     mavenLocal()
     mavenCentral()
     maven(mavenSourceflow)
 }
+
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
@@ -37,6 +39,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.7.7")
 
     implementation("org.sourceflow:gradient-annotations-jvm:0.2.4")
+    gradient("org.sourceflow:gradient-sensor-jvm:0.3.0")
 }
 
 configure<JavaPluginExtension> {
@@ -71,6 +74,11 @@ tasks {
         filter {
             includeTestsMatching("*SystemTest*")
         }
+    }
+
+    application {
+        mainClassName = "org.sourceflow.gradient.testing.nutrition.Main"
+//        applicationDefaultJvmArgs = listOf("-javaagent:${gradient.first().absoluteFile}")
     }
 }
 

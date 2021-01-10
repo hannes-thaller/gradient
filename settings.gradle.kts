@@ -1,2 +1,2 @@
-rootProject.name = "gradient-testing"
+rootProject.name = "gradient-testing-jvm"
 
