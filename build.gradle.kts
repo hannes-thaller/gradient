@@ -39,7 +39,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.7.7")
 
     implementation("org.sourceflow:gradient-annotations-jvm:0.2.4")
-    gradient("org.sourceflow:gradient-sensor-jvm:0.3.0")
+    gradient("org.sourceflow:gradient-sensor-jvm:0.3.0:all")
 }
 
 configure<JavaPluginExtension> {
@@ -77,8 +77,9 @@ tasks {
     }
 
     application {
+        val gradientConfig = "src/main/resources/gradient.yaml"
         mainClassName = "org.sourceflow.gradient.testing.nutrition.Main"
-//        applicationDefaultJvmArgs = listOf("-javaagent:${gradient.first().absoluteFile}")
+        applicationDefaultJvmArgs = listOf("-javaagent:${gradient.first().absoluteFile}=${gradientConfig}")
     }
 }
 

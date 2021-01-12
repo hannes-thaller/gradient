@@ -30,7 +30,7 @@ public class Main {
         final Query query = new Query();
 
         try (final Scanner scanner = new Scanner(csvFile)) {
-            scanner.skip("Gender,Name,Age,Height,Weight");
+            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 final String line = scanner.nextLine();
                 final String[] parts = line.split(CSV_SYMBOL);
@@ -73,5 +73,6 @@ public class Main {
 
         final File queryFile = Paths.get(resource.toURI()).toFile();
         Main.run(queryFile);
+        System.out.println("Done");
     }
 }

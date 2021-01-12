@@ -1,11 +1,11 @@
 group: org.sourceflow
-artifact: org.sourceflow.gradinet.testing.nutrition-advisor
+artifact: org.sourceflow.gradient.testing.nutrition-advisor
 version: 0.1.0
 packageRegex:
-  - org.sourceflow.gradient.testing.nutrition.*
+  - org.sourceflow.gradient.testing.nutrition
 classRegex:
   - org.sourceflow.gradient.testing.nutrition.*
 boundaryRegex:
-  - org.sourceflow.gradient.testing.[M].*
+  - org.sourceflow.gradient.testing.nutirtion.[M].*
 universeRegex:
-  - org.sourceflow.gradient.testing.[BNPS].*
+  - org.sourceflow.gradient.testing.nutrition.[BNPS].*
