@@ -1,14 +1,7 @@
 #!/bin/bash
 
-name=${PWD##*/}
-dir_env="./env-${name}"
-condash=$(which conda)
+name="${PWD##*/}"
 
 echo "Creating conda environment: ${name}"
 eval "$(conda shell.bash hook)"
-conda create -y --prefix ${dir_env}
-conda activate ${dir_env}
-conda install -y --override-channels -c main -c conda-forge \
-	python=3.6 invoke=1.3 attrs=20.2.0 protobuf=3.11.4
-exit 0
-
+conda create -n "${name}" -y -c conda-forge python=3.7 invoke=1.5 attrs=20.3.0 pymongo=3.11.0

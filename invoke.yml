@@ -2,24 +2,53 @@ repositories:
   - name: gradient-service-api
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-api
     path: ../gradient-service-api
+    tags:
+      - service
   - name: pulasr-client-extensions
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/pulsar-extensions
     path: ../pulsar-extensions
+    tags: []
   - name: gradient-service-message
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-message
     path: ../gradient-service-message
+    tags:
+      - service
   - name: gradient-service-project
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-project
     path: ../gradient-service-project
+    mongo-port: 11002
+    tags:
+      - service
   - name: gradient-service-code
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-code
     path: ../gradient-service-code
+    mongo-port: 12002
+    tags:
+      - service
   - name: gradient-service-monitoring
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-monitoring
     path: ../gradient-service-monitoring
+    mongo-port: 14002
+    tags:
+      - service
   - name: gradient-service-dataset
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-dataset
     path: ../gradient-service-dataset
+    mongo-port: 13002
+    tags:
+      - service
   - name: gradient-annotations-jvm
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-annotations-jvm
     path: ../gradient-annotations-jvm
+    tags:
+      - client
+  - name: gradient-sensor-jvm
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-sensor-jvm
+    path: ../gradient-sensor-jvm
+    tags:
+      - client
+  - name: gradient-testing-jvm
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-testing-jvm
+    path: ../gradient-testing-jvm
+    tags:
+      - testing
