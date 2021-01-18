@@ -7,7 +7,7 @@ repositories:
   - name: pulasr-client-extensions
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/pulsar-extensions
     path: ../pulsar-extensions
-    tags: []
+    tags: [ ]
   - name: gradient-service-message
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-message
     path: ../gradient-service-message
@@ -25,16 +25,22 @@ repositories:
     mongo-port: 12002
     tags:
       - service
+  - name: gradient-service-dataset
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-dataset
+    path: ../gradient-service-dataset
+    mongo-port: 13002
+    tags:
+      - service
   - name: gradient-service-monitoring
     repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-monitoring
     path: ../gradient-service-monitoring
     mongo-port: 14002
     tags:
       - service
-  - name: gradient-service-dataset
-    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-dataset
-    path: ../gradient-service-dataset
-    mongo-port: 13002
+  - name: gradient-service-model
+    repository: git@ssh.dev.azure.com:v3/sourceflow-org/Gradient/gradient-service-model
+    path: ../gradient-service-model
+    mongo-port: 15002
     tags:
       - service
   - name: gradient-annotations-jvm
