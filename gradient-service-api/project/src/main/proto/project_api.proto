@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package org.sourceflow.gradient.project;
+
+option optimize_for = SPEED;
+option java_outer_classname = "ProjectProto";
+option java_multiple_files = false;
+
+message Project {
+    string name = 1;
+    string version = 2;
+}
+
+message RegistrationConfirmation {
+    repeated string elements = 1;
+}
+
+service ModelService {
+    rpc BuildModel (Project) returns (RegistrationConfirmation);
+}
