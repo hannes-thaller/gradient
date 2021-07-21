@@ -1,7 +1,10 @@
-**/.gradle
+.pybuilder
 .idea
-**/build
+target
+envs
+env-gradient-service-model
 __pycache__
+data
 .env
 .coverage
 .hypothesis

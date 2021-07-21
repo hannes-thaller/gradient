@@ -9,7 +9,6 @@
 
 rootProject.name = "gradient-service"
 include(
-    "app", "list",
     "gradient-service-api",
     "gradient-service-api:code",
     "gradient-service-api:dataset",
@@ -17,4 +16,8 @@ include(
     "gradient-service-api:model",
     "gradient-service-api:project",
     "gradient-service-code",
+    "gradient-service-project",
+    "gradient-service-dataset",
+    "gradient-service-monitoring",
+    "gradient-service-model",
 )

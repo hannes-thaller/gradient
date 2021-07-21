@@ -1,3 +1,3 @@
 plugins {
-    id("com.sourceflow.gradient.service-conventions")
+    id("com.sourceflow.gradient.kotlin-service-conventions")
 }
