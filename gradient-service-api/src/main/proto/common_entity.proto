@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package org.sourceflow.gradient.common;
+
+message UUID {
+    uint64 least_significant = 1;
+    uint64 most_significant = 2;
+}
+
+enum NameComponentType {
+    GROUP = 0;
+    ARTIFACT = 1;
+    VERSION = 2;
+    PACKAGE = 3;
+    TYPE = 4;
+    PROPERTY = 5;
+    EXECUTABLE = 6;
+    PARAMETER = 7;
+    RESULT = 8;
+}
+
+message CanonicalName {
+    repeated string components = 1;
+    repeated NameComponentType types = 2;
+}
+
+message ProjectContext {
+    org.sourceflow.gradient.common.UUID project_id = 1;
+    org.sourceflow.gradient.common.UUID session_id = 2;
+}
+
+message Datum {
+    oneof datum_selection {
+        string string_datum = 1;
+        bool boolean_datum = 2;
+        int32 integer_datum = 3;
+        float float_datum = 4;
+        double double_datum = 5;
+        int64 long_datum = 6;
+        Strings strings_datum = 7;
+        Booleans booleans_datum = 8;
+        Integers integers_datum = 9;
+        Floats floats_datum = 10;
+        Doubles doubles_datum = 11;
+        Longs longs_datum = 12;
+    }
+}
+
+message Booleans {
+    repeated bool values = 1;
+}
+
+message Integers {
+    repeated int32 values = 1;
+}
+
+message Longs {
+    repeated int64 values = 1;
+}
+
+message Floats {
+    repeated float values = 1;
+}
+
+message Doubles {
+    repeated double values = 1;
+}
+
+message Strings {
+    repeated string values = 1;
+}
+
+enum ControlType {
+    OPEN = 0;
+    HEARTBEAT = 1;
+    CLOSE = 2;
+}
+
+message StreamControl {
+    ControlType type = 2;
+    int64 send_messages = 3;
+    int64 maximum_messages = 4;
+}

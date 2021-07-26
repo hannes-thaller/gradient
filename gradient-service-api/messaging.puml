@@ -1,0 +1,33 @@
+@startuml
+boundary Message
+== Registration ==
+Sensor -> Message: registration
+Message -> Project: registration
+Project -> Message: context
+Message -> Sensor: context
+== Code Analysis ==
+Sensor -> Message: program
+Message -> Code: program
+Message -> Dataset: program
+Dataset -> Message: feature descriptions
+Message -> Model: feature descriptions
+Message -> Code: feature descriptions
+Code -> Message: universe updates
+Message -> Sensor: universe updates
+== Monitoring ==
+Sensor --> Message: start events
+Message --> Monitoring ++: start events
+Monitoring --> Message: start frames
+Message --> Dataset ++: start frames
+Sensor --> Message : stop events
+Message --> Monitoring: stop events
+deactivate Monitoring
+Monitoring --> Message: stop frames
+Message --> Dataset: stop frames
+deactivate Dataset
+== Modeling ==
+Dataset -> Message: dataset
+Message -> Model: dataset
+Model -> Message: model
+Message -> Code: model
+@enduml

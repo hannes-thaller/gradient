@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package org.sourceflow.gradient.monitoring;
+
+import "monitoring_entity.proto";
+
+service MonitoringService {
+    rpc Report (stream MonitoringMessage) returns (MonitoringMessage);
+}

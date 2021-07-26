@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package org.sourceflow.gradient.dataset;
+
+import "dataset_entity.proto";
+
+service DatasetService {
+    rpc FeatureDescriptionsOfPrograms (DatasetMessage) returns (DatasetMessage);
+    rpc LoadDataset (DatasetMessage) returns (DatasetMessage);
+}

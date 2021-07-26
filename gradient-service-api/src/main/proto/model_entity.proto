@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package org.sourceflow.gradient.model;
+
+import "common_entity.proto";
+
+message ModelHandleDetail {
+    org.sourceflow.gradient.common.UUID model_id = 1;
+}
+
+message ModelMessage {
+    org.sourceflow.gradient.common.ProjectContext project_context = 1;
+    oneof payload {
+        ModelHandleDetail model_handle_detail = 2;
+    }
+}
