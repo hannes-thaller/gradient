@@ -27,9 +27,9 @@ dependencies {
 
     implementation("org.apache.pulsar:pulsar-client:2.5.0")
 
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.0.5")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:4.0.5")
-    testImplementation("io.kotest:kotest-property-jvm:4.0.5")
+    testImplementation("io.kotest:kotest-runner-junit5:4.6.1")
+    testImplementation("io.kotest:kotest-assertions-core:4.6.1")
+    testImplementation("io.kotest:kotest-property:4.6.1")
 }
 
 tasks {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_outer_classname = "MonitoringEntity";
+option java_outer_classname = "MonitoringEntities";
 option java_package = "org.sourceflow.gradient.monitoring.entities";
 
 package org.sourceflow.gradient.entities;
