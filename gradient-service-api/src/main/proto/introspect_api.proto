@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package org.sourceflow.gradient.introspect;
-
-import "introspect_entity.proto";
-
-service IntrospectService {
-  rpc ResetDatabase (IntrospectMessage) returns (IntrospectMessage);
-}

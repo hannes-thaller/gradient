@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package org.sourceflow.gradient.code;
-
-import "code_entity.proto";
-
-service CodeService {
-    rpc AnalyzeProgram (CodeMessage) returns (CodeMessage);
-}

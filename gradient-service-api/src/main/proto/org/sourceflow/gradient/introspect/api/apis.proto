@@ -1,0 +1,9 @@
+syntax = "proto3";
+//
+//package org.sourceflow.gradient.introspect;
+//
+//import "org/sourceflow/gradient/introspect/entity/entities.proto";
+//
+//service IntrospectService {
+//  rpc ResetDatabase (IntrospectMessage) returns (IntrospectMessage);
+//}

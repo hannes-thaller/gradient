@@ -1,0 +1,9 @@
+syntax = "proto3";
+//
+//package org.sourceflow.gradient.project;
+//
+//import "org/sourceflow/gradient/project/entity/entities.proto";
+//
+//service ProjectService {
+//    rpc RegisterProject (org.sourceflow.gradient.project.ProjectMessage) returns (org.sourceflow.gradient.project.ProjectMessage);
+//}

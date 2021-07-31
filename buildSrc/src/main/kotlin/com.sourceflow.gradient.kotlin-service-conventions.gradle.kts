@@ -2,8 +2,7 @@ import com.google.protobuf.gradle.*
 
 plugins {
     idea
-    java
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm")
     id("com.google.protobuf")
     `maven-publish`
     application

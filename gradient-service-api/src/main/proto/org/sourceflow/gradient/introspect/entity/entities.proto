@@ -1,0 +1,11 @@
+syntax = "proto3";
+//
+//package org.sourceflow.gradient.introspect;
+//
+//enum Action {
+//  RESET = 0;
+//}
+//
+//message IntrospectMessage {
+//  Action action = 1;
+//}

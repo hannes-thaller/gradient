@@ -1,0 +1,9 @@
+syntax = "proto3";
+//
+//package org.sourceflow.gradient.model;
+//
+//import "org/sourceflow/gradient/model/entity/entities.proto";
+//
+//service ModelService {
+//    rpc LoadModel (ModelMessage) returns (ModelMessage);
+//}
