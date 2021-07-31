@@ -1,9 +1,0 @@
-syntax = "proto3";
-//
-//package org.sourceflow.gradient.monitoring;
-//
-//import "org/sourceflow/gradient/monitoring/entity/entities.proto";
-//
-//service MonitoringService {
-//    rpc Report (stream MonitoringMessage) returns (MonitoringMessage);
-//}

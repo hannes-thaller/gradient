@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.sourceflow.gradient.code.services";
+
+package org.sourceflow.gradient.services;
+
+import "org/sourceflow/gradient/entities/code.proto";
+
+service CodeService {
+  rpc AnalyzeProgram (org.sourceflow.gradient.entities.CodeMessage) returns (org.sourceflow.gradient.entities.CodeMessage);
+}

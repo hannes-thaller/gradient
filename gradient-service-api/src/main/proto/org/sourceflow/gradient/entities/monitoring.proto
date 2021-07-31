@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.sourceflow.gradient.monitoring.entities";
+
+package org.sourceflow.gradient.entities;
+
+import "org/sourceflow/gradient/entities/common.proto";
+
+enum MonitoringEventType {
+    FRAME = 0;
+    RECEIVE = 1;
+    RETURN = 2;
+    EXCEPT = 3;
+    READ = 4;
+    WRITE = 5;
+}
+
+message MonitoringEvent {
+    MonitoringEventType type = 1;
+    int64 frameId = 2;
+    int32 source = 3;
+    int32 target = 4;
+    Datum datum = 5;
+}
+
+message Frame {
+    int64 id = 1;
+    int32 frame_code_element_id = 3;
+    repeated MonitoringEvent events = 4;
+    repeated MonitoringEvent related_child_events = 5;
+}
+
+message MonitoringStreamDetail {
+    StreamControl control = 1;
+    repeated MonitoringEvent events = 2;
+}
+
+
+message FrameStreamDetail {
+    StreamControl control = 1;
+    repeated Frame frames = 2;
+}
+
+message MonitoringMessage {
+    ProjectContext project_context = 1;
+    oneof payload {
+        MonitoringStreamDetail monitoring_stream_detail = 2;
+        FrameStreamDetail frame_stream_detail = 3;
+    }
+}

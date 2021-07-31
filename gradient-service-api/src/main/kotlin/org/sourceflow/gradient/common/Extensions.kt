@@ -1,5 +1,7 @@
 package org.sourceflow.gradient.common
 
-fun CommonEntities.ProjectContext.toSimpleString(): String {
-    return "Project(projectId=${CommonEntitySerde.to(this.sessionId)}, sessionId=${CommonEntitySerde.to(this.sessionId)})"
+import org.sourceflow.gradient.common.entities.ProjectContext
+
+fun ProjectContext.toSimpleString(): String {
+    return "Project(projectId=${CommonEntitySerde.toUUID(this.sessionId)}, sessionId=${CommonEntitySerde.toUUID(this.sessionId)})"
 }

@@ -1,120 +1,125 @@
 package org.sourceflow.gradient.common
 
+import org.sourceflow.gradient.common.entities.*
+import org.sourceflow.gradient.common.entities.UUID as GUUID
+
+
+
 import java.io.File
 import java.util.UUID
 
 object CommonEntitySerde {
-    fun from(e: UUID): CommonEntities.UUID {
-        return CommonEntities.UUID.newBuilder()
+    fun fromUUID(e: UUID): GUUID {
+        return GUUID.newBuilder()
                 .setLeastSignificant(e.leastSignificantBits)
                 .setMostSignificant(e.mostSignificantBits)
                 .build()
     }
 
-    fun to(e: CommonEntities.UUID): UUID {
+    fun toUUID(e: GUUID): UUID {
         return UUID(e.mostSignificant, e.leastSignificant)
     }
 
-    fun fromBoolean(e: Boolean): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromBoolean(e: Boolean): Datum {
+        return Datum.newBuilder()
                 .setBooleanDatum(e)
                 .build()
     }
 
-    fun fromBooleans(e: Iterable<Boolean>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromBooleans(e: Iterable<Boolean>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setBooleansDatum(
-                        CommonEntities.Booleans.newBuilder()
+                        Booleans.newBuilder()
                                 .addAllValues(e.take(maxLength))
                 )
                 .build()
     }
 
-    fun fromInt(e: Int): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromInt(e: Int): Datum {
+        return Datum.newBuilder()
                 .setIntegerDatum(e)
                 .build()
     }
 
-    fun fromInts(e: Iterable<Int>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromInts(e: Iterable<Int>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setIntegersDatum(
-                        CommonEntities.Integers.newBuilder()
+                        Integers.newBuilder()
                                 .addAllValues(e.take(maxLength))
                 )
                 .build()
     }
 
-    fun fromLong(e: Long): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromLong(e: Long): Datum {
+        return Datum.newBuilder()
                 .setLongDatum(e)
                 .build()
     }
 
-    fun fromLongs(e: Iterable<Long>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromLongs(e: Iterable<Long>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setLongsDatum(
-                        CommonEntities.Longs.newBuilder()
+                        Longs.newBuilder()
                                 .addAllValues(e.take(maxLength))
                 )
                 .build()
     }
 
-    fun fromFloat(e: Float): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromFloat(e: Float): Datum {
+        return Datum.newBuilder()
                 .setFloatDatum(e)
                 .build()
     }
 
-    fun fromFloats(e: Iterable<Float>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromFloats(e: Iterable<Float>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setFloatsDatum(
-                        CommonEntities.Floats.newBuilder()
+                        Floats.newBuilder()
                                 .addAllValues(e.take(maxLength))
                 )
                 .build()
     }
 
-    fun fromDouble(e: Double): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromDouble(e: Double): Datum {
+        return Datum.newBuilder()
                 .setDoubleDatum(e)
                 .build()
     }
 
-    fun fromDoubles(e: Iterable<Double>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromDoubles(e: Iterable<Double>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setDoublesDatum(
-                        CommonEntities.Doubles.newBuilder()
+                        Doubles.newBuilder()
                                 .addAllValues(e.take(maxLength))
                 )
                 .build()
     }
 
-    fun fromString(e: String): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromString(e: String): Datum {
+        return Datum.newBuilder()
                 .setStringDatum(e)
                 .build()
     }
 
-    fun fromStrings(e: Iterable<String>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromStrings(e: Iterable<String>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setStringsDatum(
-                        CommonEntities.Strings.newBuilder()
+                        Strings.newBuilder()
                                 .addAllValues(e.take(maxLength))
                 )
                 .build()
     }
 
-    fun fromClass(e: Class<*>): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromClass(e: Class<*>): Datum {
+        return Datum.newBuilder()
                 .setStringDatum(e.canonicalName)
                 .build()
     }
 
-    fun fromClasses(e: Iterable<Class<*>>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromClasses(e: Iterable<Class<*>>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setStringsDatum(
-                        CommonEntities.Strings.newBuilder()
+                        Strings.newBuilder()
                                 .addAllValues(
                                         e.take(maxLength)
                                                 .map { it.canonicalName }
@@ -123,22 +128,22 @@ object CommonEntitySerde {
                 .build()
     }
 
-    fun fromFile(e: File): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromFile(e: File): Datum {
+        return Datum.newBuilder()
                 .setStringDatum(e.absolutePath)
                 .build()
     }
 
-    fun fromFiles(e: Iterable<File>, maxLength: Int = 100): CommonEntities.Datum {
-        return CommonEntities.Datum.newBuilder()
+    fun fromFiles(e: Iterable<File>, maxLength: Int = 100): Datum {
+        return Datum.newBuilder()
                 .setStringsDatum(
-                        CommonEntities.Strings.newBuilder()
+                        Strings.newBuilder()
                                 .addAllValues(e.take(maxLength).map { it.absolutePath })
                 )
                 .build()
     }
 
-    fun fromReference(e: Any?): CommonEntities.Datum? {
+    fun fromReference(e: Any?): Datum? {
         return when (e) {
             is Iterable<*> -> fromReferences(e)
             is String -> fromString(e)
@@ -162,9 +167,9 @@ object CommonEntitySerde {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun fromReferences(e: Iterable<*>, maxLength: Int = 100): CommonEntities.Datum? {
+    fun fromReferences(e: Iterable<*>, maxLength: Int = 100): Datum? {
         val elements = e.take(maxLength)
-        val result: CommonEntities.Datum? = null
+        val result: Datum? = null
 
         elements.getOrNull(0)?.let { firstElement ->
             when (firstElement) {
@@ -193,88 +198,88 @@ object CommonEntitySerde {
         return result
     }
 
-    fun toAny(e: CommonEntities.Datum): Any {
+    fun toAny(e: Datum): Any {
         return when (e.datumSelectionCase) {
-            CommonEntities.Datum.DatumSelectionCase.BOOLEAN_DATUM -> toBoolean(e)
-            CommonEntities.Datum.DatumSelectionCase.INTEGER_DATUM -> toInt(e)
-            CommonEntities.Datum.DatumSelectionCase.LONG_DATUM -> toLong(e)
-            CommonEntities.Datum.DatumSelectionCase.FLOAT_DATUM -> toFloat(e)
-            CommonEntities.Datum.DatumSelectionCase.DOUBLE_DATUM -> toDouble(e)
-            CommonEntities.Datum.DatumSelectionCase.STRING_DATUM -> toString(e)
+            Datum.DatumSelectionCase.BOOLEAN_DATUM -> toBoolean(e)
+            Datum.DatumSelectionCase.INTEGER_DATUM -> toInt(e)
+            Datum.DatumSelectionCase.LONG_DATUM -> toLong(e)
+            Datum.DatumSelectionCase.FLOAT_DATUM -> toFloat(e)
+            Datum.DatumSelectionCase.DOUBLE_DATUM -> toDouble(e)
+            Datum.DatumSelectionCase.STRING_DATUM -> toString(e)
             else -> error("Only primitives and strings allowed")
         }
     }
 
-    fun toAnyList(e: CommonEntities.Datum): List<Any> {
+    fun toAnyList(e: Datum): List<Any> {
         return when (e.datumSelectionCase) {
-            CommonEntities.Datum.DatumSelectionCase.BOOLEANS_DATUM -> toBooleans(e)
-            CommonEntities.Datum.DatumSelectionCase.INTEGERS_DATUM -> toInts(e)
-            CommonEntities.Datum.DatumSelectionCase.LONGS_DATUM -> toLongs(e)
-            CommonEntities.Datum.DatumSelectionCase.FLOATS_DATUM -> toFloats(e)
-            CommonEntities.Datum.DatumSelectionCase.DOUBLES_DATUM -> toDoubles(e)
-            CommonEntities.Datum.DatumSelectionCase.STRINGS_DATUM -> toStrings(e)
+            Datum.DatumSelectionCase.BOOLEANS_DATUM -> toBooleans(e)
+            Datum.DatumSelectionCase.INTEGERS_DATUM -> toInts(e)
+            Datum.DatumSelectionCase.LONGS_DATUM -> toLongs(e)
+            Datum.DatumSelectionCase.FLOATS_DATUM -> toFloats(e)
+            Datum.DatumSelectionCase.DOUBLES_DATUM -> toDoubles(e)
+            Datum.DatumSelectionCase.STRINGS_DATUM -> toStrings(e)
             else -> error("Only primitive or string list")
         }
     }
 
 
-    fun toBoolean(e: CommonEntities.Datum): Boolean {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.BOOLEAN_DATUM)
+    fun toBoolean(e: Datum): Boolean {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.BOOLEAN_DATUM)
         return e.booleanDatum
     }
 
-    fun toInt(e: CommonEntities.Datum): Int {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.INTEGER_DATUM)
+    fun toInt(e: Datum): Int {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.INTEGER_DATUM)
         return e.integerDatum
     }
 
-    fun toLong(e: CommonEntities.Datum): Long {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.LONG_DATUM)
+    fun toLong(e: Datum): Long {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.LONG_DATUM)
         return e.longDatum
     }
 
-    fun toFloat(e: CommonEntities.Datum): Float {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.FLOAT_DATUM)
+    fun toFloat(e: Datum): Float {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.FLOAT_DATUM)
         return e.floatDatum
     }
 
-    fun toDouble(e: CommonEntities.Datum): Double {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.DOUBLE_DATUM)
+    fun toDouble(e: Datum): Double {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.DOUBLE_DATUM)
         return e.doubleDatum
     }
 
-    fun toString(e: CommonEntities.Datum): String {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.STRING_DATUM)
+    fun toString(e: Datum): String {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.STRING_DATUM)
         return e.stringDatum
     }
 
-    fun toBooleans(e: CommonEntities.Datum): List<Boolean> {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.BOOLEANS_DATUM)
+    fun toBooleans(e: Datum): List<Boolean> {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.BOOLEANS_DATUM)
         return e.booleansDatum.valuesList
     }
 
-    fun toInts(e: CommonEntities.Datum): List<Int> {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.INTEGERS_DATUM)
+    fun toInts(e: Datum): List<Int> {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.INTEGERS_DATUM)
         return e.integersDatum.valuesList
     }
 
-    fun toLongs(e: CommonEntities.Datum): List<Long> {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.LONGS_DATUM)
+    fun toLongs(e: Datum): List<Long> {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.LONGS_DATUM)
         return e.longsDatum.valuesList
     }
 
-    fun toFloats(e: CommonEntities.Datum): List<Float> {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.FLOATS_DATUM)
+    fun toFloats(e: Datum): List<Float> {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.FLOATS_DATUM)
         return e.floatsDatum.valuesList
     }
 
-    fun toDoubles(e: CommonEntities.Datum): List<Double> {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.DOUBLES_DATUM)
+    fun toDoubles(e: Datum): List<Double> {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.DOUBLES_DATUM)
         return e.doublesDatum.valuesList
     }
 
-    private fun toStrings(e: CommonEntities.Datum): List<String> {
-        assert(e.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.STRINGS_DATUM)
+    private fun toStrings(e: Datum): List<String> {
+        assert(e.datumSelectionCase == Datum.DatumSelectionCase.STRINGS_DATUM)
         return e.stringsDatum.valuesList
     }
 }

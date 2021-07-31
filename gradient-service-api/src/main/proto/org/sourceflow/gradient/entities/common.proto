@@ -1,6 +1,9 @@
 syntax = "proto3";
 
-option java_outer_classname = "CommonEntities";
+option java_multiple_files = true;
+option java_package = "org.sourceflow.gradient.common.entities";
+
+package org.sourceflow.gradient.entities;
 
 message UUID {
   uint64 least_significant = 1;
