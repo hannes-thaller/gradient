@@ -2,29 +2,30 @@ package org.sourceflow.gradient.dataset.service
 
 import org.sourceflow.gradient.common.CommonEntitySerde
 import org.sourceflow.gradient.dataset.entity.*
-import org.sourceflow.gradient.dataset.persistence.DatasetEntitySerde
-import org.sourceflow.gradient.monitoring.MonitoringEntity.*
+import org.sourceflow.gradient.monitoring.entities.MonitoringEntities.*
 import java.util.*
 import kotlin.random.Random
 
 
-class DatapointFactory(private val sessionId: UUID,
-                       featureDescriptions: List<FeatureDescription>) {
+class DatapointFactory(
+    private val sessionId: UUID,
+    featureDescriptions: List<FeatureDescription>
+) {
     companion object {
         private const val CONDITIONAL_ID = -1
         private val DEFAULT_VALUES = mapOf(
-                DataTypeDescriptor.BOOLEAN to false,
-                DataTypeDescriptor.BOOLEANS to false,
-                DataTypeDescriptor.INTEGER to 0,
-                DataTypeDescriptor.INTEGERS to 0,
-                DataTypeDescriptor.LONG to 0L,
-                DataTypeDescriptor.LONGS to 0L,
-                DataTypeDescriptor.FLOAT to 0.0f,
-                DataTypeDescriptor.FLOATS to 0.0f,
-                DataTypeDescriptor.DOUBLE to 0.0,
-                DataTypeDescriptor.DOUBLES to 0.0,
-                DataTypeDescriptor.STRING to "",
-                DataTypeDescriptor.STRINGS to ""
+            DataTypeDescriptor.BOOLEAN to false,
+            DataTypeDescriptor.BOOLEANS to false,
+            DataTypeDescriptor.INTEGER to 0,
+            DataTypeDescriptor.INTEGERS to 0,
+            DataTypeDescriptor.LONG to 0L,
+            DataTypeDescriptor.LONGS to 0L,
+            DataTypeDescriptor.FLOAT to 0.0f,
+            DataTypeDescriptor.FLOATS to 0.0f,
+            DataTypeDescriptor.DOUBLE to 0.0,
+            DataTypeDescriptor.DOUBLES to 0.0,
+            DataTypeDescriptor.STRING to "",
+            DataTypeDescriptor.STRINGS to ""
         )
     }
 
@@ -33,13 +34,13 @@ class DatapointFactory(private val sessionId: UUID,
 
     fun createDatapoints(frames: List<Frame>): List<Datapoint> {
         val datapoints = frames
-                .map { frame ->
-                    assert(frame.eventsList.all { it.frameId == frame.id })
-                    assert(frame.eventsList.any { it.type == MonitoringEventType.FRAME })
+            .map { frame ->
+                assert(frame.eventsList.all { it.frameId == frame.id })
+                assert(frame.eventsList.any { it.type == MonitoringEventType.FRAME })
 
-                    createDatapoints(frame)
-                }
-                .flatten()
+                createDatapoints(frame)
+            }
+            .flatten()
         createdDatapoints += datapoints.size
         return datapoints
     }
@@ -54,7 +55,7 @@ class DatapointFactory(private val sessionId: UUID,
                 prepareData(feature, eventsById, filter)
             }
 
-            val maxExtend = data.map { it.size }.max() ?: 0
+            val maxExtend = data.map { it.size }.maxOrNull() ?: 0
             if (maxExtend > 0) {
                 data.map { series ->
                     repeat(maxExtend - series.size) {
@@ -81,8 +82,8 @@ class DatapointFactory(private val sessionId: UUID,
     }
 
     private fun addEventsWithId(
-            events: Iterable<MonitoringEvent>,
-            eventsById: MutableMap<Int, MutableList<MonitoringEvent>>
+        events: Iterable<MonitoringEvent>,
+        eventsById: MutableMap<Int, MutableList<MonitoringEvent>>
     ) {
         events.forEach {
             when (it.type) {
@@ -141,27 +142,27 @@ class DatapointFactory(private val sessionId: UUID,
     }
 
     private fun prepareData(
-            feature: Feature,
-            eventsById: Map<Int, List<MonitoringEvent>>,
-            eventFilter: (MonitoringEvent) -> Boolean
+        feature: Feature,
+        eventsById: Map<Int, List<MonitoringEvent>>,
+        eventFilter: (MonitoringEvent) -> Boolean
     ): MutableList<Any> {
         val result: MutableList<Any> = mutableListOf()
         eventsById[feature.elementId]
-                ?.filter(eventFilter)
-                ?.let { events ->
-                    if (feature.dataType.isIterable()) {
-                        events.flatMapTo(result) { CommonEntitySerde.toAnyList(it.datum) }
+            ?.filter(eventFilter)
+            ?.let { events ->
+                if (feature.dataType.isIterable()) {
+                    events.flatMapTo(result) { CommonEntitySerde.toAnyList(it.datum) }
+                } else {
+                    if (feature.featureType == FeatureType.CONDITIONAL) {
+                        events.find { it.type == MonitoringEventType.FRAME }
+                            ?.let { result.add(it.source) }
                     } else {
-                        if (feature.featureType == FeatureType.CONDITIONAL) {
-                            events.find { it.type == MonitoringEventType.FRAME }
-                                    ?.let { result.add(it.source) }
-                        } else {
-                            events.mapTo(result) { CommonEntitySerde.toAny(it.datum) }
-                        }
+                        events.mapTo(result) { CommonEntitySerde.toAny(it.datum) }
                     }
-
-                    result
                 }
+
+                result
+            }
 
         if (result.isEmpty()) {
             result.add(DEFAULT_VALUES.getValue(feature.dataType.descriptor))

@@ -3,15 +3,10 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":gradient-service-api"))
+    
+    implementation("com.fasterxml.uuid:java-uuid-generator:4.0.1")
     implementation("org.mongodb:mongodb-driver-sync:4.0.2")
-
-//    implementation("org.sourceflow:gradient-dataset-api:0.1.0")
-//    implementation("org.sourceflow:gradient-code-api:0.1.0")
-//    implementation("org.sourceflow:gradient-monitoring-api:0.1.0")
-//    implementation("org.sourceflow:gradient-introspect-api:0.1.0")
-
-
-//    testImplementation("org.sourceflow:gradient-code-api:0.1.0")
 }
 
 

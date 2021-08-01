@@ -7,8 +7,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import org.bson.Document
-import org.sourceflow.gradient.common.CommonEntity
 import org.sourceflow.gradient.common.CommonEntitySerde
+import org.sourceflow.gradient.common.entities.CommonEntities
 import org.sourceflow.gradient.common.toSimpleString
 import org.sourceflow.gradient.dataset.entity.Datapoint
 import org.sourceflow.gradient.dataset.entity.DatasetHandle
@@ -21,13 +21,13 @@ class DatasetDao(client: MongoClient) {
     }
 
     private val featureDescriptionCol = client.getDatabase("service")
-            .getCollection("featureDescriptions")
+        .getCollection("featureDescriptions")
     private val datapointCol = client.getDatabase("service")
-            .getCollection("datapoints")
+        .getCollection("datapoints")
     private val datasetHandleCol = client.getDatabase("service")
-            .getCollection("datasets")
+        .getCollection("datasets")
     private val datasetCol = client.getDatabase("service")
-            .getCollection("datasets")
+        .getCollection("datasets")
 
     init {
         setupIndexes()
@@ -63,17 +63,17 @@ class DatasetDao(client: MongoClient) {
         }
     }
 
-    suspend fun loadFeatureDescriptions(projectContext: CommonEntity.ProjectContext): List<FeatureDescription> {
+    suspend fun loadFeatureDescriptions(projectContext: CommonEntities.ProjectContext): List<FeatureDescription> {
         logger.debug { "Loading feature descriptions ${projectContext.toSimpleString()}" }
 
         val query = Document()
-                .append("_dtype", "FeatureDescription")
-                .append("projectId", CommonEntitySerde.to(projectContext.projectId))
+            .append("_dtype", "FeatureDescription")
+            .append("projectId", CommonEntitySerde.to(projectContext.projectId))
 
         return withContext(Dispatchers.IO) {
             featureDescriptionCol.find(query)
-                    .map { MongoSerde.fromFeatureDescription(it) }
-                    .toList()
+                .map { MongoSerde.fromFeatureDescription(it) }
+                .toList()
         }
     }
 
@@ -97,28 +97,30 @@ class DatasetDao(client: MongoClient) {
 
         return withContext(Dispatchers.IO) {
             datapointCol.find(query)
-                    .map { MongoSerde.fromDatapoint(it) }
-                    .toList()
+                .map { MongoSerde.fromDatapoint(it) }
+                .toList()
         }
     }
 
-    suspend fun loadDatapointIds(sessionId: UUID,
-                                 featureDescription: FeatureDescription,
-                                 maximumLoadedIds: Int): List<UUID> {
+    suspend fun loadDatapointIds(
+        sessionId: UUID,
+        featureDescription: FeatureDescription,
+        maximumLoadedIds: Int
+    ): List<UUID> {
         logger.debug { "Loading datapoint ids sessionId=$sessionId, elementId=${featureDescription.elementId} (max=$maximumLoadedIds)" }
 
         val query = Document()
-                .append("sessionId", sessionId)
-                .append("featureDescriptionId", featureDescription.id)
+            .append("sessionId", sessionId)
+            .append("featureDescriptionId", featureDescription.id)
 
         val projection = Document("_id", true)
 
         return withContext(Dispatchers.IO) {
             datapointCol.find(query)
-                    .projection(projection)
-                    .limit(maximumLoadedIds)
-                    .toList()
-                    .map { it["_id"] as UUID }
+                .projection(projection)
+                .limit(maximumLoadedIds)
+                .toList()
+                .map { it["_id"] as UUID }
         }
     }
 
@@ -141,8 +143,8 @@ class DatasetDao(client: MongoClient) {
 
         return withContext(Dispatchers.IO) {
             datasetHandleCol.find(query)
-                    .first()
-                    ?.let { MongoSerde.fromDatasetHandle(it) }
+                .first()
+                ?.let { MongoSerde.fromDatasetHandle(it) }
         }
     }
 }
