@@ -3,29 +3,34 @@ package org.sourceflow.gradient.monitoring.service
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.apache.pulsar.client.api.*
-import org.sourceflow.gradient.introspect.IntrospectEntity
-import org.sourceflow.gradient.monitoring.MonitoringServiceGrpcKt
+import org.sourceflow.gradient.introspect.entities.IntrospectEntities
 import org.sourceflow.gradient.monitoring.persistence.MonitoringDao
+import org.sourceflow.gradient.monitoring.services.MonitoringServiceGrpcKt
 import java.io.Closeable
 
 private val logger = KotlinLogging.logger {}
 
-internal class IntrospectService(client: PulsarClient,
-                                 private val monitoringDao: MonitoringDao) : MonitoringServiceGrpcKt.MonitoringServiceCoroutineImplBase(), Closeable {
-    private val consumer = client.newConsumer(Schema.PROTOBUF(IntrospectEntity.IntrospectMessage::class.java))
-            .topic("introspect")
-            .subscriptionName("gs-monitoring-service")
-            .messageListener(IntrospectSubscriber())
-            .subscribe()
+internal class IntrospectService(
+    client: PulsarClient,
+    private val monitoringDao: MonitoringDao
+) : MonitoringServiceGrpcKt.MonitoringServiceCoroutineImplBase(), Closeable {
+    private val consumer = client.newConsumer(Schema.PROTOBUF(IntrospectEntities.IntrospectMessage::class.java))
+        .topic("introspect")
+        .subscriptionName("gs-monitoring-service")
+        .messageListener(IntrospectSubscriber())
+        .subscribe()
 
 
-    inner class IntrospectSubscriber : MessageListener<IntrospectEntity.IntrospectMessage> {
-        override fun received(consumer: Consumer<IntrospectEntity.IntrospectMessage>, msg: Message<IntrospectEntity.IntrospectMessage>) = runBlocking<Unit> {
+    inner class IntrospectSubscriber : MessageListener<IntrospectEntities.IntrospectMessage> {
+        override fun received(
+            consumer: Consumer<IntrospectEntities.IntrospectMessage>,
+            msg: Message<IntrospectEntities.IntrospectMessage>
+        ) = runBlocking<Unit> {
             val introspectMessage = msg.value
 
             when (introspectMessage.action) {
-                IntrospectEntity.Action.RESET -> resetPersistence()
-                IntrospectEntity.Action.UNRECOGNIZED -> logger.warn { "Unrecognized operation" }
+                IntrospectEntities.Action.RESET -> resetPersistence()
+                IntrospectEntities.Action.UNRECOGNIZED -> logger.warn { "Unrecognized operation" }
                 else -> {
                     logger.debug { "Acknowledging irrelevant message" }
                 }

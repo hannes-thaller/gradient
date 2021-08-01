@@ -5,7 +5,7 @@ import com.mongodb.client.model.Indexes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
-import org.sourceflow.gradient.common.CommonEntity
+import org.sourceflow.gradient.common.entities.CommonEntities
 import org.sourceflow.gradient.common.toSimpleString
 import org.sourceflow.gradient.monitoring.entity.LinkedFrame
 
@@ -15,7 +15,7 @@ class MonitoringDao(client: MongoClient) {
     }
 
     private val col = client.getDatabase("service")
-            .getCollection("frames")
+        .getCollection("frames")
 
     init {
         setupIndexes()
@@ -35,12 +35,12 @@ class MonitoringDao(client: MongoClient) {
         }
     }
 
-    suspend fun saveFrames(projectContext: CommonEntity.ProjectContext, frames: List<LinkedFrame>) {
+    suspend fun saveFrames(projectContext: CommonEntities.ProjectContext, frames: List<LinkedFrame>) {
         logger.debug { "Saving ${frames.size} frames ${projectContext.toSimpleString()}" }
 
         val docs = frames.map {
             MongoSerde.to(it)
-                    .append("projectContext", MongoSerde.to(projectContext))
+                .append("projectContext", MongoSerde.to(projectContext))
         }
 
         if (docs.isNotEmpty()) {

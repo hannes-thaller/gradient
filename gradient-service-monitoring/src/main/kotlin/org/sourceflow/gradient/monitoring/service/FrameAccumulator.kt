@@ -1,9 +1,9 @@
 package org.sourceflow.gradient.monitoring.service
 
 import mu.KotlinLogging
-import org.sourceflow.gradient.common.CommonEntity
-import org.sourceflow.gradient.monitoring.MonitoringEntity.MonitoringEvent
-import org.sourceflow.gradient.monitoring.MonitoringEntity.MonitoringEventType
+import org.sourceflow.gradient.common.entities.CommonEntities
+import org.sourceflow.gradient.monitoring.entities.MonitoringEntities.MonitoringEvent
+import org.sourceflow.gradient.monitoring.entities.MonitoringEntities.MonitoringEventType
 import org.sourceflow.gradient.monitoring.entity.LinkedFrame
 
 class FrameAccumulator {
@@ -50,7 +50,7 @@ class FrameAccumulator {
         val frame = LinkedFrame(event.frameId, event.target, mutableListOf(event))
         frames[frame.id] = frame
 
-        if (event.hasDatum() && event.datum.datumSelectionCase == CommonEntity.Datum.DatumSelectionCase.LONG_DATUM) {
+        if (event.hasDatum() && event.datum.datumSelectionCase == CommonEntities.Datum.DatumSelectionCase.LONG_DATUM) {
             val parentFrameId = event.datum.longDatum
             frames[parentFrameId]!!.childFrames.add(frame)
         }
