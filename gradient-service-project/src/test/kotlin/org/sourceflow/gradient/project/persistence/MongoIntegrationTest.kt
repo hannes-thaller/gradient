@@ -1,6 +1,5 @@
-package org.sourceflow.kmongo
+package org.sourceflow.gradient.project.persistence
 
-import com.mongodb.client.MongoClients
 import com.mongodb.client.model.Filters.eq
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldContain
@@ -22,16 +21,20 @@ class MongoIntegrationTest : StringSpec({
     }
 
     "should store and load jedi"{
-        val kylo = Document(mapOf(
+        val kylo = Document(
+            mapOf(
                 "name" to "Kylo",
                 "force" to "LIGHT",
                 "id" to UUID.randomUUID()
-        ))
-        val windou = Document(mapOf(
+            )
+        )
+        val windou = Document(
+            mapOf(
                 "name" to "Windou",
                 "force" to "DARK",
                 "id" to UUID.randomUUID()
-        ))
+            )
+        )
 
         col.insertMany(listOf(kylo, windou))
 

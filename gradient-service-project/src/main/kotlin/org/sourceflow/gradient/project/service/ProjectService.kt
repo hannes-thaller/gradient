@@ -1,61 +1,65 @@
 package org.sourceflow.gradient.project.service
 
+import kotlinx.coroutines.future.await
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.apache.pulsar.client.api.*
-import org.sourceflow.gradient.common.CommonEntity
 import org.sourceflow.gradient.common.CommonEntitySerde
-import org.sourceflow.gradient.project.ProjectEntity
-import org.sourceflow.gradient.project.ProjectServiceGrpcKt
+import org.sourceflow.gradient.common.entities.CommonEntities
+import org.sourceflow.gradient.project.entities.ProjectEntities
 import org.sourceflow.gradient.project.entity.Project
 import org.sourceflow.gradient.project.persistence.ProjectDao
 import org.sourceflow.gradient.project.persistence.ProtobufSerde
-import org.sourceflow.pulsar.acknowledgeSuspend
-import org.sourceflow.pulsar.sendSuspend
+import org.sourceflow.gradient.project.services.ProjectServiceGrpcKt
 import java.io.Closeable
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
-class ProjectService(client: PulsarClient,
-                     private val projectDao: ProjectDao) : ProjectServiceGrpcKt.ProjectServiceCoroutineImplBase(), Closeable {
-    private val consumer = client.newConsumer(Schema.PROTOBUF(ProjectEntity.ProjectMessage::class.java))
-            .topic("project")
-            .subscriptionName("gs-project-service")
-            .messageListener(ProjectSubscriber())
-            .subscribe()
-    private val producer = client.newProducer(Schema.PROTOBUF(ProjectEntity.ProjectMessage::class.java))
-            .topic("project")
-            .create()
+class ProjectService(
+    client: PulsarClient,
+    private val projectDao: ProjectDao
+) : ProjectServiceGrpcKt.ProjectServiceCoroutineImplBase(), Closeable {
+    private val consumer = client.newConsumer(Schema.PROTOBUF(ProjectEntities.ProjectMessage::class.java))
+        .topic("project")
+        .subscriptionName("gs-project-service")
+        .messageListener(ProjectSubscriber())
+        .subscribe()
+    private val producer = client.newProducer(Schema.PROTOBUF(ProjectEntities.ProjectMessage::class.java))
+        .topic("project")
+        .create()
 
-    override suspend fun registerProject(request: ProjectEntity.ProjectMessage): ProjectEntity.ProjectMessage {
+    override suspend fun registerProject(request: ProjectEntities.ProjectMessage): ProjectEntities.ProjectMessage {
         TODO()
     }
 
-    inner class ProjectSubscriber : MessageListener<ProjectEntity.ProjectMessage> {
-        override fun received(consumer: Consumer<ProjectEntity.ProjectMessage>, msg: Message<ProjectEntity.ProjectMessage>): Unit = runBlocking<Unit> {
+    inner class ProjectSubscriber : MessageListener<ProjectEntities.ProjectMessage> {
+        override fun received(
+            consumer: Consumer<ProjectEntities.ProjectMessage>,
+            msg: Message<ProjectEntities.ProjectMessage>
+        ): Unit = runBlocking<Unit> {
             val projectMessage = msg.value
             when {
                 projectMessage.hasName() -> {
                     val answer = nameMessage(projectMessage)
-                    producer.sendSuspend(answer)
+                    producer.sendAsync(answer).await()
                 }
                 else -> {
                     logger.debug { "Acknowledging irrelevant message" }
                 }
             }
-            consumer.acknowledgeSuspend(msg)
+            consumer.acknowledgeAsync(msg).await()
         }
 
         @OptIn(ExperimentalStdlibApi::class)
-        private suspend fun nameMessage(msg: ProjectEntity.ProjectMessage) = with(msg) {
+        private suspend fun nameMessage(msg: ProjectEntities.ProjectMessage) = with(msg) {
             assert(hasName())
 
-            val projectContext = CommonEntity.ProjectContext.newBuilder()
-                    .setSessionId(requestId)
+            val projectContext = CommonEntities.ProjectContext.newBuilder()
+                .setSessionId(requestId)
 
             val projectName = ProtobufSerde.from(name)
-            val sessionId = CommonEntitySerde.to(requestId)
+            val sessionId = CommonEntitySerde.toUUID(requestId)
 
             val project = projectDao.loadProjectByName(projectName)
             if (project != null) {
@@ -66,22 +70,22 @@ class ProjectService(client: PulsarClient,
                     add(sessionId)
                 }.distinct()
 
-                projectContext.projectId = CommonEntitySerde.from(project.projectId)
+                projectContext.projectId = CommonEntitySerde.fromUUID(project.projectId)
 
                 projectDao.setSessions(project.projectId, sessions)
             } else {
                 logger.debug { "Creating new project ${projectName.digest()}, session=${sessionId}" }
 
                 val projectId = UUID.randomUUID()
-                projectContext.projectId = CommonEntitySerde.from(projectId)
+                projectContext.projectId = CommonEntitySerde.fromUUID(projectId)
 
                 projectDao.saveProject(Project(projectName, projectId, listOf(sessionId)))
             }
 
-            ProjectEntity.ProjectMessage.newBuilder()
-                    .setRequestId(requestId)
-                    .setContext(projectContext.build())
-                    .build()
+            ProjectEntities.ProjectMessage.newBuilder()
+                .setRequestId(requestId)
+                .setContext(projectContext.build())
+                .build()
         }
     }
 

@@ -3,13 +3,9 @@ plugins {
 }
 
 dependencies {
-//    implementation("org.sourceflow:gradient-introspect-api:0.1.0")
-//    implementation("org.sourceflow:gradient-code-api:0.1.0")
-//    implementation("org.sourceflow:gradient-dataset-api:0.1.0")
+    implementation(project(":gradient-service-api"))
 
     implementation("org.mongodb:mongodb-driver-sync:4.0.2")
-
-//    testImplementation("org.sourceflow:gradient-code-api:0.1.0")
 }
 
 configure<JavaApplication> {
