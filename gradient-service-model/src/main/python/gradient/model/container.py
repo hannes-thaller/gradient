@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
     import pymongo
     from . import service, persistence
     from .api import code_entity_pb2
-    from gradient.model.persistence import dao
+    from src.main.python.gradient.model.persistence import dao
 
 
 @attr.s(frozen=True, slots=True)
@@ -107,12 +107,12 @@ class PersistenceContainer:
         return self._dao_model
 
     def protobuf_serde(self) -> "persistence.ProtobufSerde":
-        from gradient.model import persistence
+        from src.main.python.gradient.model import persistence
         return persistence.ProtobufSerde()
 
     def factory_program_repository(self) \
             -> typing.Callable[["code_entity_pb2.ProgramDetail"], "persistence.ProgramRepository"]:
-        from gradient.model import persistence
+        from src.main.python.gradient.model import persistence
 
         def factory(program):
             assert program
@@ -128,12 +128,12 @@ class ServiceContainer:
 
     @staticmethod
     def serde_protobuf():
-        from gradient.model import persistence
+        from src.main.python.gradient.model import persistence
         return persistence.ProtobufSerde()
 
     def service_model(self) -> "service.MessageService":
         if self._service_model is None:
-            from gradient.model import service
+            from src.main.python.gradient.model import service
             self._service_model = service.MessageService(PersistenceContainer.INSTANCE.client_pulsar())
             SystemContainer.INSTANCE.shutdown_cleaner().add_cleanup_routine(self._service_model.close, 2)
         return self._service_model

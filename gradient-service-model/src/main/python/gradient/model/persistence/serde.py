@@ -1,8 +1,9 @@
 import struct
 import uuid
 
-from gradient.model import entity
-from gradient.model.api import common_entity_pb2, code_entity_pb2, dataset_entity_pb2
+from src.main.python.gradient.model import entity
+from src.main.python.gradient.model.api import code_entity_pb2
+from src.main.python.gradient.model.api import common_entity_pb2, dataset_entity_pb2
 
 
 class ProtobufSerde:

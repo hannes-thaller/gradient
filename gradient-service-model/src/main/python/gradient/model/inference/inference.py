@@ -8,9 +8,9 @@ import numpy as np
 import torch
 from torch import nn
 
-from gradient.model.entity import common
-from gradient.model import util
-from gradient.model.inference import optimization, transformation
+from src.main.python.gradient.model.entity import common
+from src.main.python.gradient.model import util
+from src.main.python.gradient.model.inference import transformation, optimization
 
 _logger = logging.getLogger(__name__)
 

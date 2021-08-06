@@ -4,8 +4,8 @@ import signal
 
 import grpc
 
-from gradient.model import ServiceContainer, SystemContainer, PersistenceContainer
-from gradient.model.api import model_api_pb2_grpc
+from src.main.python.gradient.model import ServiceContainer, SystemContainer, PersistenceContainer
+from src.main.python.gradient.model.api import model_api_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 _MB = 1024 ** 2

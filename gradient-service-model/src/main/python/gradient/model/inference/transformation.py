@@ -6,7 +6,7 @@ import bidict
 import itertools
 import numpy as np
 
-from gradient.model.entity import common
+from src.main.python.gradient.model.entity import common
 
 _logger = logging.getLogger(__name__)
 

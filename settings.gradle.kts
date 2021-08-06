@@ -5,5 +5,5 @@ include(
     "gradient-service-code",
     "gradient-service-monitoring",
     "gradient-service-dataset",
-//    "gradient-service-model",
+    "gradient-service-model"
 )

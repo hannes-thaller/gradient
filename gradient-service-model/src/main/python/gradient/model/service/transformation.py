@@ -4,11 +4,11 @@ import uuid
 import attr
 import networkx as nx
 
-from gradient.model import entity
+from src.main.python.gradient.model import entity
 
 if typing.TYPE_CHECKING:
-    from gradient.model import persistence
-    from gradient.model.api import code_entity_pb2
+    from src.main.python.gradient.model import persistence
+    from src.main.python.gradient.model.api import code_entity_pb2
 
 
 @attr.s(frozen=True, slots=True)
@@ -61,4 +61,3 @@ class ProgramGraphTransformation:
         for type in self.repository_program.get_types():
             if type.status in self.in_universe_status:
                 pass
-

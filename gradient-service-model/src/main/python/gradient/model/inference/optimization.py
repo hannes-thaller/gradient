@@ -6,7 +6,7 @@ import torch
 from torch import optim
 from torch.utils import data
 
-from gradient.model.entity import common
+from src.main.python.gradient.model.entity import common
 
 if typing.TYPE_CHECKING:
     import uuid

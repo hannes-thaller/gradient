@@ -3,7 +3,8 @@ import typing
 
 import attr
 
-from gradient.model.api import model_api_pb2_grpc, dataset_entity_pb2
+from src.main.python.gradient.model.api import model_api_pb2_grpc
+from src.main.python.gradient.model.api import dataset_entity_pb2
 
 if typing.TYPE_CHECKING:
     import pulsar
@@ -65,5 +66,3 @@ class MessageService(model_api_pb2_grpc.ModelServiceServicer):
         self._consumer_model.close()
         self._consumer_dataset.close()
         self._producer_model.close()
-
-
