@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option java_outer_classname = "DatasetEntities";
+option java_package = "org.sourceflow.gradient.dataset.entities";
+
+package org.sourceflow.gradient.entities;
+
+import "org/sourceflow/gradient/entities/common.proto";
+import "org/sourceflow/gradient/entities/code.proto";
+
+
+enum FeatureType {
+  CONDITIONAL = 0;
+  INPUT_PROPERTY = 1;
+  INPUT_PARAMETER = 2;
+  INPUT_RESULT = 3;
+  OUTPUT_PROPERTY = 4;
+  OUTPUT_PARAMETER = 5;
+  OUTPUT_RESULT = 6;
+}
+
+message Feature {
+  int32 element_id = 1;
+  CanonicalName name = 2;
+  DataType data_type = 3;
+  FeatureType feature_type = 4;
+  repeated int32 alias_ids = 5;
+}
+
+message FeatureDescription {
+  UUID feature_description_id = 1;
+  int32 element_id = 2;
+  repeated Feature features = 4;
+}
+
+message FeatureDescriptionDetail {
+  repeated FeatureDescription feature_descriptions = 1;
+}
+
+message DatasetHandleDetail {
+  UUID dataset_id = 1;
+  FeatureDescription feature_description = 2;
+  repeated UUID datapoint_ids = 3;
+}
+
+message DatasetDetail {
+  UUID dataset_id = 1;
+  FeatureDescription feature_description = 2;
+  repeated Datapoint datapoints = 3;
+}
+
+message Datapoint {
+  repeated Datum datum = 3;
+}
+
+message DatasetMessage {
+  ProjectContext project_context = 1;
+  oneof payload {
+    FeatureDescriptionDetail feature_descriptions_detail = 2;
+    DatasetHandleDetail dataset_handle_detail = 3;
+    DatasetDetail dataset_detail = 4;
+  }
+}
+

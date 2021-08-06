@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.sourceflow.gradient.introspect.services";
+
+package org.sourceflow.gradient.services;
+
+import "org/sourceflow/gradient/entities/introspect.proto";
+
+service IntrospectService {
+  rpc ResetDatabase (org.sourceflow.gradient.entities.IntrospectMessage) returns (org.sourceflow.gradient.entities.IntrospectMessage);
+}

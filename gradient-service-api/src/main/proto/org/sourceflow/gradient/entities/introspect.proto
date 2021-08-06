@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_outer_classname = "IntrospectEntities";
+option java_package = "org.sourceflow.gradient.introspect.entities";
+
+package org.sourceflow.gradient.entities;
+
+enum Action {
+  RESET = 0;
+}
+
+message IntrospectMessage {
+  Action action = 1;
+}
