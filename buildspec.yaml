@@ -3,8 +3,18 @@ version: 0.2
 phases:
   build:
     commands:
-      ./gradlew build
+      ./gradlew --no-daemon build
 
+  reports:
+    test-gradient-service-code:
+      files:
+        - "**/*"
+      base-directory: "gradient-service-code/build/reports/tests/test"
+    test-gradient-service-monitoring:
+      files:
+        - "**/*"
+      base-directory: "gradient-service-monitoring/build/reports/tests/test"
 cache:
   paths:
     - "/root/.cache/pip/**/*"
+    - "/root/.m2/**/*"
