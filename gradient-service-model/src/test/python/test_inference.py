@@ -2,12 +2,12 @@ from datetime import timedelta
 
 import attr
 import numpy as np
+from gradient.model import api
+from gradient.model.inference import inference
 from hypothesis import strategies as s, given, settings
 from torch import random
 
-import arb
-from src.main.python.gradient.model import api
-from src.main.python.gradient.model.inference import inference
+from . import arb
 
 seed = 15
 
