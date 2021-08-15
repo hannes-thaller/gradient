@@ -12,7 +12,7 @@ idea {
         iml {
             withXml {
                 val root = asNode().children().first() as Node
-                val entry = Node(
+                Node(
                     root, "orderEntry", mapOf(
                         "jdkName" to "Python 3.7 (gradient-service-model)",
                         "jdkType" to "Python SDK"

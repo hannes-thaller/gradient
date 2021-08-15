@@ -1,5 +1,8 @@
 import com.google.protobuf.gradle.*
+import java.io.FileInputStream
 import java.net.URI
+import java.util.*
+import java.util.regex.Pattern
 
 plugins {
     idea
@@ -79,7 +82,7 @@ configure<PublishingExtension> {
             from(components["java"])
             groupId = "org.sourceflow"
             artifactId = project.name
-            version = "0.1.0"
+            version = loadVersion().toString()
             pom {
                 licenses {
                     license {
@@ -131,3 +134,62 @@ protobuf {
     }
 }
 
+tasks.register("incrementBuildVersion") {
+    doLast {
+        val version = loadVersion()
+        val newVersion = Version(version.major, version.minor, version.patch, version.build + 1, version.tag)
+        storeVersion(newVersion)
+    }
+}
+
+
+data class Version(val major: Int, val minor: Int, val patch: Int, val build: Int, val tag: String? = null) {
+    companion object {
+        fun fromString(versionString: String): Version {
+            val pattern = Pattern.compile("(\\d)\\.(\\d)\\.(\\d)-(\\d)(-(\\D+))?")
+            val matcher = pattern.matcher(versionString)
+            val tag = if (matcher.groupCount() > 4) matcher.group("tag") else null
+            return Version(
+                matcher.group("major").toInt(),
+                matcher.group("minor").toInt(),
+                matcher.group("patch").toInt(),
+                matcher.group("build").toInt(),
+                tag
+            )
+        }
+    }
+
+    override fun toString(): String {
+        return "${major}.${minor}.${patch}-${build}"
+    }
+}
+
+fun loadVersion(): Version {
+    val fileProjectProps = file("project.properties")
+
+    var version = Version(0, 1, 0, 0)
+    if (fileProjectProps.canRead()) {
+        val props = Properties()
+        FileInputStream("project.properties").use { props.load(it) }
+        val properties = props.stringPropertyNames()
+            .associateWith { props.getProperty(it) }
+
+        version = Version.fromString(properties["version"]!!)
+    }
+
+    return version
+}
+
+fun storeVersion(version: Version) {
+    val fileProjectProps = file("project.properties")
+
+    val props = Properties()
+    if (fileProjectProps.canRead()) {
+        fileProjectProps.inputStream().use { props.load(it) }
+    }
+
+    props["version"] = version.toString()
+    fileProjectProps.outputStream().use { props.store(it, "update version") }
+}
+
+tasks.getByPath("publish").dependsOn("incrementBuildVersion")
