@@ -6,7 +6,7 @@ import torch
 from torch import optim
 from torch.utils import data
 
-from src.main.python.gradient.model.entity import common
+from .. import entity
 
 if typing.TYPE_CHECKING:
     import uuid
@@ -69,7 +69,7 @@ class EarlyStopper:
 @attr.s(slots=True)
 class BatchLikelihoodOptimizer:
     kernel_id: "uuid.UUID" = attr.ib()
-    progress: common.TrainingProgress = attr.ib(factory=common.TrainingProgress)
+    progress: entity.TrainingProgress = attr.ib(factory=entity.TrainingProgress)
     _early_stopper: "EarlyStopper" = attr.ib(default=None)
     _parameter_tracker: "BestParameterTracker" = attr.ib(factory=BestParameterTracker)
     _training_on: bool = attr.ib(default=False)
@@ -80,7 +80,7 @@ class BatchLikelihoodOptimizer:
 
         self._early_stopper = EarlyStopper(50, 20, 0.1, _stop())
 
-    def fit(self, model: "inference.Nvp", arrs: typing.List[np.ma.masked_array], hyper_parameters: common.HyperParameters) -> "common.TrainingProgress":
+    def fit(self, model: "inference.Nvp", arrs: typing.List[np.ma.masked_array], hyper_parameters: entity.HyperParameters) -> "entity.TrainingProgress":
         assert model is not None and arrs is not None and hyper_parameters is not None
         assert len(arrs) > 1, "The given dataset does only contain conditionals"
         assert all([(~it.mask).any() for it in arrs])
@@ -120,7 +120,7 @@ class BatchLikelihoodOptimizer:
 
         return ds_train, ds_test
 
-    def _optimize(self, model: "inference.Nvp", dataset_training: data.TensorDataset, dataset_test: data.TensorDataset, hyper_parameters: common.HyperParameters):
+    def _optimize(self, model: "inference.Nvp", dataset_training: data.TensorDataset, dataset_test: data.TensorDataset, hyper_parameters: entity.HyperParameters):
         assert model is not None and dataset_training is not None and dataset_test is not None
 
         optimizer = optim.Adam(model.parameters(), lr=hyper_parameters.learning_rate, weight_decay=hyper_parameters.weight_decay)

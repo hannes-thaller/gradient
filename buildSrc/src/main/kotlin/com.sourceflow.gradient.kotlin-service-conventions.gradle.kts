@@ -1,11 +1,11 @@
 import com.google.protobuf.gradle.*
 import java.io.FileInputStream
 import java.net.URI
+import java.nio.file.Paths
 import java.util.*
 import java.util.regex.Pattern
 
 plugins {
-    idea
     kotlin("jvm")
     id("com.google.protobuf")
     `maven-publish`
@@ -165,12 +165,12 @@ data class Version(val major: Int, val minor: Int, val patch: Int, val build: In
 }
 
 fun loadVersion(): Version {
-    val fileProjectProps = file("project.properties")
+    val fileProjectProps = Paths.get(project.path, "project.properties").toFile()
 
     var version = Version(0, 1, 0, 0)
     if (fileProjectProps.canRead()) {
         val props = Properties()
-        FileInputStream("project.properties").use { props.load(it) }
+        FileInputStream(fileProjectProps).use { props.load(it) }
         val properties = props.stringPropertyNames()
             .associateWith { props.getProperty(it) }
 
@@ -181,7 +181,7 @@ fun loadVersion(): Version {
 }
 
 fun storeVersion(version: Version) {
-    val fileProjectProps = file("project.properties")
+    val fileProjectProps = Paths.get(project.path, "project.properties").toFile()
 
     val props = Properties()
     if (fileProjectProps.canRead()) {

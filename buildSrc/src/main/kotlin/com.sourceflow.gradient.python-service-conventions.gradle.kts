@@ -3,25 +3,7 @@ import groovy.util.Node
 
 plugins {
     base
-    idea
     id("com.pswidersk.python-plugin")
-}
-
-idea {
-    module {
-        iml {
-            withXml {
-                val root = asNode().children().first() as Node
-                Node(
-                    root, "orderEntry", mapOf(
-                        "jdkName" to "Python 3.7 (gradient-service-model)",
-                        "jdkType" to "Python SDK"
-                    )
-                )
-
-            }
-        }
-    }
 }
 
 pythonPlugin {

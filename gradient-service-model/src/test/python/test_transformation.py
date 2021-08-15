@@ -1,11 +1,10 @@
 import hypothesis.strategies as s
 import numpy as np
-from gradient.model import api
+import arb
 from gradient.model.inference import transformation
+from gradient.model import api
 from hypothesis import given, assume
 from hypothesis.extra import numpy as snp
-
-from . import arb
 
 arb_float_small = snp.arrays(np.float32, (10, 5), elements=s.floats(width=16, min_value=-100, max_value=100))
 arb_float_int_small = snp.arrays(np.float32, (10, 5), elements=s.integers(min_value=0, max_value=10))

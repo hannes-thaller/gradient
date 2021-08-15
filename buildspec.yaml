@@ -6,19 +6,20 @@ phases:
       - ./gradlew --no-daemon build
       - python -m pytest gradient-service-model/src/test --junitxml="build/pytest/reports/gradient-service-model.xml"
 
-
 reports:
   test-gradient-service-code:
     files:
-      - "**/*"
-    base-directory: "gradient-service-code/build/reports/tests/test"
+      - "*.xml"
+    base-directory: "gradient-service-code/build/test-results/test/"
+    file-format: JUNITXML
   test-gradient-service-monitoring:
     files:
-      - "**/*"
+      - "*.xml"
     base-directory: "gradient-service-monitoring/build/reports/tests/test"
+    file-format: JUNITXML
   test-gradient-service-model:
     files:
-      - "**/*"
+      - "*.xml"
     base-directory: "build/pytest/reports"
     file-format: JUNITXML
 cache:

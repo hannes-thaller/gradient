@@ -2,12 +2,11 @@ from datetime import timedelta
 
 import attr
 import numpy as np
-from gradient.model import api
+from gradient.model import api, entity
+import arb
 from gradient.model.inference import inference
 from hypothesis import strategies as s, given, settings
 from torch import random
-
-from . import arb
 
 seed = 15
 
@@ -23,7 +22,7 @@ def test_nvp_fit(dataset, features):
     features = [attr.evolve(features[0], feature_type=api.FeatureType.CONDITIONAL)] + [attr.evolve(it, feature_type=api.FeatureType.INPUT_PARAMETER) for it in features[1:]]
     feature_descriptions = api.FeatureDescription(0, tuple(features))
     nvp = inference.NvpKernel()
-    report = nvp.fit(arrs, feature_descriptions, api.HyperParameters(max_epoch=10))
+    report = nvp.fit(arrs, feature_descriptions, entity.HyperParameters(max_epoch=10))
 
     nvp_result = nvp.sample(50)
     x = np.ma.masked_invalid(np.concatenate(nvp_result.x, 1))
