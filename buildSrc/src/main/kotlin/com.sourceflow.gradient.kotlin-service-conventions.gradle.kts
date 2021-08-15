@@ -1,4 +1,5 @@
 import com.google.protobuf.gradle.*
+import java.net.URI
 
 plugins {
     idea
@@ -10,6 +11,15 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {
+        url = URI.create("https://sourceflow-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
+        val authToken: String? = System.getenv("CODEARTIFACT_AUTH_TOKEN")
+        assert(authToken != null) { "Expected that the environment variable CODEARTIFACT_AUTH_TOKEN is defined" }
+        credentials {
+            username = "aws"
+            password = authToken
+        }
+    }
 }
 
 dependencies {
@@ -30,6 +40,7 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:4.6.1")
     testImplementation("io.kotest:kotest-assertions-core:4.6.1")
     testImplementation("io.kotest:kotest-property:4.6.1")
+    testImplementation("io.kotest:kotest-extensions-junitxml:4.6.1")
 }
 
 tasks {
@@ -39,6 +50,7 @@ tasks {
     }
     withType<Test> {
         useJUnitPlatform()
+        systemProperty("gradle.build.dir", "project.buildDir")
     }
     named<Test>("test") {
         filter {
@@ -49,6 +61,7 @@ tasks {
     create<Test>("integrationTest") {
         filter {
             includeTestsMatching("*IntegrationTest*")
+            systemProperty("gradle.build.dir", project.buildDir)
         }
     }
 }
@@ -64,6 +77,9 @@ configure<PublishingExtension> {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
+            groupId = "org.sourceflow"
+            artifactId = project.name
+            version = "0.1.0"
             pom {
                 licenses {
                     license {
@@ -77,6 +93,17 @@ configure<PublishingExtension> {
                         email.set("hannes.thaller.at@gmail.com")
                     }
                 }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = URI.create("https://sourceflow-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
+            val authToken: String? = System.getenv("CODEARTIFACT_AUTH_TOKEN")
+            assert(authToken != null) { "Expected that the environment variable CODEARTIFACT_AUTH_TOKEN is defined" }
+            credentials {
+                username = "aws"
+                password = authToken
             }
         }
     }
@@ -103,3 +130,4 @@ protobuf {
         }
     }
 }
+
