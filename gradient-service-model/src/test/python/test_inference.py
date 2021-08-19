@@ -28,6 +28,7 @@ def test_nvp_fit(dataset, features):
     x = np.ma.masked_invalid(np.concatenate(nvp_result.x, 1))
     training_losses = [it["loss"] for it in report.loss_record if "training" in it["tags"]]
     mask = ~x.mask.any(1)
+
     assert len(report.loss_record) > 0
     assert training_losses[0] > training_losses[-1]
     assert np.allclose(np.median(dataset[mask], axis=1), np.median(x[mask], axis=1), atol=1e-2)

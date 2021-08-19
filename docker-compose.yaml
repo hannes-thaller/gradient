@@ -1,0 +1,42 @@
+version: "3.5"
+services:
+  # Databases
+  gs-project-database:
+    image: mongo:4.2
+    hostname: gs-project-databse
+    command: --wiredTigerCacheSizeGB 0.256 --port 11002
+    ports:
+      - "11002:11002"
+    volumes:
+      - ./.data/project/data:/data/db
+  gs-code-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256 --port 12002
+    ports:
+      - "12002:12002"
+    volumes:
+      - ./.data/code/data:/data/db
+  gs-dataset-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256 --port 13002
+    ports:
+      - "13002:13002"
+    volumes:
+      - ./.data/dataset/data:/data/db
+  gs-model-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256 --port 15002
+    ports:
+      - "15002:15002"
+    volumes:
+      - ./.data/model/data:/data/db
+  gs-message-database:
+    image: apachepulsar/pulsar:2.8.0
+    ports:
+      - "8080:8080"
+      - "6650:6650"
+    environment:
+      PULSAR_MEM: " -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g"
+    command: bin/pulsar standalone
+    volumes:
+      - ./.data/message/data:/pulsar/data

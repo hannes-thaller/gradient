@@ -82,7 +82,7 @@ class PersistenceContainer:
         if SystemContainer.INSTANCE.in_container():
             return "mongodb://gs-code-database:27017"
         else:
-            return "mongodb://localhost:12002"
+            return "mongodb://localhost:15002"
 
     def client_pulsar(self) -> "pulsar.Client":
         if self._client_pulsar is None:

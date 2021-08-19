@@ -60,11 +60,17 @@ tasks {
             excludeTestsMatching("*IntegrationTest*")
         }
     }
-
     create<Test>("integrationTest") {
         filter {
             includeTestsMatching("*IntegrationTest*")
             systemProperty("gradle.build.dir", project.buildDir)
+        }
+    }
+    register("incrementBuildVersion") {
+        doLast {
+            val version = loadVersion()
+            val newVersion = Version(version.major, version.minor, version.patch, version.build + 1, version.tag)
+            storeVersion(newVersion)
         }
     }
 }
@@ -131,14 +137,6 @@ protobuf {
                 id("grpckt") {}
             }
         }
-    }
-}
-
-tasks.register("incrementBuildVersion") {
-    doLast {
-        val version = loadVersion()
-        val newVersion = Version(version.major, version.minor, version.patch, version.build + 1, version.tag)
-        storeVersion(newVersion)
     }
 }
 
