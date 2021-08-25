@@ -1,0 +1,6 @@
+maven:
+  url: "https://sourceflow-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/"
+code_artifact:
+  owner: 429689067702
+  domain: sourceflow
+  repository: maven
