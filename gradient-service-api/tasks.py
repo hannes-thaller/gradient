@@ -96,7 +96,7 @@ def publish(c):
     logger.info(f"Generated the package")
 
     c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
-    c.run(f"conda run --live-stream twine upload --repository codeartifact dist/*")
+    c.run(f"conda run --live-stream -n {project_name} twine upload --repository codeartifact dist/*")
 
     logger.info("Done publishing")
 
@@ -111,7 +111,7 @@ def publish(c):
     logger.info(f"Generated the package")
 
     c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
-    c.run(f"conda run --live-stream twine upload --repository codeartifact dist/*")
+    c.run(f"conda run --live-stream -n {project_name} twine upload --repository codeartifact dist/*")
 
     logger.info("Done publishing")
 

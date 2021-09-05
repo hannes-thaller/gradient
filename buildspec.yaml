@@ -12,10 +12,14 @@ phases:
       - conda update -q conda
       - conda info -a
       - conda env create -f requirements.yaml
+  pre_build:
       - conda run --live-stream -n gradient-python inv install
   build:
     commands:
       - conda run --live-stream -n gradient-python inv build
+  post_build:
+    commands:
+      - conda run --live-stream -n gradient-python inv test
 
 reports:
   test-gradient-service-model:
