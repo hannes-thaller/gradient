@@ -3,10 +3,14 @@ version: 0.2
 phases:
   build:
     commands:
-      - ./gradlew --no-daemon build
-      - python -m pytest gradient-service-model/src/test --junitxml="build/pytest/reports/gradient-service-model.xml"
+      - ./gradlew build
 
 reports:
+  test-gradient-sensor:
+    files:
+      - "*.xml"
+    base-directory: "gradient-sensor/build/test-results/test/"
+    file-format: JUNITXML
   test-gradient-service-code:
     files:
       - "*.xml"
@@ -15,14 +19,8 @@ reports:
   test-gradient-service-monitoring:
     files:
       - "*.xml"
-    base-directory: "gradient-service-monitoring/build/reports/tests/test"
-    file-format: JUNITXML
-  test-gradient-service-model:
-    files:
-      - "*.xml"
-    base-directory: "build/pytest/reports"
+    base-directory: "gradient-service-monitoring/build/test-results/test/"
     file-format: JUNITXML
 cache:
   paths:
-    - "/root/.cache/pip/**/*"
     - "/root/.m2/**/*"

@@ -1,11 +1,7 @@
 **/.gradle
 .idea
 **/build
-__pycache__
-.env
 .coverage
-.hypothesis
-.pytest_cache
 *.iml
 *.ipr
 *.iws

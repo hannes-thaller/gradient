@@ -1,9 +1,9 @@
-rootProject.name = "gradient-service"
+rootProject.name = "gradient-jvm"
 include(
+    "gradient-sensor",
     "gradient-service-api",
-    "gradient-service-project",
     "gradient-service-code",
-    "gradient-service-monitoring",
     "gradient-service-dataset",
-    "gradient-service-model"
+    "gradient-service-monitoring",
+    "gradient-service-project",
 )
