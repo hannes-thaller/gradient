@@ -2,9 +2,10 @@ import logging
 import pathlib
 import shutil
 
+from aws_cdk import core
 from invoke import task
 
-from gradient.infrastructure import bootstrap
+from gradient.infrastructure import components
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger("gradient-infrastructure")
@@ -28,8 +29,9 @@ def install(c):
 def build(c):
     logger.info("Building")
 
-    service = bootstrap.Container.instance().build_service()
-    service.create_all()
+    app = core.App()
+    stack = components.BuildStack(app, "python-build-pipeline", "gradient-pipeline-python")
+    app.synth()
 
     logger.info("Build done")
 
