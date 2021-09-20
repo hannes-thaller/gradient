@@ -34,3 +34,6 @@ reports:
 cache:
   paths:
     - "/root/.cache/pip/**/*"
+    - "/root/miniconda/pkgs"
+    - "/root/.conda/pkgs"
+    - "/root/miniconda/envs/gradient-service-model/pkgs"

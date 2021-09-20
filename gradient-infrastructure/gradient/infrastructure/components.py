@@ -26,6 +26,7 @@ class BuildStack(core.NestedStack):
     def create_build_env():
         return aws_codebuild.BuildEnvironment(
             compute_type=aws_codebuild.ComputeType.SMALL,
+            build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
         )
 
     @staticmethod
@@ -57,7 +58,7 @@ class BuildStack(core.NestedStack):
             environment=env,
             timeout=core.Duration.minutes(10),
             source=source,
-            build_spec=aws_codebuild.BuildSpec.from_object(buildspec)
+            build_spec=aws_codebuild.BuildSpec.from_object(buildspec),
         )
 
     def create_repository(self, name, max_image_count, code_build):
