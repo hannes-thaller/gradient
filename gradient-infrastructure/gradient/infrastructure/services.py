@@ -1,17 +1,20 @@
 import attr
+import yaml
 from aws_cdk import core
-
-from gradient.infrastructure import components
+from . import components
 
 
 @attr.s(frozen=True)
 class InfrastructureService:
-    def create_repository_stack(self, app: core.App):
-        stack = components.RepositoriesStack(app, "RepositoryStack")
-        return stack
+    def create_infrastructure(self, config):
+        app = core.App()
+        stack_infrastructure = components.InfrastructureStack(app)
+        for it in config["repo-stacks"]:
+            build_spec = self._load_buildspec(it["code-build"]["build_spec"])
+            stacks_build = components.BuildStack(stack_infrastructure, it["id"], it, build_spec)
+        app.synth()
+        return app
 
-
-app = core.App()
-service = InfrastructureService()
-stack  = service.create_repository_stack(app)
-app.synth()
+    def _load_buildspec(self, path: str):
+        with open(path, "r") as f:
+            return yaml.safe_load(f)

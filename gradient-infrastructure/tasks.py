@@ -1,11 +1,11 @@
 import logging
 import pathlib
 import shutil
+from concurrent import futures
 
-from aws_cdk import core
+from botocore import exceptions
 from invoke import task
-
-from gradient.infrastructure import components
+import boto3
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger("gradient-infrastructure")
@@ -27,11 +27,12 @@ def install(c):
 
 @task
 def build(c):
+    from gradient.infrastructure import services
+
     logger.info("Building")
 
-    app = core.App()
-    stack = components.BuildStack(app, "python-build-pipeline", "gradient-pipeline-python")
-    app.synth()
+    service = services.InfrastructureService()
+    service.create_infrastructure(c.config)
 
     logger.info("Build done")
 
@@ -47,10 +48,26 @@ def test(c):
 
 @task
 def clean(c):
-    shutil.rmtree("build", ignore_errors=True)
-    shutil.rmtree("dist", ignore_errors=True)
-    shutil.rmtree("gradient_service_api.egg-info", ignore_errors=True)
-    shutil.rmtree(".pytest_cache", ignore_errors=True)
+    shutil.rmtree("cdk.out", ignore_errors=True)
+    c.run(f"aws ecr delete-repository")
+
+
+@task
+def remove_ecr_repos(c, force=False):
+    names_repo = [it["ecr"]["name"] for repo in c.config["repo-stacks"]
+                  for it in repo["modules"]]
+
+    client = boto3.client("ecr")
+
+    def delete(name):
+        try:
+            client.delete_repository(repositoryName=name, force=force)
+        except exceptions.ClientError as e:
+            if not e.response["Error"]["Code"] == "RepositoryNotFoundException":
+                raise e
+
+    with futures.ThreadPoolExecutor() as pool:
+        list(pool.map(delete, names_repo))
 
 
 @task(pre=[clean, build])
@@ -59,9 +76,6 @@ def publish(c):
 
     c.run(f"python setup.py sdist bdist_wheel")
     logger.info(f"Generated the package")
-
-    c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
-    c.run(f"conda run --live-stream -n {project_name} twine upload --repository codeartifact dist/*")
 
     logger.info("Done publishing")
 
