@@ -15,15 +15,15 @@ phases:
 
   pre_build:
     commands:
-      - inv install
+      - conda run --live-stream inv install
 
   build:
     commands:
-      - inv build
+      - conda run --live-stream inv build
 
   post_build:
     commands:
-      - inv test
+      - conda run --live-stream inv test
 
 reports:
   test-gradient-service-model:

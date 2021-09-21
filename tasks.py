@@ -11,6 +11,7 @@ def _targets(project):
 
 
 def run_sub_task(c, project, task, with_env=True):
+    print(f"[gradient-python] Invoking {task} for project {project} with environment={with_env}")
     try:
         with c.cd(project):
             if with_env:
