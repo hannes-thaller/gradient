@@ -82,5 +82,14 @@ def publish(c):
 
 
 @task
+def publish_infrastructure(c):
+    logger.info("Publishing Infrastructure")
+
+    c.run(f"cdk deploy --all")
+
+    logger.info("Done publishing")
+
+
+@task
 def run(c):
     pass
