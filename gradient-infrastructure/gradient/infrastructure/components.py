@@ -1,5 +1,5 @@
 import constructs
-from aws_cdk import core, aws_codebuild, aws_ecr
+from aws_cdk import core, aws_codebuild, aws_ecr, aws_s3
 
 
 class InfrastructureStack(core.Stack):
@@ -16,7 +16,8 @@ class BuildStack(core.NestedStack):
         env = self.create_build_env()
         filters = self.create_filter_groups()
         source = self.create_source(config_cb["owner"], config_cb["repo"], filters)
-        project = self.create_code_build_project(config_cb["name"], config_cb["description"], env, source, build_spec)
+        cache = self.create_cache_bucket()
+        project = self.create_code_build_project(config_cb["name"], config_cb["description"], env, source, build_spec, cache)
 
         for config_module in config["modules"]:
             config_ecr = config_module["ecr"]
@@ -48,8 +49,8 @@ class BuildStack(core.NestedStack):
             webhook_filters=filters
         )
 
-    def create_code_build_project(self, name, description, env, source, buildspec):
-        return aws_codebuild.Project(
+    def create_code_build_project(self, name, description, env, source, buildspec, cache):
+        project = aws_codebuild.Project(
             self,
             "code-build",
             project_name=name,
@@ -59,10 +60,17 @@ class BuildStack(core.NestedStack):
             timeout=core.Duration.minutes(10),
             source=source,
             build_spec=aws_codebuild.BuildSpec.from_object(buildspec),
+            cache=aws_codebuild.Cache.bucket(cache)
         )
+        cache.grant_read_write(project)
+        return project
 
     def create_repository(self, name, max_image_count, code_build):
         repo = aws_ecr.Repository(self, f"ecr-{name}", repository_name=name)
         repo.add_lifecycle_rule(max_image_count=max_image_count)
         repo.grant_pull_push(code_build)
         return repo
+
+    def create_cache_bucket(self):
+        bucket = aws_s3.Bucket(self, "s3-code-build-cache")
+        return bucket

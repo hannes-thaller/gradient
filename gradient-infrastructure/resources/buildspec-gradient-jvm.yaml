@@ -16,11 +16,6 @@ reports:
       - "*.xml"
     base-directory: "gradient-service-monitoring/build/reports/tests/test"
     file-format: JUNITXML
-  test-gradient-service-model:
-    files:
-      - "*.xml"
-    base-directory: "build/pytest/reports"
-    file-format: JUNITXML
 cache:
   paths:
     - "/root/.m2/**/*"

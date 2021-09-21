@@ -10,10 +10,13 @@ def _targets(project):
             (pathlib.Path(it, "requirements.yaml").exists())]
 
 
-def run_sub_task(c, project, task):
+def run_sub_task(c, project, task, with_env=True):
     try:
         with c.cd(project):
-            c.run(f"conda run --live-stream --no-capture-output -n {project} inv {task}")
+            if with_env:
+                c.run(f"conda run --live-stream --no-capture-output -n {project} inv {task}")
+            else:
+                c.run(f"conda run --live-stream --no-capture-output inv {task}")
     except Exception as ex:
         print(f"[gradient-python] Failed {task} for {project}")
 
@@ -28,7 +31,7 @@ def install(c, project=None):
     print("[gradient-python] Installing")
 
     for it in _targets(project):
-        run_sub_task(c, it, "install")
+        run_sub_task(c, it, "install", with_env=False)
 
     print("[gradient-python] Install done")
 

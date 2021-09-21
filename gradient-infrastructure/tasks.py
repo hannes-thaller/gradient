@@ -3,9 +3,7 @@ import pathlib
 import shutil
 from concurrent import futures
 
-from botocore import exceptions
 from invoke import task
-import boto3
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger("gradient-infrastructure")
@@ -54,6 +52,9 @@ def clean(c):
 
 @task
 def remove_ecr_repos(c, force=False):
+    import boto3
+    from botocore import exceptions
+
     names_repo = [it["ecr"]["name"] for repo in c.config["repo-stacks"]
                   for it in repo["modules"]]
 

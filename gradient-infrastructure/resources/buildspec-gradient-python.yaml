@@ -11,19 +11,19 @@ phases:
       - conda config --set always_yes yes --set changeps1 no
       - conda update -q conda
       - conda info -a
-      - conda env create -f requirements.yaml
+      - conda install invoke
 
   pre_build:
     commands:
-      - conda run --live-stream -n gradient-service-model inv install
+      - inv install
 
   build:
     commands:
-      - conda run --live-stream -n gradient-service-model inv build
+      - inv build
 
   post_build:
     commands:
-      - conda run --live-stream -n gradient-service-model inv test
+      - inv test
 
 reports:
   test-gradient-service-model:

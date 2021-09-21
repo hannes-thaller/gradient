@@ -1,4 +1,3 @@
-import io
 import logging
 import pathlib
 import re
@@ -10,7 +9,6 @@ from concurrent import futures
 
 import attr
 from invoke import task
-import boto3
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger("gradient-service-api")
@@ -139,10 +137,14 @@ class Container:
             Container._build_service = BuildService()
         return Container._build_service
 
+    @staticmethod
+    def boto_codeartifact():
+        import boto3
+        return boto3.client("codeartifact")
 
-@attr.s(frozen=True)
+
 class BuildService:
-    client = attr.ib(factory=lambda: boto3.client("codeartifact"))
+    client = attr.ib(factory=Container.boto_codeartifact)
 
     def list_gradient_api_version(self, domain: str, owner: str, repository: str) -> (typing.Optional[str], typing.Optional[str]):
         logger.info(f"Listing the latest version for the gradient api maven package")
