@@ -7,6 +7,7 @@ import requests
 from invoke import task
 
 logger = logging.getLogger("gradient-python")
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 
 def _targets(project):
@@ -16,7 +17,7 @@ def _targets(project):
 
 
 def run_sub_task(c, project, task, with_env=True):
-    print(f"[gradient-python] Invoking {task} for project {project} with environment={with_env}")
+    logger.info(f"Invoking {task} for project {project} with environment={with_env}")
     try:
         with c.cd(project):
             if with_env:
@@ -24,7 +25,7 @@ def run_sub_task(c, project, task, with_env=True):
             else:
                 c.run(f"conda run --live-stream --no-capture-output inv {task}")
     except Exception as ex:
-        print(f"[gradient-python] Failed {task} for {project}")
+        logger.error(f"Failed {task} for {project}")
 
 
 def download_conda(url_conda: str) -> pathlib.Path:
@@ -67,47 +68,44 @@ def check(c):
 
 @task
 def install(c, project=None):
-    print("[gradient-python] Installing")
+    logger.info("Installing")
 
     for it in _targets(project):
         run_sub_task(c, it, "install", with_env=False)
 
-    print("[gradient-python] Install done")
+    logger.info("Install done")
 
 
 @task
 def install_conda(c, force=False):
-    from gradient.infrastructure import services
-
     logger.info("Installing conda")
 
     dir_conda = pathlib.Path(c.config.buildspec.dir_conda)
     if force or not dir_conda.exists():
-        service = services.InfrastructureService()
-        path_installer = service.download_conda(c.config.buildspec.url_conda)
-        service.install_conda(path_installer, dir_conda)
+        path_installer = download_conda(c.config.buildspec.url_conda)
+        install_conda(path_installer, dir_conda)
 
     logger.info("Installing done")
 
 
 @task()
 def build(c, project=None):
-    print("[gradient-python] Building")
+    logger.info("Building")
 
     for it in _targets(project):
         run_sub_task(c, it, "build")
 
-    print("[gradient-python] Build done")
+    logger.info("Build done")
 
 
 @task
 def test(c, project=None):
-    print("[gradient-python] Testing")
+    logger.info("Testing")
 
     for it in _targets(project):
         run_sub_task(c, it, "test")
 
-    print("[gradient-python] Test done")
+    logger.info("Test done")
 
 
 @task
