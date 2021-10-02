@@ -7,7 +7,7 @@ import requests
 from invoke import task
 
 logger = logging.getLogger("gradient-python")
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 
 def _targets(project):
@@ -28,7 +28,7 @@ def run_sub_task(c, project, task, with_env=True):
         logger.error(f"Failed {task} for {project}")
 
 
-def download_conda(url_conda: str) -> pathlib.Path:
+def _download_conda(url_conda: str) -> pathlib.Path:
     assert url_conda
 
     logger.info("Downloading conda installer")
@@ -43,20 +43,20 @@ def download_conda(url_conda: str) -> pathlib.Path:
     return path_installer
 
 
-def install_conda(path_installer: pathlib.Path, dir_install: pathlib.Path):
+def _install_conda(path_installer: pathlib.Path, dir_install: pathlib.Path):
     assert path_installer.exists()
 
     logger.info(f"Installing conda from {path_installer} into {dir_install}")
 
-    dir_install = pathlib.Path(dir_install)
+    dir_install = pathlib.Path(dir_install).absolute()
     dir_install.mkdir(parents=True, exist_ok=True)
 
-    subprocess.run(["sh", "path_installer", "-b", "-p", dir_install.absolute()])
-    subprocess.run(["source", dir_install.joinpath("etc", "profile.d", "conda.sh")])
-    subprocess.run(["conda", "config", "--set", "always_yes", "yes", "--set", "changeps1", "no"])
-    subprocess.run(["conda", "update", "-q", "conda"])
-    subprocess.run(["conda", "info", "-a"])
-    subprocess.run(["conda", "install", "-c", "conda-forge", "python=3.7", "invoke=1.5.0"])
+    subprocess.run(["bash", path_installer, "-bfp", dir_install], capture_output=True)
+    subprocess.run(["rm", "-rf", path_installer], capture_output=True)
+    subprocess.run(["conda", "config", "--set", "always_yes", "yes", "--set", "changeps1", "no"], capture_output=True)
+    subprocess.run(["conda", "update", "-q", "conda"], capture_output=True)
+    subprocess.run(["conda", "info", "-a"], capture_output=True)
+    subprocess.run(["conda", "install", "-c", "conda-forge", "python=3.7", "invoke=1.5.0"], capture_output=True)
 
     logger.info(f"Done installing conda")
 
@@ -82,8 +82,8 @@ def install_conda(c, force=False):
 
     dir_conda = pathlib.Path(c.config.buildspec.dir_conda)
     if force or not dir_conda.exists():
-        path_installer = download_conda(c.config.buildspec.url_conda)
-        install_conda(path_installer, dir_conda)
+        path_installer = _download_conda(c.config.buildspec.url_conda)
+        _install_conda(path_installer, dir_conda)
 
     logger.info("Installing done")
 

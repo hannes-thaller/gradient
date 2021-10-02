@@ -7,12 +7,13 @@ phases:
     runtime-versions:
       python: 3.7
     commands:
-      - pip install --upgrade pip
-      - pip install invoke
+      - pip install --user --upgrade pip
+      - pip install --user invoke
       - inv install-conda
 
   pre_build:
     commands:
+      - which conda
       - cd gradient-service-api && conda run --live-stream inv install
       - cd gradient-service-model && conda run --live-stream inv install
 
