@@ -28,5 +28,5 @@ reports:
     file-format: JUNITXML
 cache:
   paths:
-    - "/root/.cache/pip/**/*"
-    - "/root/miniconda/pkgs"
+    - $HOME/.cache/pip/**/*
+    - $HOME/miniconda/pkgs
