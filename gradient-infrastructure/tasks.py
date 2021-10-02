@@ -23,19 +23,6 @@ def install(c):
     logger.info("Installing done")
 
 
-@task
-def install_conda(c, force=False):
-    from gradient.infrastructure import services
-
-    logger.info("Installing conda")
-
-    dir_conda = pathlib.Path(c.config.buildspec.dir_conda)
-    if force or not dir_conda.exists():
-        service = services.InfrastructureService()
-        path_installer = service.download_conda(c.config.buildspec.url_conda)
-        service.install_conda(path_installer, dir_conda)
-
-    logger.info("Installing done")
 
 
 @task
