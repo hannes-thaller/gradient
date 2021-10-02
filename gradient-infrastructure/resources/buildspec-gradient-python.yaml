@@ -1,11 +1,15 @@
 version: 0.2
 
 phases:
+
   install:
     on-failure: ABORT
+    runtime-versions:
+      python: 3.7
     commands:
+      - pip install --upgrade pip
       - pip install invoke
-      - inv install_conda
+      - inv install-conda
 
   pre_build:
     commands:
