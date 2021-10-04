@@ -7,7 +7,8 @@ project_name = "gradient-service-model"
 def install(c):
     print("[gradient-service-model] Installing")
 
-    c.run(f"conda env create --force -f requirements.yaml")
+    # c.run(f"conda env create --force -n {project_name}")
+    # c.run(f"conda run --live-stream -n {project_name} pip install -r requirements.txt")
 
     print("[gradient-service-model] Installing done")
 
@@ -23,7 +24,7 @@ def build(c):
 def test(c):
     print("[gradient-service-model] Testing")
 
-    c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
+    # c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
 
     print("[gradient-service-model] Test done")
 

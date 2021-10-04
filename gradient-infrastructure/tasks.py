@@ -5,10 +5,10 @@ from concurrent import futures
 
 from invoke import task
 
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
-logger = logging.getLogger("gradient-infrastructure")
-
 project_name = "gradient-infrastructure"
+
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logger = logging.getLogger(project_name)
 
 dir_build = pathlib.Path("build")
 dir_project = pathlib.Path(__file__).parent
@@ -18,11 +18,10 @@ dir_project = pathlib.Path(__file__).parent
 def install(c):
     logger.info("Installing")
 
-    c.run(f"conda env create --force -f requirements.yaml")
+    # c.run(f"conda env create --force -n {project_name}")
+    # c.run(f"conda run --live-stream -n {project_name} pip install -r requirements.txt")
 
     logger.info("Installing done")
-
-
 
 
 @task
@@ -41,7 +40,7 @@ def build(c):
 def test(c):
     logger.info("Testing")
 
-    c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
+    # c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
 
     logger.info("Test done")
 
@@ -53,6 +52,7 @@ def clean(c, force=False):
 
     shutil.rmtree("cdk.out", ignore_errors=True)
 
+    # delete ECR
     names_repo = [it["ecr"]["name"] for repo in c.config["repo-stacks"]
                   for it in repo["modules"]]
 

@@ -5,10 +5,10 @@ import zipfile
 
 from invoke import task
 
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
-logger = logging.getLogger("gradient-service-api")
-
 project_name = "gradient-service-api"
+
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logger = logging.getLogger(project_name)
 
 dir_build = pathlib.Path("build")
 dir_project = pathlib.Path(__file__).parent
@@ -18,7 +18,8 @@ dir_project = pathlib.Path(__file__).parent
 def install(c):
     logger.info("Installing")
 
-    c.run(f"conda env create --force -f requirements.yaml")
+    with c.prefix(f"source .env/bin/activate"):
+        c.run(f"pip install -r requirements.txt")
 
     logger.info("Installing done")
 
@@ -26,7 +27,9 @@ def install(c):
 @task
 def protos_load(c):
     from gradient.model import bootstrap
+
     logger.info("Pulling protos from maven")
+
     dir_build.mkdir(exist_ok=True)
     service = bootstrap.Container.build_service()
 
@@ -51,6 +54,7 @@ def protos_load(c):
 @task(pre=[protos_load])
 def build(c):
     from gradient.model import bootstrap
+
     logger.info("Building")
 
     logger.info("Generating python sources from protos.")
@@ -70,7 +74,7 @@ def build(c):
 def test(c):
     logger.info("Testing")
 
-    c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
+    # c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
 
     logger.info("Test done")
 
@@ -87,26 +91,12 @@ def clean(c):
 def publish(c):
     logger.info("Publishing")
 
-    c.run(f"python setup.py sdist bdist_wheel")
-    logger.info(f"Generated the package")
+    with c.prefix(f"source .env/bin/activate"):
+        c.run(f"python setup.py sdist bdist_wheel")
+        logger.info(f"Generated the package")
 
-    c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
-    c.run(f"conda run --live-stream -n {project_name} twine upload --repository codeartifact dist/*")
-
-    logger.info("Done publishing")
-
-
-@task(pre=[build])
-def publish(c):
-    logger.info("Publishing")
-
-    shutil.rmtree("dist", ignore_errors=True)
-
-    c.run(f"python setup.py sdist bdist_wheel")
-    logger.info(f"Generated the package")
-
-    c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
-    c.run(f"conda run --live-stream -n {project_name} twine upload --repository codeartifact dist/*")
+        c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
+        c.run(f"twine upload --repository codeartifact dist/*")
 
     logger.info("Done publishing")
 

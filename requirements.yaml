@@ -1,6 +1,0 @@
-name: gradient-python
-channels:
-  - conda-forge
-dependencies:
-  - python=3.7
-  - invoke=1.6.0

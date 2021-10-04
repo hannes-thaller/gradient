@@ -1,3 +1,5 @@
+import typing
+
 import constructs
 from aws_cdk import core, aws_codebuild, aws_ecr, aws_s3
 
@@ -13,7 +15,7 @@ class BuildStack(core.NestedStack):
 
         config_cb = config["code-build"]
 
-        env = self.create_build_env()
+        env = self.create_build_env(config_cb["build_image"])
         filters = self.create_filter_groups()
         source = self.create_source(config_cb["owner"], config_cb["repo"], filters)
         cache = self.create_cache_bucket()
@@ -24,10 +26,16 @@ class BuildStack(core.NestedStack):
             self.create_repository(config_ecr["name"], config_ecr["max_image_count"], project)
 
     @staticmethod
-    def create_build_env():
+    def create_build_env(build_image: typing.Optional[str]):
+
+        if build_image:
+            build_image = aws_codebuild.LinuxBuildImage.from_docker_registry(build_image)
+        else:
+            build_image = aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
+
         return aws_codebuild.BuildEnvironment(
             compute_type=aws_codebuild.ComputeType.SMALL,
-            build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
+            build_image=build_image
         )
 
     @staticmethod
