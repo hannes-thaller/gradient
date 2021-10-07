@@ -18,8 +18,8 @@ dir_project = pathlib.Path(__file__).parent
 def install(c):
     logger.info("Installing")
 
-    # c.run(f"conda env create --force -n {project_name}")
-    # c.run(f"conda run --live-stream -n {project_name} pip install -r requirements.txt")
+    with c.prefix(f"source .env/bin/activate"):
+        c.run(f"pip install -r requirements.txt")
 
     logger.info("Installing done")
 
@@ -40,7 +40,8 @@ def build(c):
 def test(c):
     logger.info("Testing")
 
-    # c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
+    path_report = dir_build.joinpath("pytest", "reports", "report.xml")
+    c.run(f"pytest tests --junitxml={path_report}")
 
     logger.info("Test done")
 
@@ -69,8 +70,15 @@ def clean(c, force=False):
         list(pool.map(delete, names_repo))
 
 
-@task(pre=[clean, build])
+@task
 def publish(c):
+    logger.info("Publishing")
+
+    logger.info("Done publishing")
+
+
+@task(pre=[clean, build])
+def publish_infrastructure(c):
     logger.info("Publishing Infrastructure")
 
     c.run(f"cdk deploy --all")

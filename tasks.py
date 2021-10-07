@@ -19,7 +19,6 @@ def _targets(project):
 @task
 def install(c, project=None):
     logger.info("Installing")
-    logger.info(f"Installing {project}")
 
     for project in _targets(project):
         logger.info(f"Installing {project}")
@@ -36,6 +35,14 @@ def install(c, project=None):
 def build(c, project=None):
     logger.info("Building")
 
+    for project in _targets(project):
+        logger.info(f"Building {project}")
+
+        venv.create(os.path.join(project, ".env"))
+        with c.cd(project):
+            with c.prefix(f"source .env/bin/activate"):
+                c.run("inv build")
+
     logger.info("Build done")
 
 
@@ -43,11 +50,27 @@ def build(c, project=None):
 def test(c, project=None):
     logger.info("Testing")
 
+    for project in _targets(project):
+        logger.info(f"Testing {project}")
+
+        venv.create(os.path.join(project, ".env"))
+        with c.cd(project):
+            with c.prefix(f"source .env/bin/activate"):
+                c.run("inv test")
+
     logger.info("Test done")
 
 
 @task
 def publish(c, project=None):
-    logger.info("Testing")
+    logger.info("Publish")
 
-    logger.info("Test done")
+    for project in _targets(project):
+        logger.info(f"Publish {project}")
+
+        venv.create(os.path.join(project, ".env"))
+        with c.cd(project):
+            with c.prefix(f"source .env/bin/activate"):
+                c.run("inv publish")
+
+    logger.info("Publish done")

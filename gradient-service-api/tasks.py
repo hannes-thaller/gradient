@@ -74,7 +74,8 @@ def build(c):
 def test(c):
     logger.info("Testing")
 
-    # c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
+    path_report = dir_build.joinpath("pytest", "reports", "report.xml")
+    c.run(f"pytest tests --junitxml={path_report}")
 
     logger.info("Test done")
 

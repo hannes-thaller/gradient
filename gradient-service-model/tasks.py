@@ -1,32 +1,42 @@
+import logging
+import pathlib
+
 from invoke import task
 
 project_name = "gradient-service-model"
 
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logger = logging.getLogger(project_name)
+
+dir_build = pathlib.Path("build")
+dir_project = pathlib.Path(__file__).parent
+
 
 @task
 def install(c):
-    print("[gradient-service-model] Installing")
+    logger.info("Installing")
 
-    # c.run(f"conda env create --force -n {project_name}")
-    # c.run(f"conda run --live-stream -n {project_name} pip install -r requirements.txt")
+    with c.prefix(f"source .env/bin/activate"):
+        c.run(f"pip install -r requirements.txt")
 
-    print("[gradient-service-model] Installing done")
+    logger.info("Installing done")
 
 
 @task
 def build(c):
-    print("[gradient-service-model] Building")
+    logger.info("Building")
 
-    print("[gradient-service-model] Build done")
+    logger.info("Build done")
 
 
 @task
 def test(c):
-    print("[gradient-service-model] Testing")
+    logger.info("Testing")
 
-    # c.run(f"conda run --live-stream -n {project_name} python -m pytest tests")
+    path_report = dir_build.joinpath("pytest", "reports", "report.xml")
+    c.run(f"pytest tests --junitxml={path_report}")
 
-    print("[gradient-service-model] Test done")
+    logger.info("Test done")
 
 
 @task
