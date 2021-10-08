@@ -29,5 +29,3 @@ reports:
 cache:
   paths:
     - $HOME/.cache/pip/**/*
-    - $HOME/miniconda/pkgs
-    - $HOME/.conda/pkgs
