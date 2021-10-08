@@ -18,15 +18,15 @@ repo-stacks:
           name: ecr-sourceflow-gradient-jvm-service-api
           max_image_count: 100
 
-  - id: build-sourceflow-gradient-python
+  - id: build-sourceflow-gradient-python-infrastructure
     code-build:
-      name: sourceflow-gradient-python
+      name: sourceflow-gradient-python-infrastructure
       description: Build pipline for gradient Python projects.
       connection_bitbucket: 'arn:aws:codestar-connections:eu-central-1:429689067702:connection/4e9ab8d1-7c8d-462d-a5ec-c1d7fd8cbf1e'
       location_source: https://bitbucket.org/sourceflow-ai/gradient-python.git
       owner: sourceflow-ai
       repo: gradient-python
-      build_spec: resources/gradient-python/buildspec-gradient-python.yaml
+      build_spec: resources/gradient-python/buildspec-gradient-python-infrastructure.yaml
       build_image:
     modules:
       - name: sourceflow-gradient-python-service-model

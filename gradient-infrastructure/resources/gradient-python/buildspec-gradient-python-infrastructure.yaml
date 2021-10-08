@@ -10,15 +10,11 @@ phases:
     on-failure: ABORT
     commands:
       - pip install -r requirements.txt
-      - inv install
+      - inv install gradient-infrastructure
 
   build:
     commands:
-      - inv build
-
-  post_build:
-    commands:
-      - inv publish
+      - inv build gradient-infrastructure
 
 reports:
   test-gradient-service-model:

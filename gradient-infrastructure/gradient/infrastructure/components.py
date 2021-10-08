@@ -16,7 +16,7 @@ class BuildStack(core.NestedStack):
         config_cb = config["code-build"]
 
         env = self.create_build_env(config_cb["build_image"])
-        filters = self.create_filter_groups()
+        filters = self.create_filter_groups(config_cb["name"])
         source = self.create_source(config_cb["owner"], config_cb["repo"], filters)
         cache = self.create_cache_bucket()
         project = self.create_code_build_project(config_cb["name"], config_cb["description"], env, source, build_spec, cache)
@@ -39,13 +39,13 @@ class BuildStack(core.NestedStack):
         )
 
     @staticmethod
-    def create_filter_groups():
+    def create_filter_groups(name_project: str):
         return [
             aws_codebuild.FilterGroup.in_event_of(
                 aws_codebuild.EventAction.PUSH,
                 aws_codebuild.EventAction.PULL_REQUEST_CREATED,
-                aws_codebuild.EventAction.PULL_REQUEST_UPDATED
-            )
+                aws_codebuild.EventAction.PULL_REQUEST_UPDATED,
+            ).and_file_path_is(f"^{name_project}")
         ]
 
     @staticmethod

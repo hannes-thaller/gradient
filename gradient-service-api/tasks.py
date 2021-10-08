@@ -3,6 +3,7 @@ import pathlib
 import shutil
 import zipfile
 
+from botocore import errorfactory
 from invoke import task
 
 project_name = "gradient-service-api"
@@ -61,11 +62,13 @@ def build(c):
     dir_build.mkdir(exist_ok=True)
     service = bootstrap.Container.build_service()
 
-    dir_sources = service.generate_source_from_protos(dir_build.joinpath("protos"),
-                                                      dir_build.joinpath("protoc"))
-
-    shutil.rmtree(dir_project.joinpath("gradient"), ignore_errors=True)
-    shutil.move(str(dir_sources), str(dir_project))
+    try:
+        dir_sources = service.generate_source_from_protos(dir_build.joinpath("protos"),
+                                                          dir_build.joinpath("protoc"))
+        shutil.rmtree(dir_project.joinpath("gradient"), ignore_errors=True)
+        shutil.move(str(dir_sources), str(dir_project))
+    except errorfactory.ClientError as ex:
+        logger.warning(f"Could not pull the most recent proto definitions.", ex)
 
     logger.info("Build done")
 
