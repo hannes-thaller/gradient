@@ -1,63 +1,76 @@
+import logging
 import os.path
 import pathlib
-
+import venv
 from invoke import task
+
+project_name = "gradient-python"
+
+logger = logging.getLogger(project_name)
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 
 def _targets(project):
     return [it for it in os.listdir()
             if (not project or project == it) and
-            (pathlib.Path(it, "requirements.yaml").exists())]
-
-
-def run_sub_task(c, project, task):
-    try:
-        with c.cd(project):
-            c.run(f"conda run --live-stream --no-capture-output -n {project} inv {task}")
-    except Exception as ex:
-        print(f"[gradient-python] Failed {task} for {project}")
-
-
-@task
-def check(c):
-    c.run("which conda")
+            (pathlib.Path(it, "requirements.txt").exists())]
 
 
 @task
 def install(c, project=None):
-    print("[gradient-python] Installing")
+    logger.info("Installing")
 
-    for it in _targets(project):
-        run_sub_task(c, it, "install")
+    for project in _targets(project):
+        logger.info(f"Installing {project}")
 
-    print("[gradient-python] Install done")
+        venv.create(os.path.join(project, ".env"))
+        with c.cd(project):
+            with c.prefix(f"source .env/bin/activate"):
+                c.run("inv install")
+
+    logger.info("Install done")
 
 
 @task()
 def build(c, project=None):
-    print("[gradient-python] Building")
+    logger.info("Building")
 
-    for it in _targets(project):
-        run_sub_task(c, it, "build")
+    for project in _targets(project):
+        logger.info(f"Building {project}")
 
-    print("[gradient-python] Build done")
+        venv.create(os.path.join(project, ".env"))
+        with c.cd(project):
+            with c.prefix(f"source .env/bin/activate"):
+                c.run("inv build")
+
+    logger.info("Build done")
 
 
 @task
 def test(c, project=None):
-    print("[gradient-python] Testing")
+    logger.info("Testing")
 
-    for it in _targets(project):
-        run_sub_task(c, it, "test")
+    for project in _targets(project):
+        logger.info(f"Testing {project}")
 
-    print("[gradient-python] Test done")
+        venv.create(os.path.join(project, ".env"))
+        with c.cd(project):
+            with c.prefix(f"source .env/bin/activate"):
+                c.run("inv test")
+
+    logger.info("Test done")
 
 
 @task
 def publish(c, project=None):
-    print("[gradient-python] Testing")
+    logger.info("Publish")
 
-    for it in _targets(project):
-        run_sub_task(c, it, "publish")
+    for project in _targets(project):
+        logger.info(f"Publish {project}")
 
-    print("[gradient-python] Test done")
+        venv.create(os.path.join(project, ".env"))
+        with c.cd(project):
+            with c.prefix(f"source .env/bin/activate"):
+                c.run("inv publish")
+
+    logger.info("Publish done")

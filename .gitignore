@@ -49,3 +49,5 @@ Thumbs.db
 *.wmv
 
 **/build/
+gradient-infrastructure/cdk.out/
+**/.env

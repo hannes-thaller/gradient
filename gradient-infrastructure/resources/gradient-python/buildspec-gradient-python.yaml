@@ -1,0 +1,31 @@
+version: 0.2
+env:
+  shell: bash
+
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    on-failure: ABORT
+    commands:
+      - pip install -r requirements.txt
+      - inv install
+
+  build:
+    commands:
+      - inv build
+
+  post_build:
+    commands:
+      - inv publish
+
+reports:
+  test-gradient-service-model:
+    files:
+      - "*.xml"
+    base-directory: build/pytest/reports
+    file-format: JUNITXML
+cache:
+  paths:
+    - $HOME/.cache/pip/**/*
