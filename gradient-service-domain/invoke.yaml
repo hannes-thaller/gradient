@@ -2,6 +2,6 @@ maven:
   url: "https://sourceflow-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/"
 code_artifact:
   owner: 429689067702
-  domain: sourceflow
+  domain: sourceflow-gradient
   repository: maven
 gradle_gradient_service_domain_version: 1.0.0

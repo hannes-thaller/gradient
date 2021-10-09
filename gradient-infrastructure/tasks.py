@@ -3,6 +3,7 @@ import pathlib
 import shutil
 from concurrent import futures
 
+from aws_cdk import aws_iam, core, aws_codebuild
 from invoke import task
 
 project_name = "gradient-infrastructure"
@@ -26,14 +27,12 @@ def install(c):
 
 @task
 def build(c):
-    from gradient.infrastructure import services
+    from gradient.infrastructure import components
 
-    logger.info("Building")
-
-    service = services.InfrastructureService()
-    service.create_infrastructure(c.config)
-
-    logger.info("Build done")
+    app = core.App()
+    stack_infra = components.InfrastructureStack(app)
+    components.PythonServiceDomainStack(stack_infra)
+    app.synth()
 
 
 @task

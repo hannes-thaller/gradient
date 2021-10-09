@@ -20,22 +20,22 @@ app:
           - public:pypi
 
 repo-stacks:
-  - id: build-sourceflow-gradient-jvm
-    code-build:
-      name: sourceflow-gradient-jvm
-      description: Build pipline for gradient JVM projects.
-      connection_bitbucket: arn:aws:codestar-connections:eu-central-1:429689067702:connection/4e9ab8d1-7c8d-462d-a5ec-c1d7fd8cbf1e
-      url_repository: https://bitbucket.org/sourceflow-ai/gradient-jvm.git
-      location_module: gradient-infrastructure
-      owner: sourceflow-ai
-      repo: gradient-jvm
-      build_spec: resources/gradient-jvm/buildspec-gradient-jvm.yaml
-      build_image:
-    modules:
-      - name: sourceflow-gradient-jvm-service-api
-        ecr:
-          name: ecr-sourceflow-gradient-jvm-service-api
-          max_image_count: 100
+#  - id: build-sourceflow-gradient-jvm
+#    code-build:
+#      name: sourceflow-gradient-jvm
+#      description: Build pipline for gradient JVM projects.
+#      connection_bitbucket: arn:aws:codestar-connections:eu-central-1:429689067702:connection/4e9ab8d1-7c8d-462d-a5ec-c1d7fd8cbf1e
+#      url_repository: https://bitbucket.org/sourceflow-ai/gradient-jvm.git
+#      location_module: gradient-infrastructure
+#      owner: sourceflow-ai
+#      repo: gradient-jvm
+#      build_spec: resources/gradient-jvm/buildspec-gradient-jvm.yaml
+#      build_image:
+#    modules:
+#      - name: sourceflow-gradient-jvm-service-api
+#        ecr:
+#          name: ecr-sourceflow-gradient-jvm-service-api
+#          max_image_count: 100
 
   - id: build-sourceflow-gradient-service-domain-python
     code-build:
