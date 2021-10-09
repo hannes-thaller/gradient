@@ -7,6 +7,7 @@ import typing
 from concurrent import futures
 
 import attr
+from botocore import errorfactory
 
 logger = logging.getLogger(__name__)
 
@@ -18,19 +19,26 @@ class BuildService:
     def list_gradient_api_version(self, domain: str, owner: str, repository: str) -> typing.List[typing.Tuple[typing.Optional[str], typing.Optional[str]]]:
         logger.info(f"Listing the latest version for the gradient api maven package")
 
-        response = self.client.list_package_versions(
-            domain=domain,
-            domainOwner=owner,
-            repository=repository,
-            format="maven",
-            namespace="org.sourceflow",
-            package="gradient-service-domain",
-            status="Published",
-            sortBy="PUBLISHED_TIME",
-            maxResults=1
-        )
+        package = "gradient-service-domain"
+        versions = []
+        try:
+            response = self.client.list_package_versions(
+                domain=domain,
+                domainOwner=owner,
+                repository=repository,
+                format="maven",
+                namespace="org.sourceflow",
+                package="gradient-service-domain",
+                status="Published",
+                sortBy="PUBLISHED_TIME",
+                maxResults=1
+            )
+            versions = response["versions"]
+        except errorfactory.ClientError as ex:
+            if ex.__class__.__name__ == "ResourceNotFoundException":
+                logger.warning(f"Could not find package {package}.", ex)
 
-        return [(it["version"], it["revision"]) for it in response["versions"]]
+        return [(it["version"], it["revision"]) for it in versions]
 
     def download_gradient_service_api_jar(self, domain: str, owner: str, repository: str, version: str, revision: str, asset_name: str, dir_build: pathlib.Path) -> pathlib.Path:
         logger.info(f"Downloading the {asset_name}")

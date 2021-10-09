@@ -35,9 +35,10 @@ def protos_load(c):
     service = bootstrap.Container.build_service()
 
     packages = service.list_gradient_api_version(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository)
-    packages = [it for it in packages if it[0] == c.config["gradle_gradient_service_api_version"]]
-    version, revision = packages[0] if packages else (None, None)
+    packages = [it for it in packages if it[0] == c.config["gradle_gradient_service_domain_version"]]
+    assert packages, f"Could not load protos"
 
+    version, revision = packages[0]
     if version and revision:
         logger.info(f"Found configured version {version} and revision {revision}")
 
@@ -54,7 +55,7 @@ def protos_load(c):
             protots = [it for it in zipf.namelist() if it.endswith(".proto")]
             zipf.extractall(dir_zip, protots)
     else:
-        logger.warning(f"Could not find the configured version {c.config['gradle_gradient_service_api_version']}")
+        logger.warning(f"Could not find the configured version {c.config['gradle_gradient_service_domain_version']}")
 
     logger.info(f"Done loading protos")
 
