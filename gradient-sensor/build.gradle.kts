@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":gradient-service-api"))
+    implementation(project(":gradient-service-domain"))
 }
 
 
