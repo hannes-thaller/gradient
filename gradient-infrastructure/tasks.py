@@ -32,6 +32,7 @@ def build(c):
     app = core.App()
     stack_infra = components.InfrastructureStack(app)
     components.PythonServiceDomainStack(stack_infra)
+    components.JVMServiceDomainStack(stack_infra)
     app.synth()
 
 

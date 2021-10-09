@@ -60,7 +60,7 @@ class PythonServiceDomainStack(core.NestedStack):
         project = aws_codebuild.Project(
             self,
             "codebuild-gradient-service-domain-python",
-            project_name="sourceflow-gradient-service-domain",
+            project_name="sourceflow-gradient-service-domain-python",
             environment=aws_codebuild.BuildEnvironment(
                 compute_type=aws_codebuild.ComputeType.SMALL,
                 build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
@@ -69,6 +69,54 @@ class PythonServiceDomainStack(core.NestedStack):
             source=aws_codebuild.Source.bit_bucket(
                 owner="sourceflow-ai",
                 repo="gradient-python",
+                webhook=True,
+                webhook_filters=[
+                    aws_codebuild.FilterGroup.in_event_of(
+                        aws_codebuild.EventAction.PUSH,
+                        aws_codebuild.EventAction.PULL_REQUEST_CREATED,
+                        aws_codebuild.EventAction.PULL_REQUEST_UPDATED,
+                    ).and_file_path_is(f"^gradient-service-domain")
+                ]
+            ),
+            build_spec=aws_codebuild.BuildSpec.from_object(buildspec),
+            role=role
+        )
+
+class JVMServiceDomainStack(core.NestedStack):
+    def __init__(self, scope, id: str = "build-sourceflow-gradient-service-domain-jvm", **kwargs):
+        super().__init__(scope, id, **kwargs)
+
+        policy = aws_iam.ManagedPolicy.from_managed_policy_arn(
+            self,
+            "policy-codeartifact-gradient-service-domain-jvm",
+            "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
+        )
+
+        role = aws_iam.Role(
+            scope=self,
+            id=f"role-gradient-service-domain-jvm",
+            role_name=f"role-gradient-service-domain-jvm",
+            path="/",
+            assumed_by=aws_iam.ServicePrincipal("codebuild.amazonaws.com"),
+            managed_policies=[policy]
+        )
+
+        path_buildspec = pathlib.Path(__file__).parent.parent.parent.joinpath("resources", "gradient-jvm", "buildspec-gradient-service-domain.yaml")
+        with path_buildspec.open("r") as f:
+            buildspec = yaml.safe_load(f)
+
+        project = aws_codebuild.Project(
+            self,
+            "codebuild-gradient-service-domain-jvm",
+            project_name="sourceflow-gradient-service-domain-jvm",
+            environment=aws_codebuild.BuildEnvironment(
+                compute_type=aws_codebuild.ComputeType.SMALL,
+                build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
+            ),
+            timeout=core.Duration.minutes(10),
+            source=aws_codebuild.Source.bit_bucket(
+                owner="sourceflow-ai",
+                repo="gradient-jvm",
                 webhook=True,
                 webhook_filters=[
                     aws_codebuild.FilterGroup.in_event_of(
