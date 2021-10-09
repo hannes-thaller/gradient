@@ -1,13 +1,32 @@
 app:
   account: "429689067702"
   region: eu-central-1
+
+  code-artifact:
+    name_domain: sourceflow-gradient
+
+  tech-stacks:
+    - id: build-sourceflow-gradient-jvm
+      code-artifact:
+        name: sourceflow-gradient-jvm
+        description: JVM artifacts related to Gradient
+        external_connections:
+          - public:maven-central
+    - id: build-sourceflow-gradient-python
+      code-artifact:
+        name: sourceflow-gradient-python
+        description: Python artifacts related to Gradient
+        external_connections:
+          - public:pypi
+
 repo-stacks:
   - id: build-sourceflow-gradient-jvm
     code-build:
       name: sourceflow-gradient-jvm
       description: Build pipline for gradient JVM projects.
-      connection_bitbucket: 'arn:aws:codestar-connections:eu-central-1:429689067702:connection/4e9ab8d1-7c8d-462d-a5ec-c1d7fd8cbf1e'
-      location_source: https://bitbucket.org/sourceflow-ai/gradient-jvm.git
+      connection_bitbucket: arn:aws:codestar-connections:eu-central-1:429689067702:connection/4e9ab8d1-7c8d-462d-a5ec-c1d7fd8cbf1e
+      url_repository: https://bitbucket.org/sourceflow-ai/gradient-jvm.git
+      location_module: gradient-infrastructure
       owner: sourceflow-ai
       repo: gradient-jvm
       build_spec: resources/gradient-jvm/buildspec-gradient-jvm.yaml
@@ -22,8 +41,9 @@ repo-stacks:
     code-build:
       name: sourceflow-gradient-python-infrastructure
       description: Build pipline for gradient Python projects.
-      connection_bitbucket: 'arn:aws:codestar-connections:eu-central-1:429689067702:connection/4e9ab8d1-7c8d-462d-a5ec-c1d7fd8cbf1e'
-      location_source: https://bitbucket.org/sourceflow-ai/gradient-python.git
+      connection_bitbucket: arn:aws:codestar-connections:eu-central-1:429689067702:connection/4e9ab8d1-7c8d-462d-a5ec-c1d7fd8cbf1e
+      url_repository: https://bitbucket.org/sourceflow-ai/gradient-python.git
+      location_module: gradient-infrastructure
       owner: sourceflow-ai
       repo: gradient-python
       build_spec: resources/gradient-python/buildspec-gradient-python-infrastructure.yaml

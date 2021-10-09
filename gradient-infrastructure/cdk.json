@@ -1,3 +1,4 @@
 {
-  "app": "inv build"
+  "app": "inv build",
+  "requireApproval": "never"
 }
