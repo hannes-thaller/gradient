@@ -2,7 +2,7 @@ import numpy as np
 from hypothesis import strategies as s
 from hypothesis.extra import numpy as snp
 
-from gradient.model import api
+from gradient.domain import api
 
 _valid_dataset_datatype = {api.DataTypeDescriptor.BOOLEAN, api.DataTypeDescriptor.INTEGER,
                            api.DataTypeDescriptor.LONG, api.DataTypeDescriptor.FLOAT,

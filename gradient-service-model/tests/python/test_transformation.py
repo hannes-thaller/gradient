@@ -1,8 +1,8 @@
 import hypothesis.strategies as s
 import numpy as np
 import arb
-from gradient.model.inference import transformation
-from gradient.model import api
+from gradient.domain.inference import transformation
+from gradient.domain import api
 from hypothesis import given, assume
 from hypothesis.extra import numpy as snp
 

@@ -26,9 +26,9 @@ def load_and_increment_version(path_properties: pathlib.Path) -> str:
 
 
 setup(
-    name="gradient-service-api",
+    name="gradient-service-domain",
     version=load_and_increment_version(path_properties),
-    description="The python api entities of Gradient",
+    description="The python API domain entities of Gradient",
     author="Sourceflow",
     license="Copyright Sourceflow",
     packages=find_packages(),

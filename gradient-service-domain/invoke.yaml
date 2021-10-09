@@ -4,3 +4,4 @@ code_artifact:
   owner: 429689067702
   domain: sourceflow
   repository: maven
+gradle_gradient_service_domain_version: 1.0.0

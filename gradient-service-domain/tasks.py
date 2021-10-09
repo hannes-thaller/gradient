@@ -6,7 +6,7 @@ import zipfile
 from botocore import errorfactory
 from invoke import task
 
-project_name = "gradient-service-api"
+project_name = "gradient-service-domain"
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(project_name)
@@ -27,16 +27,21 @@ def install(c):
 
 @task
 def protos_load(c):
-    from gradient.model import bootstrap
+    from gradient.domain import bootstrap
 
     logger.info("Pulling protos from maven")
 
     dir_build.mkdir(exist_ok=True)
     service = bootstrap.Container.build_service()
 
-    version, revision = service.list_gradient_api_version(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository)
+    packages = service.list_gradient_api_version(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository)
+    packages = [it for it in packages if it[0] == c.config["gradle_gradient_service_api_version"]]
+    version, revision = packages[0] if packages else (None, None)
+
     if version and revision:
-        asset_name = f"gradient-service-api-{version}.jar"
+        logger.info(f"Found configured version {version} and revision {revision}")
+
+        asset_name = f"gradient-service-domain-{version}.jar"
 
         path_asset = service.download_gradient_service_api_jar(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository,
                                                                version, revision, asset_name, dir_build)
@@ -48,13 +53,15 @@ def protos_load(c):
             dir_zip.mkdir(parents=True, exist_ok=True)
             protots = [it for it in zipf.namelist() if it.endswith(".proto")]
             zipf.extractall(dir_zip, protots)
+    else:
+        logger.warning(f"Could not find the configured version {c.config['gradle_gradient_service_api_version']}")
 
     logger.info(f"Done loading protos")
 
 
 @task(pre=[protos_load])
 def build(c):
-    from gradient.model import bootstrap
+    from gradient.domain import bootstrap
 
     logger.info("Building")
 
@@ -87,7 +94,7 @@ def test(c):
 def clean(c):
     shutil.rmtree("build", ignore_errors=True)
     shutil.rmtree("dist", ignore_errors=True)
-    shutil.rmtree("gradient_service_api.egg-info", ignore_errors=True)
+    shutil.rmtree("gradient_service_domain.egg-info", ignore_errors=True)
     shutil.rmtree(".pytest_cache", ignore_errors=True)
 
 

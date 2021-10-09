@@ -3,4 +3,3 @@ attrs==21.2.0
 boto3==1.18.26
 grpcio-tools==1.33.2
 twine==3.4.2
-pyaml==21.8.3

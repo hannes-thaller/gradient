@@ -2,9 +2,9 @@ from datetime import timedelta
 
 import attr
 import numpy as np
-from gradient.model import api, entity
+from gradient.domain import api, entity
 import arb
-from gradient.model.inference import inference
+from gradient.domain.inference import inference
 from hypothesis import strategies as s, given, settings
 from torch import random
 

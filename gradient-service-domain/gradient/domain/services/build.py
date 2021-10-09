@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class BuildService:
     client = attr.ib()
 
-    def list_gradient_api_version(self, domain: str, owner: str, repository: str) -> (typing.Optional[str], typing.Optional[str]):
+    def list_gradient_api_version(self, domain: str, owner: str, repository: str) -> typing.List[typing.Tuple[typing.Optional[str], typing.Optional[str]]]:
         logger.info(f"Listing the latest version for the gradient api maven package")
 
         response = self.client.list_package_versions(
@@ -24,18 +24,13 @@ class BuildService:
             repository=repository,
             format="maven",
             namespace="org.sourceflow",
-            package="gradient-service-api",
+            package="gradient-service-domain",
             status="Published",
             sortBy="PUBLISHED_TIME",
             maxResults=1
         )
 
-        result = None, None
-        if response:
-            versions = response["versions"]
-            result = versions[0]["version"], versions[0]["revision"]
-
-        return result
+        return [(it["version"], it["revision"]) for it in response["versions"]]
 
     def download_gradient_service_api_jar(self, domain: str, owner: str, repository: str, version: str, revision: str, asset_name: str, dir_build: pathlib.Path) -> pathlib.Path:
         logger.info(f"Downloading the {asset_name}")
@@ -46,7 +41,7 @@ class BuildService:
             repository=repository,
             format="maven",
             namespace="org.sourceflow",
-            package="gradient-service-api",
+            package="gradient-service-domain",
             packageVersion=version,
             packageVersionRevision=revision,
             asset=asset_name
