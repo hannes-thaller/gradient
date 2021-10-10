@@ -8,6 +8,8 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:1.28.1")
     implementation("io.grpc:grpc-netty-shaded:1.28.1")
     implementation("io.grpc:grpc-stub:1.28.1")
+
+
 }
 
 java.sourceSets["main"].java {

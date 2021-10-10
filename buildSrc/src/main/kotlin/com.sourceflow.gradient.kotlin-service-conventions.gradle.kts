@@ -26,10 +26,12 @@ repositories {
 }
 
 dependencies {
-    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.2")
+    implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.5.31")
     implementation("io.grpc:grpc-all:1.28.0")
     implementation("io.grpc:grpc-kotlin-stub:0.1.1")
     implementation("com.google.protobuf:protobuf-java:3.11.1")
