@@ -1,37 +1,37 @@
 package org.sourceflow.gradient.sensor.persistence
 
-import org.sourceflow.gradient.code.CodeEntity
-import org.sourceflow.gradient.common.CommonEntity
+import org.sourceflow.gradient.code.entities.CodeEntities
+import org.sourceflow.gradient.common.entities.CommonEntities
 import org.sourceflow.gradient.sensor.entity.CanonicalName
 
 
 internal object GrpcSerde {
-    fun convert(e: CanonicalName): CommonEntity.CanonicalName {
-        return CommonEntity.CanonicalName.newBuilder()
+    fun convert(e: CanonicalName): CommonEntities.CanonicalName {
+        return CommonEntities.CanonicalName.newBuilder()
                 .addAllComponents(e.components.map { it.value })
-                .addAllTypes(e.components.map { CommonEntity.NameComponentType.valueOf(it.type.name) })
+                .addAllTypes(e.components.map { CommonEntities.NameComponentType.valueOf(it.type.name) })
                 .build()
     }
 
-    fun convert(e: org.sourceflow.gradient.sensor.entity.CodeElement): CodeEntity.CodeElement {
-        val element = CodeEntity.CodeElement.newBuilder()
+    fun convert(e: org.sourceflow.gradient.sensor.entity.CodeElement): CodeEntities.CodeElement {
+        val element = CodeEntities.CodeElement.newBuilder()
                 .setId(e.id)
                 .setName(convert(e.name))
-                .setStatus(CodeEntity.ModelingUniverseStatus.valueOf(e.status.name))
+                .setStatus(CodeEntities.ModelingUniverseStatus.valueOf(e.status.name))
         when (e) {
             is org.sourceflow.gradient.sensor.entity.Type -> element.setType(
-                    CodeEntity.Type.newBuilder()
+                    CodeEntities.Type.newBuilder()
                             .addAllProperties(e.properties.map { it.id })
                             .addAllExecutables(e.executables.map { it.id })
             )
             is org.sourceflow.gradient.sensor.entity.Property -> element.setProperty(
-                    CodeEntity.Property.newBuilder()
+                    CodeEntities.Property.newBuilder()
                             .setIsClassMember(e.isClassMember)
                             .setIsImmutable(e.isImmutable)
                             .setDataType(convert(e.dataType))
             )
             is org.sourceflow.gradient.sensor.entity.Executable -> element.setExecutable(
-                    CodeEntity.Executable.newBuilder()
+                    CodeEntities.Executable.newBuilder()
                             .setIsClassMember(e.isClassMember)
                             .setIsConstructor(e.isConstructor)
                             .setIsAbstract(e.isAbstract)
@@ -42,7 +42,7 @@ internal object GrpcSerde {
                             .setDataType(convert(e.dataType))
             )
             is org.sourceflow.gradient.sensor.entity.Parameter -> element.setParameter(
-                    CodeEntity.Parameter.newBuilder()
+                    CodeEntities.Parameter.newBuilder()
                             .setIndex(e.index)
                             .setDataType(convert(e.dataType))
             )
@@ -51,9 +51,9 @@ internal object GrpcSerde {
         return element.build()
     }
 
-    fun convert(e: org.sourceflow.gradient.sensor.entity.DataType): CodeEntity.DataType {
-        return CodeEntity.DataType.newBuilder()
-                .setDataTypeDescriptor(CodeEntity.DataTypeDescriptor.valueOf(e.dataTypeDescriptor.name))
+    fun convert(e: org.sourceflow.gradient.sensor.entity.DataType): CodeEntities.DataType {
+        return CodeEntities.DataType.newBuilder()
+                .setDataTypeDescriptor(CodeEntities.DataTypeDescriptor.valueOf(e.dataTypeDescriptor.name))
                 .setName(convert(e.name))
                 .build()
     }

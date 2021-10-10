@@ -4,9 +4,9 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.data.forAll
 import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll
-import org.sourceflow.gradient.common.CommonEntity
 import org.sourceflow.gradient.common.CommonEntitySerde
-import org.sourceflow.gradient.monitoring.MonitoringEntity
+import org.sourceflow.gradient.common.entities.CommonEntities
+import org.sourceflow.gradient.monitoring.entities.MonitoringEntities
 import org.sourceflow.gradient.sensor.DIContainer
 import org.sourceflow.gradient.sensor.monitoring.ByteCodeFacade
 import java.io.File
@@ -18,28 +18,28 @@ import kotlin.time.milliseconds
 @OptIn(ExperimentalTime::class)
 class MonitoringDaoSystemTest : StringSpec() {
 
-    private fun createEvent(datum: Int, source: Int, target: Int, frame: Long): MonitoringEntity.MonitoringEvent {
-        return MonitoringEntity.MonitoringEvent.newBuilder()
-                .setDatum(CommonEntitySerde.fromInt(datum))
-                .setSource(source)
-                .setTarget(target)
-                .setFrameId(frame)
-                .build()
+    private fun createEvent(datum: Int, source: Int, target: Int, frame: Long): MonitoringEntities.MonitoringEvent {
+        return MonitoringEntities.MonitoringEvent.newBuilder()
+            .setDatum(CommonEntitySerde.fromInt(datum))
+            .setSource(source)
+            .setTarget(target)
+            .setFrameId(frame)
+            .build()
     }
 
     init {
         val report = File("report", "MonitoringDaoSystemTestKt.csv")
-        if(!report.exists()){
+        if (!report.exists()) {
             report.appendText("Id, MessageCount, DurationInMillis\n")
         }
 
         report.createNewFile()
 
         val dao = DIContainer.monitoringDao
-        val projectContext = CommonEntity.ProjectContext.newBuilder()
-                .setProjectId(CommonEntitySerde.from(UUID.randomUUID()))
-                .setSessionId(CommonEntitySerde.from(UUID.randomUUID()))
-                .build()
+        val projectContext = CommonEntities.ProjectContext.newBuilder()
+            .setProjectId(CommonEntitySerde.fromUUID(UUID.randomUUID()))
+            .setSessionId(CommonEntitySerde.fromUUID(UUID.randomUUID()))
+            .build()
 
         "should report no events"{
             forAll<Int, Int, Int, Long> { datum, source, target, frame ->

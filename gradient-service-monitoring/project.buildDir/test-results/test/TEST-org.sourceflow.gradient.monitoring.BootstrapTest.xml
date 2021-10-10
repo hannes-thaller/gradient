@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite timestamp="2021-10-09T17:45:25" time="0" hostname="office-pc" errors="0" failures="0" skipped="0" tests="1" name="org.sourceflow.gradient.monitoring.BootstrapTest">
+  <testcase name="should provide dao" classname="org.sourceflow.gradient.monitoring.BootstrapTest" time="0" />
+</testsuite>

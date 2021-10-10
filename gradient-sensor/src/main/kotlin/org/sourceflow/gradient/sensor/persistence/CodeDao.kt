@@ -1,21 +1,18 @@
 package org.sourceflow.gradient.sensor.persistence
 
-import com.google.protobuf.util.JsonFormat
+
+import kotlinx.coroutines.future.await
 import kotlinx.coroutines.withTimeout
 import mu.KotlinLogging
 import org.apache.pulsar.client.api.PulsarClient
 import org.apache.pulsar.client.api.Schema
-import org.sourceflow.gradient.code.CodeEntity
-import org.sourceflow.gradient.common.CommonEntity
+import org.sourceflow.gradient.code.entities.CodeEntities
 import org.sourceflow.gradient.common.CommonEntitySerde
+import org.sourceflow.gradient.common.entities.CommonEntities
 import org.sourceflow.gradient.sensor.entity.CodeElementGraph
-import org.sourceflow.pulsar.acknowledgeSuspend
-import org.sourceflow.pulsar.receiveAnswerSuspend
-import org.sourceflow.pulsar.sendSuspend
 import java.io.Closeable
-import java.io.File
+import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
-import kotlin.time.seconds
 
 class CodeDao(
     client: PulsarClient,
@@ -25,11 +22,11 @@ class CodeDao(
         private val logger = KotlinLogging.logger {}
     }
 
-    private val producer = client.newProducer(Schema.PROTOBUF(CodeEntity.CodeMessage::class.java))
+    private val producer = client.newProducer(Schema.PROTOBUF(CodeEntities.CodeMessage::class.java))
         .topic("code")
         .producerName(instanceName)
         .create()
-    private val consumer = client.newConsumer(Schema.PROTOBUF(CodeEntity.CodeMessage::class.java))
+    private val consumer = client.newConsumer(Schema.PROTOBUF(CodeEntities.CodeMessage::class.java))
         .topic("code")
         .subscriptionName(instanceName)
         .subscribe()
@@ -37,15 +34,15 @@ class CodeDao(
 
     @OptIn(ExperimentalTime::class)
     suspend fun reportElementGraph(
-        project: CommonEntity.ProjectContext,
+        project: CommonEntities.ProjectContext,
         elementGraph: CodeElementGraph
-    ): MutableList<CodeEntity.CodeElementModelUpdate> {
+    ): MutableList<CodeEntities.CodeElementModelUpdate> {
         assert(project.hasProjectId())
         assert(project.hasSessionId())
-        val request = CodeEntity.CodeMessage.newBuilder()
+        val request = CodeEntities.CodeMessage.newBuilder()
             .setProjectContext(project)
             .setProgramDetail(
-                CodeEntity.ProgramDetail.newBuilder()
+                CodeEntities.ProgramDetail.newBuilder()
                     .addAllTypes(elementGraph.types.map { GrpcSerde.convert(it) })
                     .addAllProperties(elementGraph.properties.map { GrpcSerde.convert(it) })
                     .addAllExecutables(elementGraph.executables.map { GrpcSerde.convert(it) })
@@ -55,15 +52,18 @@ class CodeDao(
             .build()
 
 
-        logger.debug { "Sending program elements: ${CommonEntitySerde.to(project.projectId)}" }
-        producer.sendSuspend(request)
+        logger.debug { "Sending program elements: ${CommonEntitySerde.toUUID(project.projectId)}" }
+        producer.sendAsync(request).await()
 
-        return withTimeout(10.seconds) {
-            val msg = consumer.receiveAnswerSuspend {
-                it.value.projectContext == request.projectContext
-                        && it.value.hasModelUpdateDetail()
+        return withTimeout(Duration.Companion.seconds(10)) {
+            var msg = consumer.receiveAsync().await()
+            while (!(msg.value.projectContext == request.projectContext
+                        && msg.value.hasModelUpdateDetail())
+            ) {
+                msg = consumer.receiveAsync().await()
+                consumer.acknowledgeAsync(msg)
             }
-            consumer.acknowledgeSuspend(msg)
+
             logger.debug { "Received ${msg.value.modelUpdateDetail.updatesCount} modeling universe element updates " }
 
             msg.value.modelUpdateDetail.updatesList

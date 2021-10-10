@@ -1,8 +1,8 @@
 package org.sourceflow.gradient.sensor.monitoring;
 
-import org.sourceflow.gradient.common.CommonEntity;
 import org.sourceflow.gradient.common.CommonEntitySerde;
-import org.sourceflow.gradient.monitoring.MonitoringEntity;
+import org.sourceflow.gradient.common.entities.CommonEntities;
+import org.sourceflow.gradient.monitoring.entities.MonitoringEntities;
 import org.sourceflow.gradient.sensor.DIContainer;
 import org.sourceflow.gradient.sensor.persistence.MonitoringDao;
 
@@ -32,12 +32,12 @@ public class ByteCodeFacade {
         dao = DIContainer.INSTANCE.getMonitoringDao();
     }
 
-    private static MonitoringEntity.MonitoringEvent createEvent(MonitoringEntity.MonitoringEventType type, long frame, int source, int target) {
+    private static MonitoringEntities.MonitoringEvent createEvent(MonitoringEntities.MonitoringEventType type, long frame, int source, int target) {
         return createEvent(type, frame, source, target, null);
     }
 
-    private static MonitoringEntity.MonitoringEvent createEvent(MonitoringEntity.MonitoringEventType type, long frame, int source, int target, CommonEntity.Datum datum) {
-        MonitoringEntity.MonitoringEvent.Builder builder = MonitoringEntity.MonitoringEvent.newBuilder()
+    private static MonitoringEntities.MonitoringEvent createEvent(MonitoringEntities.MonitoringEventType type, long frame, int source, int target, CommonEntities.Datum datum) {
+        MonitoringEntities.MonitoringEvent.Builder builder = MonitoringEntities.MonitoringEvent.newBuilder()
                 .setType(type)
                 .setFrameId(frame)
                 .setSource(source)
@@ -53,13 +53,13 @@ public class ByteCodeFacade {
 
         final Stack<Frame> stack = elementStack.get();
 
-        MonitoringEntity.MonitoringEvent msg;
+        MonitoringEntities.MonitoringEvent msg;
         if (stack.isEmpty()) {
-            msg = createEvent(MonitoringEntity.MonitoringEventType.FRAME, frameId, 0, source);
+            msg = createEvent(MonitoringEntities.MonitoringEventType.FRAME, frameId, 0, source);
         } else {
             final Frame lastFrame = stack.peek();
             msg = createEvent(
-                    MonitoringEntity.MonitoringEventType.FRAME, frameId, lastFrame.elementId, source,
+                    MonitoringEntities.MonitoringEventType.FRAME, frameId, lastFrame.elementId, source,
                     CommonEntitySerde.INSTANCE.fromLong(lastFrame.frameId)
             );
         }
@@ -70,8 +70,8 @@ public class ByteCodeFacade {
     }
 
     public static boolean read(boolean value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.READ, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.READ, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromBoolean(value)
         );
         dao.reportEvent(msg);
@@ -79,8 +79,8 @@ public class ByteCodeFacade {
     }
 
     public static char read(char value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.READ, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.READ, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromString(Character.toString(value))
         );
         dao.reportEvent(msg);
@@ -99,8 +99,8 @@ public class ByteCodeFacade {
     }
 
     public static int read(int value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.READ, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.READ, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromInt(value)
         );
         dao.reportEvent(msg);
@@ -109,8 +109,8 @@ public class ByteCodeFacade {
     }
 
     public static long read(long value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.READ, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.READ, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromLong(value)
         );
         dao.reportEvent(msg);
@@ -118,8 +118,8 @@ public class ByteCodeFacade {
     }
 
     public static float read(float value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.READ, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.READ, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromFloat(value)
         );
         dao.reportEvent(msg);
@@ -127,8 +127,8 @@ public class ByteCodeFacade {
     }
 
     public static double read(double value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.READ, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.READ, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromDouble(value)
         );
         dao.reportEvent(msg);
@@ -136,17 +136,17 @@ public class ByteCodeFacade {
     }
 
     public static Object read(Object value, int source, int target, long frame) {
-        CommonEntity.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
+        CommonEntities.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
         if (datum != null) {
-            final MonitoringEntity.MonitoringEvent msg = createEvent(MonitoringEntity.MonitoringEventType.READ, frame, source, target, datum);
+            final MonitoringEntities.MonitoringEvent msg = createEvent(MonitoringEntities.MonitoringEventType.READ, frame, source, target, datum);
             dao.reportEvent(msg);
         }
         return value;
     }
 
     public static boolean write(boolean value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.WRITE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.WRITE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromBoolean(value)
         );
         dao.reportEvent(msg);
@@ -154,8 +154,8 @@ public class ByteCodeFacade {
     }
 
     public static char write(char value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.WRITE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.WRITE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromReference(Character.toString(value))
         );
         dao.reportEvent(msg);
@@ -173,8 +173,8 @@ public class ByteCodeFacade {
     }
 
     public static int write(int value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.WRITE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.WRITE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromInt(value)
         );
         dao.reportEvent(msg);
@@ -182,8 +182,8 @@ public class ByteCodeFacade {
     }
 
     public static long write(long value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.WRITE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.WRITE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromLong(value)
         );
         dao.reportEvent(msg);
@@ -191,8 +191,8 @@ public class ByteCodeFacade {
     }
 
     public static float write(float value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.WRITE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.WRITE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromFloat(value)
         );
         dao.reportEvent(msg);
@@ -200,8 +200,8 @@ public class ByteCodeFacade {
     }
 
     public static double write(double value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.WRITE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.WRITE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromDouble(value)
         );
         dao.reportEvent(msg);
@@ -209,17 +209,17 @@ public class ByteCodeFacade {
     }
 
     public static Object write(Object value, int source, int target, long frame) {
-        CommonEntity.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
+        CommonEntities.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
         if (datum != null) {
-            final MonitoringEntity.MonitoringEvent msg = createEvent(MonitoringEntity.MonitoringEventType.WRITE, frame, source, target, datum);
+            final MonitoringEntities.MonitoringEvent msg = createEvent(MonitoringEntities.MonitoringEventType.WRITE, frame, source, target, datum);
             dao.reportEvent(msg);
         }
         return value;
     }
 
     public static boolean receive(boolean value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromBoolean(value)
         );
         dao.reportEvent(msg);
@@ -227,8 +227,8 @@ public class ByteCodeFacade {
     }
 
     public static char receive(char value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromReference(Character.toString(value))
         );
         dao.reportEvent(msg);
@@ -246,8 +246,8 @@ public class ByteCodeFacade {
     }
 
     public static int receive(int value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromInt(value)
         );
         dao.reportEvent(msg);
@@ -255,8 +255,8 @@ public class ByteCodeFacade {
     }
 
     public static long receive(long value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromLong(value)
         );
         dao.reportEvent(msg);
@@ -264,8 +264,8 @@ public class ByteCodeFacade {
     }
 
     public static float receive(float value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromFloat(value)
         );
         dao.reportEvent(msg);
@@ -273,8 +273,8 @@ public class ByteCodeFacade {
     }
 
     public static double receive(double value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromDouble(value)
         );
         dao.reportEvent(msg);
@@ -282,10 +282,10 @@ public class ByteCodeFacade {
     }
 
     public static Object receive(Object value, int source, int target, long frame) {
-        CommonEntity.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
+        CommonEntities.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
         if (datum != null) {
-            final MonitoringEntity.MonitoringEvent msg = createEvent(
-                    MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target, datum
+            final MonitoringEntities.MonitoringEvent msg = createEvent(
+                    MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target, datum
             );
             dao.reportEvent(msg);
         }
@@ -293,16 +293,16 @@ public class ByteCodeFacade {
     }
 
     public static void receiveV(boolean value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromBoolean(value)
         );
         dao.reportEvent(msg);
     }
 
     public static void receiveV(char value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromReference(Character.toString(value))
         );
         dao.reportEvent(msg);
@@ -318,42 +318,42 @@ public class ByteCodeFacade {
 
     public static void receiveV(int value, int source, int target, long frame) {
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromInt(value)
         );
         dao.reportEvent(msg);
     }
 
     public static void receiveV(long value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromLong(value)
         );
         dao.reportEvent(msg);
     }
 
     public static void receiveV(float value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromFloat(value)
         );
         dao.reportEvent(msg);
     }
 
     public static void receiveV(double value, int source, int target, long frame) {
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromDouble(value)
         );
         dao.reportEvent(msg);
     }
 
     public static void receiveV(Object value, int source, int target, long frame) {
-        CommonEntity.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
+        CommonEntities.Datum datum = CommonEntitySerde.INSTANCE.fromReference(value);
         if (datum != null) {
-            final MonitoringEntity.MonitoringEvent msg = createEvent(
-                    MonitoringEntity.MonitoringEventType.RECEIVE, frame, source, target, datum
+            final MonitoringEntities.MonitoringEvent msg = createEvent(
+                    MonitoringEntities.MonitoringEventType.RECEIVE, frame, source, target, datum
             );
             dao.reportEvent(msg);
         }
@@ -363,8 +363,8 @@ public class ByteCodeFacade {
         Frame thisFrame = elementStack.get().pop();
         assert thisFrame.frameId == frame;
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, 0, CommonEntitySerde.INSTANCE.fromBoolean(value)
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, 0, CommonEntitySerde.INSTANCE.fromBoolean(value)
         );
         dao.reportEvent(msg);
         return value;
@@ -420,8 +420,8 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromBoolean(value)
         );
         dao.reportEvent(msg);
@@ -434,8 +434,8 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromReference(Character.toString(value))
         );
         dao.reportEvent(msg);
@@ -458,8 +458,8 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromInt(value)
         );
         dao.reportEvent(msg);
@@ -472,8 +472,8 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromLong(value)
         );
         dao.reportEvent(msg);
@@ -486,8 +486,8 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromFloat(value)
         );
         dao.reportEvent(msg);
@@ -500,8 +500,8 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromDouble(value)
         );
         dao.reportEvent(msg);
@@ -514,8 +514,8 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(
-                MonitoringEntity.MonitoringEventType.RETURN, frame, source, target,
+        final MonitoringEntities.MonitoringEvent msg = createEvent(
+                MonitoringEntities.MonitoringEventType.RETURN, frame, source, target,
                 CommonEntitySerde.INSTANCE.fromReference(value)
         );
         dao.reportEvent(msg);
@@ -528,7 +528,7 @@ public class ByteCodeFacade {
             assert thisFrame.frameId == frame;
         }
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(MonitoringEntity.MonitoringEventType.RETURN, frame, source, target);
+        final MonitoringEntities.MonitoringEvent msg = createEvent(MonitoringEntities.MonitoringEventType.RETURN, frame, source, target);
         dao.reportEvent(msg);
     }
 
@@ -536,7 +536,7 @@ public class ByteCodeFacade {
         Frame thisFrame = elementStack.get().pop();
         assert thisFrame.frameId == frame;
 
-        final MonitoringEntity.MonitoringEvent msg = createEvent(MonitoringEntity.MonitoringEventType.EXCEPT, frame, source, 0);
+        final MonitoringEntities.MonitoringEvent msg = createEvent(MonitoringEntities.MonitoringEventType.EXCEPT, frame, source, 0);
         dao.reportEvent(msg);
     }
 }

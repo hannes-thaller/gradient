@@ -15,7 +15,7 @@ plugins {
 repositories {
     mavenCentral()
     maven {
-        url = URI.create("https://sourceflow-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
+        url = URI.create("https://sourceflow-gradient-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
         val authToken: String? = System.getenv("CODEARTIFACT_AUTH_TOKEN")
         assert(authToken != null) { "Expected that the environment variable CODEARTIFACT_AUTH_TOKEN is defined" }
         credentials {
@@ -26,10 +26,10 @@ repositories {
 }
 
 dependencies {
-    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.5.21")
+    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.2")
     implementation("io.grpc:grpc-all:1.28.0")
     implementation("io.grpc:grpc-kotlin-stub:0.1.1")
     implementation("com.google.protobuf:protobuf-java:3.11.1")
@@ -40,10 +40,12 @@ dependencies {
 
     implementation("org.apache.pulsar:pulsar-client:2.5.0")
 
-    testImplementation("io.kotest:kotest-runner-junit5:4.6.1")
-    testImplementation("io.kotest:kotest-assertions-core:4.6.1")
-    testImplementation("io.kotest:kotest-property:4.6.1")
-    testImplementation("io.kotest:kotest-extensions-junitxml:4.6.1")
+    testImplementation("io.kotest:kotest-framework-engine-jvm:4.6.3")
+    testImplementation("io.kotest:kotest-runner-junit5:4.6.3")
+    testImplementation("io.kotest:kotest-assertions-core:4.6.3")
+    testImplementation("io.kotest:kotest-property:4.6.3")
+    testImplementation("io.kotest:kotest-extensions-junitxml:4.6.3")
+    testImplementation("io.mockk:mockk:1.9.3")
 }
 
 tasks {

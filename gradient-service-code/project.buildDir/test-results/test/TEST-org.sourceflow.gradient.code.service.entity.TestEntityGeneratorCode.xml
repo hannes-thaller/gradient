@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite timestamp="2021-10-10T14:56:33" time="0" hostname="office-pc" errors="0" failures="0" skipped="0" tests="2" name="org.sourceflow.gradient.code.service.entity.TestEntityGeneratorCode">
+  <testcase name="should generate program" classname="org.sourceflow.gradient.code.service.entity.TestEntityGeneratorCode" time="0" />
+  <testcase name="should generate canonical names" classname="org.sourceflow.gradient.code.service.entity.TestEntityGeneratorCode" time="0" />
+</testsuite>

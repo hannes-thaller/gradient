@@ -1,45 +1,46 @@
 package org.sourceflow.gradient.sensor.persistence
 
+import kotlinx.coroutines.future.await
 import mu.KotlinLogging
 import org.apache.pulsar.client.api.PulsarClient
 import org.apache.pulsar.client.api.Schema
-import org.sourceflow.gradient.common.CommonEntity
 import org.sourceflow.gradient.common.CommonEntitySerde
-import org.sourceflow.gradient.project.ProjectEntity
 import org.sourceflow.gradient.sensor.entity.CanonicalName
-import org.sourceflow.pulsar.acknowledgeSuspend
-import org.sourceflow.pulsar.receiveAnswerSuspend
-import org.sourceflow.pulsar.sendSuspend
+import org.sourceflow.gradient.common.entities.CommonEntities
+import org.sourceflow.gradient.project.entities.ProjectEntities
+
 import java.io.Closeable
 import java.util.*
 
 private val logger = KotlinLogging.logger { }
 
 class ProjectDao(client: PulsarClient, instanceName: String) : Closeable {
-    private val consumer = client.newConsumer(Schema.PROTOBUF(ProjectEntity.ProjectMessage::class.java))
+    private val consumer = client.newConsumer(Schema.PROTOBUF(ProjectEntities.ProjectMessage::class.java))
         .topic("project")
         .subscriptionName(instanceName)
         .subscribe()
-    private val producer = client.newProducer(Schema.PROTOBUF(ProjectEntity.ProjectMessage::class.java))
+    private val producer = client.newProducer(Schema.PROTOBUF(ProjectEntities.ProjectMessage::class.java))
         .topic("project")
         .producerName(instanceName)
         .create()
 
-    suspend fun registerProject(name: CanonicalName): CommonEntity.ProjectContext {
+    suspend fun registerProject(name: CanonicalName): CommonEntities.ProjectContext {
         logger.debug { "Registering project ${name.components.joinToString(".") { it.value }}" }
 
-        val registration = ProjectEntity.ProjectMessage.newBuilder()
-            .setRequestId(CommonEntitySerde.from(UUID.randomUUID()))
+        val registration = ProjectEntities.ProjectMessage.newBuilder()
+            .setRequestId(CommonEntitySerde.fromUUID(UUID.randomUUID()))
             .setName(GrpcSerde.convert(name))
             .build()
-        producer.sendSuspend(registration)
+        producer.sendAsync(registration).await()
 
-        val confirmation = consumer.receiveAnswerSuspend {
-            it.value.requestId == registration.requestId && it.value.hasContext()
+        var msg = consumer.receiveAsync().await()
+        consumer.acknowledgeAsync(msg)
+        while (msg.value.requestId == registration.requestId && msg.value.hasContext()) {
+            msg = consumer.receiveAsync().await()
+            consumer.acknowledgeAsync(msg)
         }
-        consumer.acknowledgeSuspend(confirmation)
 
-        return confirmation.value.context
+        return msg.value.context
     }
 
     override fun close() {

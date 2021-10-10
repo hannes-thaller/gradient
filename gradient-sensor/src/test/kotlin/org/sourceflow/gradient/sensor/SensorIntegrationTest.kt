@@ -8,8 +8,8 @@ import io.kotest.matchers.shouldBe
 import mu.KotlinLogging
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.util.TraceClassVisitor
-import org.sourceflow.gradient.code.CodeEntity
-import org.sourceflow.gradient.common.CommonEntity
+import org.sourceflow.gradient.code.entities.CodeEntities
+import org.sourceflow.gradient.common.entities.CommonEntities
 import org.sourceflow.gradient.sensor.code.CodeAnalysis
 import org.sourceflow.gradient.sensor.entity.CanonicalName
 import org.sourceflow.gradient.sensor.entity.CanonicalNameFactory
@@ -34,7 +34,10 @@ class SensorIntegrationTest : StringSpec() {
             val (classes, cls) = monitorWeavingStep(elementGraph)
             assertMonitoringWeavingStep(cls)
             ClassReader(classes.getValue("org.sourceflow.gradient.sensor.test.MonitoringSut"))
-                    .accept(TraceClassVisitor(PrintWriter("report/SensorIntegrationTestByteCode.txt")), ClassReader.EXPAND_FRAMES)
+                .accept(
+                    TraceClassVisitor(PrintWriter("report/SensorIntegrationTestByteCode.txt")),
+                    ClassReader.EXPAND_FRAMES
+                )
 
 
             val dao = invokeTransformedClassStep(projectContext, cls)
@@ -42,19 +45,20 @@ class SensorIntegrationTest : StringSpec() {
         }
     }
 
-    private suspend fun projectRegistrationStep(): CommonEntity.ProjectContext {
+    private suspend fun projectRegistrationStep(): CommonEntities.ProjectContext {
         logger.debug { "PROJECT REGISTRATION STEP" }
 
-        val projectName = CanonicalNameFactory.newProjectName("org.sourceflow.gradient.sensor.test", "MonitoringSut", "0.1.0")
+        val projectName =
+            CanonicalNameFactory.newProjectName("org.sourceflow.gradient.sensor.test", "MonitoringSut", "0.1.0")
         return DIContainer.projectDao.registerProject(projectName)
     }
 
-    private fun assertProjectRegistrationStep(projectContext: CommonEntity.ProjectContext) {
+    private fun assertProjectRegistrationStep(projectContext: CommonEntities.ProjectContext) {
         projectContext.projectId.shouldNotBeNull()
         projectContext.sessionId.shouldNotBeNull()
     }
 
-    private suspend fun codeAnalysisStep(projectContext: CommonEntity.ProjectContext): Pair<CodeElementGraph, List<CodeEntity.CodeElementModelUpdate>> {
+    private suspend fun codeAnalysisStep(projectContext: CommonEntities.ProjectContext): Pair<CodeElementGraph, List<CodeEntities.CodeElementModelUpdate>> {
         logger.debug { "CODE ANALYSIS STEP" }
 
         val packageRegex = listOf("org.sourceflow.gradient.sensor.test", "java.lang", "java.io", "java.util")
@@ -69,7 +73,10 @@ class SensorIntegrationTest : StringSpec() {
         return Pair(elementGraph, modelElements)
     }
 
-    private fun assertCodeAnalysisStep(elementGraph: CodeElementGraph, elementUpdates: List<CodeEntity.CodeElementModelUpdate>) {
+    private fun assertCodeAnalysisStep(
+        elementGraph: CodeElementGraph,
+        elementUpdates: List<CodeEntities.CodeElementModelUpdate>
+    ) {
         elementGraph.types.forAny { type ->
             canonicalName(type.name) shouldBe "org.sourceflow.gradient.sensor.test.CallerClass"
             type.status shouldBe ModelingUniverseStatus.INTERNAL_MODEL
@@ -84,11 +91,11 @@ class SensorIntegrationTest : StringSpec() {
     private fun monitorWeavingStep(elementGraph: CodeElementGraph): Pair<Map<String, ByteArray>, Class<*>> {
         val codeElements = elementGraph.nameMap()
         val classes = elementGraph.typesAndInfo()
-                .filter { it.second.status == ModelingUniverseStatus.INTERNAL_MODEL }
-                .map { (info, _) ->
-                    info.name to TypeTransformer.transform(info.name, codeElements)
-                }
-                .toMap()
+            .filter { it.second.status == ModelingUniverseStatus.INTERNAL_MODEL }
+            .map { (info, _) ->
+                info.name to TypeTransformer.transform(info.name, codeElements)
+            }
+            .toMap()
 
         val classLoader = TestClassLoader(classes)
         Thread.currentThread().contextClassLoader = classLoader
@@ -133,7 +140,10 @@ class SensorIntegrationTest : StringSpec() {
         }
     }
 
-    private fun invokeTransformedClassStep(projectContext: CommonEntity.ProjectContext, cls: Class<*>): MonitoringDao {
+    private fun invokeTransformedClassStep(
+        projectContext: CommonEntities.ProjectContext,
+        cls: Class<*>
+    ): MonitoringDao {
         val dao = DIContainer.monitoringDao
         dao.reportOn(projectContext)
 
@@ -164,7 +174,7 @@ class SensorIntegrationTest : StringSpec() {
     }
 
     private fun assertTransformedClassStep(dao: MonitoringDao) {
-        dao.getMessagesSend() shouldBe  27L
+        dao.getMessagesSend() shouldBe 27L
         println(dao.getMessagesSend())
     }
 

@@ -3,9 +3,9 @@ package org.sourceflow.gradient.sensor.persistence
 import mu.KotlinLogging
 import org.apache.pulsar.client.api.PulsarClient
 import org.apache.pulsar.client.api.Schema
-import org.sourceflow.gradient.common.CommonEntity
+import org.sourceflow.gradient.common.entities.CommonEntities
 import org.sourceflow.gradient.common.toSimpleString
-import org.sourceflow.gradient.monitoring.MonitoringEntity
+import org.sourceflow.gradient.monitoring.entities.MonitoringEntities
 import java.io.Closeable
 import java.util.concurrent.atomic.AtomicLong
 
@@ -18,40 +18,40 @@ class MonitoringDao(
     client: PulsarClient
 ) : Closeable {
 
-    private val producer = client.newProducer(Schema.PROTOBUF(MonitoringEntity.MonitoringMessage::class.java))
+    private val producer = client.newProducer(Schema.PROTOBUF(MonitoringEntities.MonitoringMessage::class.java))
         .topic("monitoring")
         .producerName(instanceName)
         .blockIfQueueFull(true)
         .create()
 
-    private val buffer = mutableListOf<MonitoringEntity.MonitoringEvent>()
+    private val buffer = mutableListOf<MonitoringEntities.MonitoringEvent>()
 
-    private var projectContext: CommonEntity.ProjectContext? = null
+    private var projectContext: CommonEntities.ProjectContext? = null
     private var sendMessages = AtomicLong(0)
 
     fun getMessagesSend(): Long {
         return sendMessages.get()
     }
 
-    fun reportOn(projectContext: CommonEntity.ProjectContext) {
+    fun reportOn(projectContext: CommonEntities.ProjectContext) {
         this.projectContext?.let { flush() }
         this.projectContext = projectContext
 
         logger.debug { "Opened monitoring stream ${projectContext.toSimpleString()}" }
-        producer.send(createControlMessage(projectContext, CommonEntity.ControlType.OPEN, 0))
+        producer.send(createControlMessage(projectContext, CommonEntities.ControlType.OPEN, 0))
     }
 
     fun reportStop() {
         projectContext?.let {
             logger.debug { "Closed monitoring stream $it" }
             flush()
-            producer.send(createControlMessage(it, CommonEntity.ControlType.CLOSE, sendMessages.get()))
+            producer.send(createControlMessage(it, CommonEntities.ControlType.CLOSE, sendMessages.get()))
             producer.flush()
             this.projectContext = null
         }
     }
 
-    fun reportEvent(event: MonitoringEntity.MonitoringEvent) {
+    fun reportEvent(event: MonitoringEntities.MonitoringEvent) {
         projectContext?.let {
             buffer.add(event)
             if (buffer.size >= batchSize) {
@@ -82,16 +82,16 @@ class MonitoringDao(
     }
 
     private fun createControlMessage(
-        projectContext: CommonEntity.ProjectContext,
-        controlType: CommonEntity.ControlType,
+        projectContext: CommonEntities.ProjectContext,
+        controlType: CommonEntities.ControlType,
         sendMessages: Long
-    ): MonitoringEntity.MonitoringMessage {
-        return MonitoringEntity.MonitoringMessage.newBuilder()
+    ): MonitoringEntities.MonitoringMessage {
+        return MonitoringEntities.MonitoringMessage.newBuilder()
             .setProjectContext(projectContext)
             .setMonitoringStreamDetail(
-                MonitoringEntity.MonitoringStreamDetail.newBuilder()
+                MonitoringEntities.MonitoringStreamDetail.newBuilder()
                     .setControl(
-                        CommonEntity.StreamControl.newBuilder()
+                        CommonEntities.StreamControl.newBuilder()
                             .setType(controlType)
                             .setSendMessages(sendMessages)
                     )
@@ -100,17 +100,17 @@ class MonitoringDao(
     }
 
     private fun createMonitoringMessage(
-        projectContext: CommonEntity.ProjectContext,
-        events: List<MonitoringEntity.MonitoringEvent>,
+        projectContext: CommonEntities.ProjectContext,
+        events: List<MonitoringEntities.MonitoringEvent>,
         sendCount: Long
-    ): MonitoringEntity.MonitoringMessage {
-        return MonitoringEntity.MonitoringMessage.newBuilder()
+    ): MonitoringEntities.MonitoringMessage {
+        return MonitoringEntities.MonitoringMessage.newBuilder()
             .setProjectContext(projectContext)
             .setMonitoringStreamDetail(
-                MonitoringEntity.MonitoringStreamDetail.newBuilder()
+                MonitoringEntities.MonitoringStreamDetail.newBuilder()
                     .setControl(
-                        CommonEntity.StreamControl.newBuilder()
-                            .setType(CommonEntity.ControlType.HEARTBEAT)
+                        CommonEntities.StreamControl.newBuilder()
+                            .setType(CommonEntities.ControlType.HEARTBEAT)
                             .setSendMessages(sendCount)
                     )
                     .addAllEvents(events)
