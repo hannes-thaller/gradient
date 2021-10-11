@@ -70,16 +70,14 @@ tasks {
             systemProperty("gradle.build.dir", project.buildDir)
         }
     }
-    register("incrementBuildVersion") {
-        doLast {
-            val gitHash = loadGitHash()
-            val version = loadVersion()
+    afterEvaluate {
+        val gitHash = loadGitHash()
+        val version = loadVersion()
 
-            if (gitHash != version.gitHash) {
-                logger.info("Incrementing the build version for new git hash $gitHash")
-                val newVersion = Version(version.major, version.minor, version.patch, version.build + 1, gitHash)
-                storeVersion(newVersion)
-            }
+        if (gitHash != version.gitHash) {
+            logger.info("Incrementing the build version for new git hash $gitHash")
+            val newVersion = Version(version.major, version.minor, version.patch, version.build + 1, gitHash)
+            storeVersion(newVersion)
         }
     }
 }
@@ -216,7 +214,7 @@ fun loadVersion(): Version {
 }
 
 fun storeVersion(version: Version) {
-    val fileProjectProps = Paths.get(project.path, "project.properties").toFile()
+    val fileProjectProps = Paths.get(rootDir.path, "project.properties").toFile()
 
     val props = Properties()
     if (fileProjectProps.canRead()) {
@@ -239,5 +237,5 @@ fun loadGitHash(): String {
         .redirectOutput(ProcessBuilder.Redirect.PIPE)
         .start()
     process.waitFor(60, TimeUnit.SECONDS)
-    return process.inputStream.bufferedReader().readText()
+    return process.inputStream.bufferedReader().readText().trim()
 }
