@@ -2,18 +2,24 @@ package org.sourceflow.gradient.common
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import org.sourceflow.gradient.common.entities.CommonEntities
 import java.util.*
 
 class CommonEntitySerdeTest : StringSpec({
 
     "should serde UUID"{
+        val value = UUID.randomUUID()
+        val transformedValue = CommonEntitySerde.fromUUID(value)
+        val result = CommonEntitySerde.toUUID(transformedValue)
 
-        val id = UUID.randomUUID()
-        val transformedId = CommonEntitySerde.fromUUID(id)
-        val result = CommonEntitySerde.toUUID(transformedId)
+        result shouldBe value
+    }
 
-        result shouldBe id
+    "should serde float"{
+        val value = 1.0f
+        val transformedValue = CommonEntitySerde.fromFloat(value)
+        val result = CommonEntitySerde.toFloat(transformedValue)
+
+        result shouldBe value
     }
 })
 
