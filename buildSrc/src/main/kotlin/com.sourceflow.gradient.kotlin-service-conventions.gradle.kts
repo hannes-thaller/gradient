@@ -3,7 +3,6 @@ import java.io.FileInputStream
 import java.net.URI
 import java.nio.file.Paths
 import java.util.*
-import java.util.regex.Pattern
 
 plugins {
     kotlin("jvm")
@@ -15,9 +14,10 @@ plugins {
 repositories {
     mavenCentral()
     maven {
-        url = URI.create("https://sourceflow-gradient-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
-        val authToken: String? = System.getenv("CODEARTIFACT_AUTH_TOKEN")
-        assert(authToken != null) { "Expected that the environment variable CODEARTIFACT_AUTH_TOKEN is defined" }
+        url =
+            URI.create("https://sourceflow-gradient-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
+        val authToken = loadAuthToken()
+        assert(authToken.isBlank()) { "Expected non empty auth token" }
         credentials {
             username = "aws"
             password = authToken
@@ -72,9 +72,14 @@ tasks {
     }
     register("incrementBuildVersion") {
         doLast {
+            val gitHash = loadGitHash()
             val version = loadVersion()
-            val newVersion = Version(version.major, version.minor, version.patch, version.build + 1, version.tag)
-            storeVersion(newVersion)
+
+            if (gitHash != version.gitHash) {
+                logger.info("Incrementing the build version for new git hash $gitHash")
+                val newVersion = Version(version.major, version.minor, version.patch, version.build + 1, gitHash)
+                storeVersion(newVersion)
+            }
         }
     }
 }
@@ -111,9 +116,13 @@ configure<PublishingExtension> {
     }
     repositories {
         maven {
-            url = URI.create("https://sourceflow-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
-            val authToken: String? = System.getenv("CODEARTIFACT_AUTH_TOKEN")
-            assert(authToken != null) { "Expected that the environment variable CODEARTIFACT_AUTH_TOKEN is defined" }
+
+            url = URI.create(
+                "https://sourceflow-gradient-429689067702.d.codeartifact.eu-central-1.amazonaws.com" +
+                        "/maven/sourceflow-gradient-jvm/"
+            )
+            val authToken = loadAuthToken()
+            assert(authToken.isBlank()) { "Expected non empty auth token" }
             credentials {
                 username = "aws"
                 password = authToken
@@ -145,18 +154,20 @@ protobuf {
 }
 
 
-data class Version(val major: Int, val minor: Int, val patch: Int, val build: Int, val tag: String? = null) {
+data class Version(val major: Int, val minor: Int, val patch: Int, val build: Int, val gitHash: String = "") {
     companion object {
-        fun fromString(versionString: String): Version {
-            val pattern = Pattern.compile("(\\d)\\.(\\d)\\.(\\d)-(\\d)(-(\\D+))?")
-            val matcher = pattern.matcher(versionString)
-            val tag = if (matcher.groupCount() > 4) matcher.group("tag") else null
+        fun fromProperties(properties: Map<String, String>): Version {
+            require("version" in properties)
+            require("gitHash" in properties)
+
+            val parts = properties["version"]!!.split("-")
+            val versions = parts[0].split(".")
             return Version(
-                matcher.group("major").toInt(),
-                matcher.group("minor").toInt(),
-                matcher.group("patch").toInt(),
-                matcher.group("build").toInt(),
-                tag
+                versions[0].toInt(),
+                versions[1].toInt(),
+                versions[2].toInt(),
+                parts[1].toInt(),
+                properties["gitHash"]!!
             )
         }
     }
@@ -166,8 +177,30 @@ data class Version(val major: Int, val minor: Int, val patch: Int, val build: In
     }
 }
 
+fun loadAuthToken(): String {
+    val cmd = arrayListOf(
+        "aws",
+        "codeartifact",
+        "get-authorization-token",
+        "--domain",
+        "sourceflow-gradient",
+        "--domain-owner",
+        "429689067702",
+        "--query",
+        "authorizationToken",
+        "--output",
+        "text"
+    )
+
+    val process = ProcessBuilder(cmd)
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .start()
+    process.waitFor(60, TimeUnit.SECONDS)
+    return process.inputStream.bufferedReader().readText()
+}
+
 fun loadVersion(): Version {
-    val fileProjectProps = Paths.get(project.path, "project.properties").toFile()
+    val fileProjectProps = Paths.get(rootDir.path, "project.properties").toFile()
 
     var version = Version(0, 1, 0, 0)
     if (fileProjectProps.canRead()) {
@@ -176,7 +209,7 @@ fun loadVersion(): Version {
         val properties = props.stringPropertyNames()
             .associateWith { props.getProperty(it) }
 
-        version = Version.fromString(properties["version"]!!)
+        version = Version.fromProperties(properties)
     }
 
     return version
@@ -190,8 +223,21 @@ fun storeVersion(version: Version) {
         fileProjectProps.inputStream().use { props.load(it) }
     }
 
-    props["version"] = version.toString()
+    props["version"] = "${version.major}.${version.minor}.${version.patch}-${version.build}"
+    props["gitHash"] = version.gitHash
     fileProjectProps.outputStream().use { props.store(it, "update version") }
 }
 
-tasks.getByPath("publish").dependsOn("incrementBuildVersion")
+fun loadGitHash(): String {
+    val cmd = arrayListOf(
+        "git",
+        "rev-parse",
+        "HEAD"
+    )
+
+    val process = ProcessBuilder(cmd)
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .start()
+    process.waitFor(60, TimeUnit.SECONDS)
+    return process.inputStream.bufferedReader().readText()
+}
