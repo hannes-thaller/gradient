@@ -46,7 +46,7 @@ repo-stacks:
       location_module: gradient-service-domain
       owner: sourceflow-ai
       repo: gradient-python
-      build_spec: resources/gradient-python/buildspec-gradient-service-domain.yaml
+      build_spec: resources/gradient-python/buildspec-gradient-service.yaml
       build_image:
     modules:
       - name: sourceflow-gradient-service-domain-python

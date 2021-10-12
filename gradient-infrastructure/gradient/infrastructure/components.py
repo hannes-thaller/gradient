@@ -1,7 +1,7 @@
 import pathlib
 
 import yaml
-from aws_cdk import core, aws_iam, aws_codebuild, aws_codeartifact
+from aws_cdk import core, aws_iam, aws_codebuild, aws_codeartifact, aws_s3
 
 account = "429689067702"
 region = "eu-central-1"
@@ -34,33 +34,35 @@ class InfrastructureStack(core.Stack):
         repo.add_depends_on(domain)
 
 
-class PythonServiceDomainStack(core.NestedStack):
-    def __init__(self, scope, id: str = "build-sourceflow-gradient-service-domain-python", **kwargs):
+class PythonServiceStack(core.NestedStack):
+    def __init__(self, scope, id: str = "build-sourceflow-gradient-service-python", **kwargs):
         super().__init__(scope, id, **kwargs)
 
         policy = aws_iam.ManagedPolicy.from_managed_policy_arn(
             self,
-            "policy-codeartifact-gradient-service-domain-python",
+            "policy-codeartifact-gradient-service-python",
             "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
         )
 
         role = aws_iam.Role(
             scope=self,
-            id=f"role-gradient-service-domain-python",
-            role_name=f"role-gradient-service-domain-python",
+            id=f"role-gradient-service-python",
+            role_name=f"role-gradient-service-python",
             path="/",
             assumed_by=aws_iam.ServicePrincipal("codebuild.amazonaws.com"),
             managed_policies=[policy]
         )
 
-        path_buildspec = pathlib.Path(__file__).parent.parent.parent.joinpath("resources", "gradient-python", "buildspec-gradient-service-domain.yaml")
+        path_buildspec = pathlib.Path(__file__).parent.parent.parent.joinpath("resources", "gradient-python", "buildspec-gradient-service.yaml")
         with path_buildspec.open("r") as f:
             buildspec = yaml.safe_load(f)
 
+        cache_bucket = aws_s3.Bucket(self, "s3-code-build-cache")
+
         project = aws_codebuild.Project(
             self,
-            "codebuild-gradient-service-domain-python",
-            project_name="sourceflow-gradient-service-domain-python",
+            "codebuild-gradient-service-python",
+            project_name="sourceflow-gradient-service-python",
             environment=aws_codebuild.BuildEnvironment(
                 compute_type=aws_codebuild.ComputeType.SMALL,
                 build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
@@ -72,43 +74,50 @@ class PythonServiceDomainStack(core.NestedStack):
                 webhook=True,
                 webhook_filters=[
                     aws_codebuild.FilterGroup.in_event_of(
-                        aws_codebuild.EventAction.PUSH,
                         aws_codebuild.EventAction.PULL_REQUEST_CREATED,
                         aws_codebuild.EventAction.PULL_REQUEST_UPDATED,
-                    ).and_file_path_is(f"^gradient-service-domain")
+                    ),
+                    aws_codebuild.FilterGroup.in_event_of(
+                        aws_codebuild.EventAction.PUSH
+                    ).and_branch_is("master")
                 ]
             ),
+            badge=True,
             build_spec=aws_codebuild.BuildSpec.from_object(buildspec),
-            role=role
+            role=role,
+            cache=aws_codebuild.Cache.bucket(cache_bucket)
         )
 
-class JVMServiceDomainStack(core.NestedStack):
-    def __init__(self, scope, id: str = "build-sourceflow-gradient-service-domain-jvm", **kwargs):
+
+class JVMServiceStack(core.NestedStack):
+    def __init__(self, scope, id: str = "build-sourceflow-gradient-service-jvm", **kwargs):
         super().__init__(scope, id, **kwargs)
 
         policy = aws_iam.ManagedPolicy.from_managed_policy_arn(
             self,
-            "policy-codeartifact-gradient-service-domain-jvm",
+            "policy-codeartifact-gradient-service-jvm",
             "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
         )
 
         role = aws_iam.Role(
             scope=self,
-            id=f"role-gradient-service-domain-jvm",
-            role_name=f"role-gradient-service-domain-jvm",
+            id=f"role-gradient-service-jvm",
+            role_name=f"role-gradient-service-jvm",
             path="/",
             assumed_by=aws_iam.ServicePrincipal("codebuild.amazonaws.com"),
             managed_policies=[policy]
         )
 
-        path_buildspec = pathlib.Path(__file__).parent.parent.parent.joinpath("resources", "gradient-jvm", "buildspec-gradient-service-domain.yaml")
+        path_buildspec = pathlib.Path(__file__).parent.parent.parent.joinpath("resources", "gradient-jvm", "buildspec-gradient-service.yaml")
         with path_buildspec.open("r") as f:
             buildspec = yaml.safe_load(f)
 
+        cache_bucket = aws_s3.Bucket(self, "s3-code-build-cache")
+
         project = aws_codebuild.Project(
             self,
-            "codebuild-gradient-service-domain-jvm",
-            project_name="sourceflow-gradient-service-domain-jvm",
+            "codebuild-gradient-service-jvm",
+            project_name="sourceflow-gradient-service-jvm",
             environment=aws_codebuild.BuildEnvironment(
                 compute_type=aws_codebuild.ComputeType.SMALL,
                 build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
@@ -120,12 +129,16 @@ class JVMServiceDomainStack(core.NestedStack):
                 webhook=True,
                 webhook_filters=[
                     aws_codebuild.FilterGroup.in_event_of(
-                        aws_codebuild.EventAction.PUSH,
                         aws_codebuild.EventAction.PULL_REQUEST_CREATED,
                         aws_codebuild.EventAction.PULL_REQUEST_UPDATED,
-                    ).and_file_path_is(f"^gradient-service-domain")
+                    ),
+                    aws_codebuild.FilterGroup.in_event_of(
+                        aws_codebuild.EventAction.PUSH
+                    ).and_branch_is("master")
                 ]
             ),
+            badge=True,
             build_spec=aws_codebuild.BuildSpec.from_object(buildspec),
-            role=role
+            role=role,
+            cache=aws_codebuild.Cache.bucket(cache_bucket)
         )
