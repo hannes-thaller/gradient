@@ -57,7 +57,6 @@ tasks {
     }
     withType<Test> {
         useJUnitPlatform()
-        systemProperty("gradle.build.dir", "project.buildDir")
     }
     named<Test>("test") {
         filter {
