@@ -207,7 +207,7 @@ internal object DataTypeFactory {
     }
 
     private fun resolve(e: BaseTypeSignature, isSingular: Boolean): DataType {
-        return when (e.typeSignatureChar) {
+        return when (e.typeSignatureChar.toString()) {
             "Z" -> DataType(
                     if (isSingular) DataTypeDescriptor.BOOLEAN else DataTypeDescriptor.BOOLEANS,
                     CanonicalNameFactory.booleanName

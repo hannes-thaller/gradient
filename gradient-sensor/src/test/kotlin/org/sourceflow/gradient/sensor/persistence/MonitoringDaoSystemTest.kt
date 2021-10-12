@@ -35,35 +35,38 @@ class MonitoringDaoSystemTest : StringSpec() {
 
         report.createNewFile()
 
-        val dao = DIContainer.monitoringDao
         val projectContext = CommonEntities.ProjectContext.newBuilder()
             .setProjectId(CommonEntitySerde.fromUUID(UUID.randomUUID()))
             .setSessionId(CommonEntitySerde.fromUUID(UUID.randomUUID()))
             .build()
 
-        "should report no events"{
+        "should report no events".config(enabled = false) {
+            val sut = DIContainer.monitoringDao
+
             forAll<Int, Int, Int, Long> { datum, source, target, frame ->
                 val msg = createEvent(datum, source, target, frame)
-                dao.reportEvent(msg)
-                dao.getMessagesSend() shouldBe 0L
+                sut.reportEvent(msg)
+                sut.getMessagesSend() shouldBe 0L
             }
         }
 
-        "should report events"{
+        "should report events".config(enabled = false) {
+            val sut = DIContainer.monitoringDao
+
             val msgCount = 10_000_000
             val time = measureTimeMillis {
-                dao.reportOn(projectContext)
+                sut.reportOn(projectContext)
                 checkAll<Int, Int, Int>(msgCount) { datum, source, target ->
                     ByteCodeFacade.frame(source).let {
                         ByteCodeFacade.read(datum, source, target, it)
                         ByteCodeFacade.returnsV(source, it)
                     }
                 }
-                dao.close()
+                sut.close()
             }
 
             println("Duration: ${time.milliseconds}, Msg/s: ${time.milliseconds / msgCount}")
-            dao.getMessagesSend() shouldBe 3 * msgCount
+            sut.getMessagesSend() shouldBe 3 * msgCount
 
             report.appendText("03f0dcfc-a882-4e4f-88cb-6d6b482b19b6, $msgCount, $time\n")
         }
