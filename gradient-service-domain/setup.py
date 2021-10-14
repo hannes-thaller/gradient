@@ -18,7 +18,6 @@ setup(
     version=load_and_increment_version(),
     description="The python API domain entities of Gradient",
     long_description="The python API domain entities of Gradient",
-    author="Sourceflow",
     url="https://bitbucket.org/sourceflow-ai/gradient-python/src/master/",
     license="Copyright Sourceflow",
     packages=find_packages(),

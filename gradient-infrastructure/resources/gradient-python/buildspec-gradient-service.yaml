@@ -9,51 +9,25 @@ phases:
     commands:
       - pip install -r requirements.txt
       - python -m venv gradient-service-domain/environment
-      - source gradient-service-domain/environment/bin/activate && pip install -r gradient-service-domain/requirements/requirements.txt
-  #      - >
-  #        pwd && \
-  #        cd gradient-service-model && \
-  #        python -m venv environment && \
-  #        source environment\bin\activate && \
-  #        pip install -r requirements
+      - pushd gradient-service-domain && source environment/bin/activate && pip install -r requirements/requirements.txt && popd
 
   build:
     commands:
-      - >
-        echo $(ls) && \
-        cd gradient-service-domain && \
-        source environment\bin\activate && \
-        inv build && \
-        inv test
-  #      - >
-  #        pwd && \
-  #        cd gradient-service-model && \
-  #        source environment\bin\activate && \
-  #        inv build && \
-  #        inv test
-
+      - pushd gradient-service-domain && source environment/bin/activate && inv build && inv test && popd
 
   post_build:
     commands:
-      - >
-        echo $(ls) && \
-        cd gradient-service-domain && \
-        source environment\bin\activate && \
-        inv publish
-#      - >
-#        pwd && \
-#        cd gradient-service-model && \
-#        source environment\bin\activate && \
-#        inv publish
+      - pushd gradient-service-domain && source environment/bin/activate && inv publish && popd
 
 reports:
   test-gradient-service-domain:
     files:
       - "*.xml"
-    base-directory: build/pytest/reports
+    base-directory: gradient-service-domain/build/pytest/reports
     file-format: JUNITXML
 
 cache:
   paths:
     - /root/.cache/pip/**/*
     - /root/gradient-service-inference/.hypothesis
+    - /root/gradient-service-inference/tests/.hypothesis

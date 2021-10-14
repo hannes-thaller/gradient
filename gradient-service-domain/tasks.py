@@ -123,7 +123,7 @@ def clean(c):
     shutil.rmtree(".pytest_cache", ignore_errors=True)
 
 
-@task(pre=[clean, build])
+@task(pre=[build])
 def publish(c):
     logger.info("Publishing")
 
