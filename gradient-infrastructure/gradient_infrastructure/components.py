@@ -53,7 +53,7 @@ class PythonServiceStack(core.NestedStack):
             managed_policies=[policy]
         )
 
-        path_buildspec = pathlib.Path(__file__).parent.parent.parent.joinpath("resources", "gradient-python", "buildspec-gradient-service.yaml")
+        path_buildspec = pathlib.Path.cwd().joinpath("resources", "gradient-python", "buildspec-gradient-service.yaml")
         with path_buildspec.open("r") as f:
             buildspec = yaml.safe_load(f)
 
@@ -108,7 +108,7 @@ class JVMServiceStack(core.NestedStack):
             managed_policies=[policy]
         )
 
-        path_buildspec = pathlib.Path(__file__).parent.parent.parent.joinpath("resources", "gradient-jvm", "buildspec-gradient-service.yaml")
+        path_buildspec = pathlib.Path.cwd().joinpath("resources", "gradient-jvm", "buildspec-gradient-service.yaml")
         with path_buildspec.open("r") as f:
             buildspec = yaml.safe_load(f)
 

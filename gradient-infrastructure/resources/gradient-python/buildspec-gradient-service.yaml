@@ -9,7 +9,7 @@ phases:
     commands:
       - pip install -r requirements
       - >
-        pwd && \
+        echo $(ls) && \
         cd gradient-service-domain && \
         python -m venv environment && \
         source environment\bin\activate && \
@@ -24,7 +24,7 @@ phases:
   build:
     commands:
       - >
-        pwd && \
+        echo $(ls) && \
         cd gradient-service-domain && \
         source environment\bin\activate && \
         inv build && \
@@ -40,7 +40,7 @@ phases:
   post_build:
     commands:
       - >
-        pwd && \
+        echo $(ls) && \
         cd gradient-service-domain && \
         source environment\bin\activate && \
         inv publish

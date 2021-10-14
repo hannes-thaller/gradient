@@ -30,7 +30,7 @@ def install(c, distilled=False):
 
 @task
 def build(c):
-    from aws_cdk import aws_iam, core, aws_codebuild
+    from aws_cdk import core
     from gradient_infrastructure import components
 
     app = core.App()
