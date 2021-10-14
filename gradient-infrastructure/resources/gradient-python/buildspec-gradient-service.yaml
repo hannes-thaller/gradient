@@ -7,13 +7,9 @@ phases:
     runtime-versions:
       python: 3.7
     commands:
-      - pip install -r requirements
-      - >
-        echo $(ls) && \
-        cd gradient-service-domain && \
-        python -m venv environment && \
-        source environment\bin\activate && \
-        pip install -r requirements/requirements.txt
+      - pip install -r requirements.txt
+      - python -m venv gradient-service-domain/environment
+      - source gradient-service-domain/environment/bin/activate && pip install -r gradient-service-domain/requirements/requirements.txt
   #      - >
   #        pwd && \
   #        cd gradient-service-model && \
