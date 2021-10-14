@@ -51,3 +51,5 @@ Thumbs.db
 **/build/
 gradient-infrastructure/cdk.out/
 **/.env
+**/*.egg-info
+**/.hypothesis/

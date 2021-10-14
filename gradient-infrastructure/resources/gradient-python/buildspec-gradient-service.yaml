@@ -1,21 +1,54 @@
 version: 0.2
+env:
+  shell: bash
 
 phases:
   install:
     runtime-versions:
       python: 3.7
-    on-failure: ABORT
     commands:
-      - pip install -r requirements.txt
-      - inv install -p gradient-service-domain
+      - pip install -r requirements
+      - >
+        pwd && \
+        cd gradient-service-domain && \
+        python -m venv environment && \
+        source environment\bin\activate && \
+        pip install -r requirements/requirements.txt
+  #      - >
+  #        pwd && \
+  #        cd gradient-service-model && \
+  #        python -m venv environment && \
+  #        source environment\bin\activate && \
+  #        pip install -r requirements
 
   build:
     commands:
-      - inv build -p gradient-service-domain
+      - >
+        pwd && \
+        cd gradient-service-domain && \
+        source environment\bin\activate && \
+        inv build && \
+        inv test
+  #      - >
+  #        pwd && \
+  #        cd gradient-service-model && \
+  #        source environment\bin\activate && \
+  #        inv build && \
+  #        inv test
+
 
   post_build:
     commands:
-      - inv publish -p gradient-service-domain
+      - >
+        pwd && \
+        cd gradient-service-domain && \
+        source environment\bin\activate && \
+        inv publish
+#      - >
+#        pwd && \
+#        cd gradient-service-model && \
+#        source environment\bin\activate && \
+#        inv publish
 
 reports:
   test-gradient-service-domain:
@@ -26,4 +59,5 @@ reports:
 
 cache:
   paths:
-    - $HOME/.cache/pip/**/*
+    - /root/.cache/pip/**/*
+    - /root/gradient-service-inference/.hypothesis

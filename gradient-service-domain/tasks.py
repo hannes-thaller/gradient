@@ -1,9 +1,9 @@
 import logging
 import pathlib
+import re
 import shutil
 import zipfile
 
-from botocore import errorfactory
 from invoke import task
 
 project_name = "gradient-service-domain"
@@ -15,37 +15,51 @@ dir_build = pathlib.Path("build")
 dir_project = pathlib.Path(__file__).parent
 
 
+def extract_version(version: str):
+    pattern = re.compile(r"(?P<major>\d)\.(?P<minor>\d)\.(?P<patch>\d)([-+])(?P<build>\d)")
+    result = pattern.search(version)
+    return (
+        result.group("major"),
+        result.group("minor"),
+        result.group("patch"),
+        result.group("build"),
+    )
+
+
 @task
-def install(c):
+def install(c, distilled=False):
     logger.info("Installing")
 
-    with c.prefix(f"source .env/bin/activate"):
-        c.run(f"pip install -r requirements.txt")
+    if distilled:
+        c.run(f"conda env create --force -f requirements.yaml")
+        c.run(f"conda run -n {project_name} conda env export > requirements/requirements.yaml")
+        c.run(f"conda run -n {project_name} pip list --format=freeze > requirements/requirements.txt")
+    else:
+        c.run(f"conda env create --force -f requirements/requirements.yaml")
 
     logger.info("Installing done")
 
 
 @task
 def protos_load(c):
-    from gradient.domain import bootstrap
+    from gradient_domain import bootstrap
 
     logger.info("Pulling protos from maven")
 
     dir_build.mkdir(exist_ok=True)
     service = bootstrap.Container.build_service()
 
-    packages = service.list_gradient_api_version(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository)
-    packages = [it for it in packages if it[0] == c.config["gradle_gradient_service_domain_version"]]
+    packages = service.list_gradient_api_version(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository_jvm)
     assert packages, f"Could not load protos"
+    version_str, revision_current = packages[0]
 
-    version, revision = packages[0]
-    if version and revision:
-        logger.info(f"Found configured version {version} and revision {revision}")
+    if version_str and c.config["gradle_gradient_service_domain_version"]:
+        logger.info(f"Found configured version {version_str}")
 
-        asset_name = f"gradient-service-domain-{version}.jar"
+        asset_name = f"gradient-service-domain-{version_str}.jar"
 
-        path_asset = service.download_gradient_service_api_jar(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository,
-                                                               version, revision, asset_name, dir_build)
+        path_asset = service.download_gradient_service_api_jar(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository_jvm,
+                                                               version_str, revision_current, asset_name, dir_build)
 
         with zipfile.ZipFile(path_asset) as zipf:
             dir_zip = dir_build.joinpath("protos")
@@ -62,7 +76,8 @@ def protos_load(c):
 
 @task(pre=[protos_load])
 def build(c):
-    from gradient.domain import bootstrap
+    from gradient_domain import bootstrap
+    from botocore import errorfactory
 
     logger.info("Building")
 
@@ -73,8 +88,17 @@ def build(c):
     try:
         dir_sources = service.generate_source_from_protos(dir_build.joinpath("protos"),
                                                           dir_build.joinpath("protoc"))
-        shutil.rmtree(dir_project.joinpath("gradient"), ignore_errors=True)
-        shutil.move(str(dir_sources), str(dir_project))
+
+        dir_entities_in = dir_sources.joinpath("model", "entities")
+        dir_services_in = dir_sources.joinpath("model", "services")
+        dir_gen_entities_out = dir_project.joinpath("gradient_domain", "entities", "gen")
+        dir_gen_services_out = dir_project.joinpath("gradient_domain", "services", "gen")
+
+        shutil.rmtree(dir_gen_entities_out, ignore_errors=True)
+        shutil.rmtree(dir_gen_services_out, ignore_errors=True)
+
+        shutil.move(str(dir_entities_in), str(dir_gen_entities_out))
+        shutil.move(str(dir_services_in), str(dir_gen_services_out))
     except errorfactory.ClientError as ex:
         logger.warning(f"Could not pull the most recent proto definitions.", ex)
 
@@ -103,12 +127,17 @@ def clean(c):
 def publish(c):
     logger.info("Publishing")
 
-    with c.prefix(f"source .env/bin/activate"):
-        c.run(f"python setup.py sdist bdist_wheel")
-        logger.info(f"Generated the package")
+    c.run(f"python setup.py sdist bdist_wheel")
+    logger.info(f"Generated the package")
 
-        c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
+    domain = c.config["code_artifact"]["domain"]
+    repository = c.config["code_artifact"]["repository_python"]
+
+    c.run(f"aws codeartifact login --tool twine --domain {domain} --repository {repository}")
+    try:
         c.run(f"twine upload --repository codeartifact dist/*")
+    except:
+        logger.error(f"Could not upload the artifact")
 
     logger.info("Done publishing")
 
@@ -117,7 +146,10 @@ def publish(c):
 def auth(c):
     logger.info("Authenticating at code artifact")
 
-    c.run(f"aws codeartifact login --tool twine --domain sourceflow --repository python")
+    domain = c.config["code_artifact"]["domain"]
+    repository = c.config["code_artifact"]["repository_python"]
+
+    c.run(f"aws codeartifact login --tool twine --domain {domain} --repository {repository}")
 
     logger.info("Done authenticating")
 

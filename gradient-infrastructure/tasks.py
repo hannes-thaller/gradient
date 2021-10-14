@@ -3,7 +3,6 @@ import pathlib
 import shutil
 from concurrent import futures
 
-from aws_cdk import aws_iam, core, aws_codebuild
 from invoke import task
 
 project_name = "gradient-infrastructure"
@@ -16,18 +15,23 @@ dir_project = pathlib.Path(__file__).parent
 
 
 @task
-def install(c):
+def install(c, distilled=False):
     logger.info("Installing")
 
-    with c.prefix(f"source .env/bin/activate"):
-        c.run(f"pip install -r requirements.txt")
+    if distilled:
+        c.run(f"conda env create --force -f requirements.yaml")
+        c.run(f"conda run -n {project_name} conda env export > requirements/requirements.yaml")
+        c.run(f"conda run -n {project_name} pip list --format=freeze > requirements/requirements.txt")
+    else:
+        c.run(f"conda env create --force -f requirements/requirements.yaml")
 
     logger.info("Installing done")
 
 
 @task
 def build(c):
-    from gradient.infrastructure import components
+    from aws_cdk import aws_iam, core, aws_codebuild
+    from gradient_infrastructure import components
 
     app = core.App()
     stack_infra = components.InfrastructureStack(app)
@@ -46,7 +50,21 @@ def test(c):
 
 
 @task
-def clean(c, force=False):
+def clean(c):
+    logger.info("Clean")
+
+    logger.info("Cleaning done")
+
+
+@task
+def publish(c):
+    logger.info("Publishing")
+
+    logger.info("Done publishing")
+
+
+@task
+def clean_infrastructure(c, force=False):
     import boto3
     from botocore import exceptions
 
@@ -67,13 +85,6 @@ def clean(c, force=False):
 
     with futures.ThreadPoolExecutor() as pool:
         list(pool.map(delete, names_repo))
-
-
-@task
-def publish(c):
-    logger.info("Publishing")
-
-    logger.info("Done publishing")
 
 
 @task(pre=[clean, build])

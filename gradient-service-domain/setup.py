@@ -3,35 +3,26 @@ import yaml
 
 from setuptools import setup, find_packages
 
-path_properties = pathlib.Path("project.yaml")
 
-
-def load_and_increment_version(path_properties: pathlib.Path) -> str:
-    if not path_properties.exists():
-        path_properties.touch(exist_ok=False)
-        with path_properties.open("w") as f:
-            yaml.dump(dict(version="0.1.0+0"), f)
+def load_and_increment_version() -> str:
+    path_properties = pathlib.Path("invoke.yaml")
 
     with path_properties.open("r") as f:
-        project_properties = yaml.load(f)
+        props = yaml.safe_load(f)
 
-    version_old = project_properties["version"]
-    version_parts = version_old.split("+")
-    project_properties["version"] = f"{version_parts[0]}+{int(version_parts[1]) + 1}"
-
-    with path_properties.open("w") as f:
-        yaml.dump(project_properties, f)
-
-    return project_properties["version"]
+    return props["gradle_gradient_service_domain_version"].replace("-", "+")
 
 
 setup(
     name="gradient-service-domain",
-    version=load_and_increment_version(path_properties),
+    version=load_and_increment_version(),
     description="The python API domain entities of Gradient",
+    long_description="The python API domain entities of Gradient",
     author="Sourceflow",
+    url="https://bitbucket.org/sourceflow-ai/gradient-python/src/master/",
     license="Copyright Sourceflow",
     packages=find_packages(),
+    install_requires=[],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
