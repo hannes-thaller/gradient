@@ -2,34 +2,21 @@ version: 0.2
 env:
   shell: bash
 
-batch:
-  fast-fail: true
-  build-list:
-    - identifier: gradient-service-domain
-      env:
-        variables:
-          MODULE_NAME: gradient-service-domain
-    - identifier: gradient-service-inference
-      env:
-        variables:
-          MODULE_NAME: gradient-service-inference
-
 phases:
   install:
     runtime-versions:
       python: 3.7
     commands:
       - pip install -r requirements.txt
-      - python -m venv $MODULE_NAME/environment
-      - pushd $MODULE_NAME && source environment/bin/activate && pip install -r requirements/requirements.txt && popd
+      - python -m venv gradient-service-domain/environment
+      - python -m venv gradient-service-inference/environment
+      - pushd gradient-service-domain && source environment/bin/activate && pip install -r requirements/requirements.txt && popd
+      - pushd gradient-service-inference && source environment/bin/activate && pip install -r requirements/requirements.txt && popd
 
   build:
     commands:
-      - pushd $MODULE_NAME && source environment/bin/activate && inv build && inv test && popd
-
-  post_build:
-    commands:
-      - pushd $MODULE_NAME && source environment/bin/activate && inv publish && popd
+      - pushd gradient-service-domain && source environment/bin/activate && inv build && inv test && inv publish && popd
+      - pushd gradient-service-inference && source environment/bin/activate && inv build && inv test && inv publish && popd
 
 reports:
   test-gradient-service-domain:

@@ -8,7 +8,7 @@ dependencies:
   - attrs=21.2.0=pyhd8ed1ab_0
   - bleach=4.1.0=pyhd8ed1ab_0
   - boto3=1.18.26=pyhd8ed1ab_0
-  - botocore=1.21.61=pyhd8ed1ab_0
+  - botocore=1.21.63=pyhd8ed1ab_0
   - brotlipy=0.7.0=py38h497a2fe_1001
   - c-ares=1.17.2=h7f98852_0
   - ca-certificates=2021.10.8=ha878542_0
@@ -17,7 +17,7 @@ dependencies:
   - chardet=4.0.0=py38h578d9bd_1
   - cmarkgfm=0.6.0=py38h497a2fe_0
   - colorama=0.4.4=pyh9f0ad1d_0
-  - cryptography=3.4.8=py38ha5dfef3_0
+  - cryptography=35.0.0=py38ha5dfef3_0
   - dbus=1.13.6=h48d8840_2
   - docutils=0.17.1=py38h578d9bd_0
   - expat=2.4.1=h9c3ff4c_0

@@ -88,7 +88,6 @@ class PythonServiceStack(core.NestedStack):
             cache=aws_codebuild.Cache.bucket(cache_bucket)
         )
 
-
 class JVMServiceStack(core.NestedStack):
     def __init__(self, scope, id: str = "build-sourceflow-gradient-service-jvm", **kwargs):
         super().__init__(scope, id, **kwargs)

@@ -33,7 +33,6 @@ def install(c, distilled=False):
     if distilled:
         c.run(f"conda env create --force -f requirements.yaml")
         c.run(f"conda run -n {project_name} conda env export > requirements/requirements.yaml")
-        c.run(f"conda run -n {project_name} pip list --format=freeze > requirements/requirements.txt")
     else:
         c.run(f"conda env create --force -f requirements/requirements.yaml")
 
