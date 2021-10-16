@@ -5,8 +5,9 @@ env:
 phases:
   install:
     runtime-versions:
-      python: 3.7
+      python: 3.8
     commands:
+      - aws codeartifact login --tool pip --repository sourceflow-gradient-python --domain sourceflow-gradient --domain-owner 429689067702
       - pip install -r requirements.txt
       - python -m venv gradient-service-domain/environment
       - python -m venv gradient-service-inference/environment

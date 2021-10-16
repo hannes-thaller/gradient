@@ -7,3 +7,5 @@ grpcio-tools==1.33.2
 twine==3.4.2
 pytest==6.2.5
 pyyaml==5.4.1
+wheel==0.37.0
+setuptools==58.2.0
