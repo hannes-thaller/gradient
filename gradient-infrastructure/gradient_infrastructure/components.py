@@ -64,7 +64,7 @@ class PythonServiceStack(core.NestedStack):
             "codebuild-gradient-service-python",
             project_name="sourceflow-gradient-service-python",
             environment=aws_codebuild.BuildEnvironment(
-                compute_type=aws_codebuild.ComputeType.SMALL,
+                compute_type=aws_codebuild.ComputeType.MEDIUM,
                 build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
             ),
             timeout=core.Duration.minutes(10),
@@ -118,7 +118,7 @@ class JVMServiceStack(core.NestedStack):
             "codebuild-gradient-service-jvm",
             project_name="sourceflow-gradient-service-jvm",
             environment=aws_codebuild.BuildEnvironment(
-                compute_type=aws_codebuild.ComputeType.SMALL,
+                compute_type=aws_codebuild.ComputeType.MEDIUM,
                 build_image=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
             ),
             timeout=core.Duration.minutes(10),
