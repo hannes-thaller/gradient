@@ -193,6 +193,7 @@ class DatasetService(
                 val factory = when (frameStreamDetail.control.type) {
                     CommonEntities.ControlType.OPEN -> {
                         require(projectContext !in factories)
+                        logger.debug { "Opening new stream for ${projectContext.toSimpleString()}" }
                         val featureDescriptions = datasetDao.loadFeatureDescriptions(projectContext)
                         DatapointFactory(CommonEntitySerde.toUUID(projectContext.sessionId), featureDescriptions)
                             .also { factories[projectContext] = it }
@@ -203,6 +204,7 @@ class DatasetService(
                     }
                     CommonEntities.ControlType.CLOSE -> {
                         require(projectContext in factories)
+                        logger.debug { "Closing stream for ${projectContext.toSimpleString()}" }
                         factories.remove(projectContext)!!
                     }
                     else -> error("Unknown stream state")

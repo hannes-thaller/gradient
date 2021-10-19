@@ -68,7 +68,7 @@ class DatasetDao(client: MongoClient) {
 
         val query = Document()
             .append("_dtype", "FeatureDescription")
-            .append("projectId", CommonEntitySerde.to(projectContext.projectId))
+            .append("projectId", CommonEntitySerde.toUUID(projectContext.projectId))
 
         return withContext(Dispatchers.IO) {
             featureDescriptionCol.find(query)

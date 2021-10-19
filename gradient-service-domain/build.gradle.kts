@@ -1,5 +1,5 @@
 plugins {
-    id("com.sourceflow.gradient.kotlin-service-conventions")
+    id("org.sourceflow.gradient.kotlin-service-conventions")
 }
 
 

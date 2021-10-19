@@ -11,11 +11,13 @@ plugins {
     application
 }
 
+val sourceflowMaven = "https://sourceflow-gradient-429689067702.d.codeartifact.eu-central-1.amazonaws.com" +
+        "/maven/sourceflow-gradient-jvm/"
+
 repositories {
     mavenCentral()
     maven {
-        url =
-            URI.create("https://sourceflow-gradient-429689067702.d.codeartifact.eu-central-1.amazonaws.com/maven/maven/")
+        url = URI.create(sourceflowMaven)
         val authToken = loadAuthToken()
         assert(authToken.isBlank()) { "Expected non empty auth token" }
         credentials {
@@ -113,11 +115,7 @@ configure<PublishingExtension> {
     }
     repositories {
         maven {
-
-            url = URI.create(
-                "https://sourceflow-gradient-429689067702.d.codeartifact.eu-central-1.amazonaws.com" +
-                        "/maven/sourceflow-gradient-jvm/"
-            )
+            url = URI.create(sourceflowMaven)
             val authToken = loadAuthToken()
             assert(authToken.isBlank()) { "Expected non empty auth token" }
             credentials {
