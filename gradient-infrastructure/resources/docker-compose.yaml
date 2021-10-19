@@ -1,0 +1,56 @@
+version: "3.3"
+services:
+  gs-message-database:
+    image: apachepulsar/pulsar:2.5.0
+    command: >
+      /bin/bash -c
+      "bin/apply-config-from-env.py conf/standalone.conf
+      && bin/pulsar standalone"
+    ports:
+      - 10001:8080
+      - 10002:6650
+    environment:
+      - PULSAR_MEM=" -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g"
+  gs-message-dashboard:
+    image: bbonnin/pulsar-express:latest
+    ports:
+      - "10000:3000"
+    environment:
+      PE_CONNECTION_URL: http://gs-message-database:8080
+    depends_on:
+      - gs-message-database
+  gs-project-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256
+    ports:
+      - 11002:27017
+    volumes:
+      - ./data/mongo/project:/data/db
+  gs-code-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256
+    ports:
+      - 12002:27017
+    volumes:
+      - ./data/mongo/code:/data/db
+  gs-dataset-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256
+    ports:
+      - 13002:27017
+    volumes:
+      - ./data/mongo/dataset:/data/db
+  gs-monitoring-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256
+    ports:
+      - 14002:27017
+    volumes:
+      - ./data/mongo/monitoring:/data/db
+  gs-model-database:
+    image: mongo:4.2
+    command: --wiredTigerCacheSizeGB 0.256
+    ports:
+      - 15002:27017
+    volumes:
+      - ./data/mongo/model:/data/db

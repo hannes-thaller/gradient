@@ -54,3 +54,5 @@ gradient-infrastructure/cdk.out/
 **/*.egg-info
 **/.hypothesis/
 **/.pytest_cache
+
+data
