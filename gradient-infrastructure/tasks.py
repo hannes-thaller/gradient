@@ -64,27 +64,13 @@ def publish(c):
 
 
 @task
-def clean_infrastructure(c, force=False):
-    import boto3
-    from botocore import exceptions
+def clean_infrastructure(c):
+    logger.info("Destroying Infrastructure")
 
-    shutil.rmtree("cdk.out", ignore_errors=True)
+    c.run("cdk destroy -y")
 
-    # delete ECR
-    names_repo = [it["ecr"]["name"] for repo in c.config["repo-stacks"]
-                  for it in repo["modules"]]
+    logger.info("Done destroying")
 
-    client = boto3.client("ecr")
-
-    def delete(name):
-        try:
-            client.delete_repository(repositoryName=name, force=force)
-        except exceptions.ClientError as e:
-            if not e.response["Error"]["Code"] == "RepositoryNotFoundException":
-                raise e
-
-    with futures.ThreadPoolExecutor() as pool:
-        list(pool.map(delete, names_repo))
 
 
 @task(pre=[clean, build])

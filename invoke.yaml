@@ -1,3 +1,10 @@
+code_artifact:
+  owner: 429689067702
+  domain: sourceflow-gradient
+  repository: sourceflow-gradient-python
+
 modules:
   - gradient-service-domain
   - gradient-service-inference
+
+gradient_service_version: 0.1.0-6

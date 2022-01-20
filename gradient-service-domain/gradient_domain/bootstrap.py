@@ -1,14 +1,8 @@
-import typing
-
-if typing.TYPE_CHECKING:
-    from gradient_domain import services
-
-
 class Container:
     _build_service = None
 
     @staticmethod
-    def build_service() -> "services.BuildService":
+    def build_service():
         from gradient_domain import services
         if Container._build_service is None:
             Container._build_service = services.BuildService(Container.boto_codeartifact())

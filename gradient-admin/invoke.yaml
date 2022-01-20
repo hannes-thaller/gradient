@@ -1,0 +1,18 @@
+databases:
+  - name: gs-project-database
+    port: 11002
+  - name: gs-code-database
+    port: 12002
+  - name: gs-dataset-database
+    port: 13002
+  - name: gs-monitoring-database
+    port: 14002
+  - name: gs-model-database
+    port: 15002
+services:
+  - name: gradient-service-project
+  - name: gradient-service-code
+  - name: gradient-service-monitoring
+  - name: gradient-service-dataset
+testing:
+  - name: gradient-testing

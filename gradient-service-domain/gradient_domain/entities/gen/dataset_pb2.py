@@ -18,17 +18,17 @@ from . import code_pb2 as org_dot_sourceflow_dot_gradient_dot_entities_dot_code_
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='org/sourceflow/gradient/entities/dataset.proto',
-  package='org.sourceflow.gradient.entities',
+  package='org.sourceflow.gradient.dataset.entities',
   syntax='proto3',
   serialized_options=b'\n(org.sourceflow.gradient.dataset.entitiesB\017DatasetEntities',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n.org/sourceflow/gradient/entities/dataset.proto\x12 org.sourceflow.gradient.entities\x1a-org/sourceflow/gradient/entities/common.proto\x1a+org/sourceflow/gradient/entities/code.proto\"\xf3\x01\n\x07\x46\x65\x61ture\x12\x12\n\nelement_id\x18\x01 \x01(\x05\x12=\n\x04name\x18\x02 \x01(\x0b\x32/.org.sourceflow.gradient.entities.CanonicalName\x12=\n\tdata_type\x18\x03 \x01(\x0b\x32*.org.sourceflow.gradient.entities.DataType\x12\x43\n\x0c\x66\x65\x61ture_type\x18\x04 \x01(\x0e\x32-.org.sourceflow.gradient.entities.FeatureType\x12\x11\n\talias_ids\x18\x05 \x03(\x05\"\xad\x01\n\x12\x46\x65\x61tureDescription\x12\x46\n\x16\x66\x65\x61ture_description_id\x18\x01 \x01(\x0b\x32&.org.sourceflow.gradient.entities.UUID\x12\x12\n\nelement_id\x18\x02 \x01(\x05\x12;\n\x08\x66\x65\x61tures\x18\x04 \x03(\x0b\x32).org.sourceflow.gradient.entities.Feature\"n\n\x18\x46\x65\x61tureDescriptionDetail\x12R\n\x14\x66\x65\x61ture_descriptions\x18\x01 \x03(\x0b\x32\x34.org.sourceflow.gradient.entities.FeatureDescription\"\xe3\x01\n\x13\x44\x61tasetHandleDetail\x12:\n\ndataset_id\x18\x01 \x01(\x0b\x32&.org.sourceflow.gradient.entities.UUID\x12Q\n\x13\x66\x65\x61ture_description\x18\x02 \x01(\x0b\x32\x34.org.sourceflow.gradient.entities.FeatureDescription\x12=\n\rdatapoint_ids\x18\x03 \x03(\x0b\x32&.org.sourceflow.gradient.entities.UUID\"\xdf\x01\n\rDatasetDetail\x12:\n\ndataset_id\x18\x01 \x01(\x0b\x32&.org.sourceflow.gradient.entities.UUID\x12Q\n\x13\x66\x65\x61ture_description\x18\x02 \x01(\x0b\x32\x34.org.sourceflow.gradient.entities.FeatureDescription\x12?\n\ndatapoints\x18\x03 \x03(\x0b\x32+.org.sourceflow.gradient.entities.Datapoint\"C\n\tDatapoint\x12\x36\n\x05\x64\x61tum\x18\x03 \x03(\x0b\x32\'.org.sourceflow.gradient.entities.Datum\"\xec\x02\n\x0e\x44\x61tasetMessage\x12I\n\x0fproject_context\x18\x01 \x01(\x0b\x32\x30.org.sourceflow.gradient.entities.ProjectContext\x12\x61\n\x1b\x66\x65\x61ture_descriptions_detail\x18\x02 \x01(\x0b\x32:.org.sourceflow.gradient.entities.FeatureDescriptionDetailH\x00\x12V\n\x15\x64\x61taset_handle_detail\x18\x03 \x01(\x0b\x32\x35.org.sourceflow.gradient.entities.DatasetHandleDetailH\x00\x12I\n\x0e\x64\x61taset_detail\x18\x04 \x01(\x0b\x32/.org.sourceflow.gradient.entities.DatasetDetailH\x00\x42\t\n\x07payload*\x97\x01\n\x0b\x46\x65\x61tureType\x12\x0f\n\x0b\x43ONDITIONAL\x10\x00\x12\x12\n\x0eINPUT_PROPERTY\x10\x01\x12\x13\n\x0fINPUT_PARAMETER\x10\x02\x12\x10\n\x0cINPUT_RESULT\x10\x03\x12\x13\n\x0fOUTPUT_PROPERTY\x10\x04\x12\x14\n\x10OUTPUT_PARAMETER\x10\x05\x12\x11\n\rOUTPUT_RESULT\x10\x06\x42;\n(org.sourceflow.gradient.dataset.entitiesB\x0f\x44\x61tasetEntitiesb\x06proto3'
+  serialized_pb=b'\n.org/sourceflow/gradient/entities/dataset.proto\x12(org.sourceflow.gradient.dataset.entities\x1a-org/sourceflow/gradient/entities/common.proto\x1a+org/sourceflow/gradient/entities/code.proto\"\x87\x02\n\x07\x46\x65\x61ture\x12\x12\n\nelement_id\x18\x01 \x01(\x05\x12\x44\n\x04name\x18\x02 \x01(\x0b\x32\x36.org.sourceflow.gradient.common.entities.CanonicalName\x12\x42\n\tdata_type\x18\x03 \x01(\x0b\x32/.org.sourceflow.gradient.code.entities.DataType\x12K\n\x0c\x66\x65\x61ture_type\x18\x04 \x01(\x0e\x32\x35.org.sourceflow.gradient.dataset.entities.FeatureType\x12\x11\n\talias_ids\x18\x05 \x03(\x05\"\xbc\x01\n\x12\x46\x65\x61tureDescription\x12M\n\x16\x66\x65\x61ture_description_id\x18\x01 \x01(\x0b\x32-.org.sourceflow.gradient.common.entities.UUID\x12\x12\n\nelement_id\x18\x02 \x01(\x05\x12\x43\n\x08\x66\x65\x61tures\x18\x04 \x03(\x0b\x32\x31.org.sourceflow.gradient.dataset.entities.Feature\"v\n\x18\x46\x65\x61tureDescriptionDetail\x12Z\n\x14\x66\x65\x61ture_descriptions\x18\x01 \x03(\x0b\x32<.org.sourceflow.gradient.dataset.entities.FeatureDescription\"\xf9\x01\n\x13\x44\x61tasetHandleDetail\x12\x41\n\ndataset_id\x18\x01 \x01(\x0b\x32-.org.sourceflow.gradient.common.entities.UUID\x12Y\n\x13\x66\x65\x61ture_description\x18\x02 \x01(\x0b\x32<.org.sourceflow.gradient.dataset.entities.FeatureDescription\x12\x44\n\rdatapoint_ids\x18\x03 \x03(\x0b\x32-.org.sourceflow.gradient.common.entities.UUID\"\xf6\x01\n\rDatasetDetail\x12\x41\n\ndataset_id\x18\x01 \x01(\x0b\x32-.org.sourceflow.gradient.common.entities.UUID\x12Y\n\x13\x66\x65\x61ture_description\x18\x02 \x01(\x0b\x32<.org.sourceflow.gradient.dataset.entities.FeatureDescription\x12G\n\ndatapoints\x18\x03 \x03(\x0b\x32\x33.org.sourceflow.gradient.dataset.entities.Datapoint\"J\n\tDatapoint\x12=\n\x05\x64\x61tum\x18\x03 \x03(\x0b\x32..org.sourceflow.gradient.common.entities.Datum\"\x8b\x03\n\x0e\x44\x61tasetMessage\x12P\n\x0fproject_context\x18\x01 \x01(\x0b\x32\x37.org.sourceflow.gradient.common.entities.ProjectContext\x12i\n\x1b\x66\x65\x61ture_descriptions_detail\x18\x02 \x01(\x0b\x32\x42.org.sourceflow.gradient.dataset.entities.FeatureDescriptionDetailH\x00\x12^\n\x15\x64\x61taset_handle_detail\x18\x03 \x01(\x0b\x32=.org.sourceflow.gradient.dataset.entities.DatasetHandleDetailH\x00\x12Q\n\x0e\x64\x61taset_detail\x18\x04 \x01(\x0b\x32\x37.org.sourceflow.gradient.dataset.entities.DatasetDetailH\x00\x42\t\n\x07payload*\x97\x01\n\x0b\x46\x65\x61tureType\x12\x0f\n\x0b\x43ONDITIONAL\x10\x00\x12\x12\n\x0eINPUT_PROPERTY\x10\x01\x12\x13\n\x0fINPUT_PARAMETER\x10\x02\x12\x10\n\x0cINPUT_RESULT\x10\x03\x12\x13\n\x0fOUTPUT_PROPERTY\x10\x04\x12\x14\n\x10OUTPUT_PARAMETER\x10\x05\x12\x11\n\rOUTPUT_RESULT\x10\x06\x42;\n(org.sourceflow.gradient.dataset.entitiesB\x0f\x44\x61tasetEntitiesb\x06proto3'
   ,
   dependencies=[org_dot_sourceflow_dot_gradient_dot_entities_dot_common__pb2.DESCRIPTOR,org_dot_sourceflow_dot_gradient_dot_entities_dot_code__pb2.DESCRIPTOR,])
 
 _FEATURETYPE = _descriptor.EnumDescriptor(
   name='FeatureType',
-  full_name='org.sourceflow.gradient.entities.FeatureType',
+  full_name='org.sourceflow.gradient.dataset.entities.FeatureType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -71,8 +71,8 @@ _FEATURETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1603,
-  serialized_end=1754,
+  serialized_start=1737,
+  serialized_end=1888,
 )
 _sym_db.RegisterEnumDescriptor(_FEATURETYPE)
 
@@ -89,42 +89,42 @@ OUTPUT_RESULT = 6
 
 _FEATURE = _descriptor.Descriptor(
   name='Feature',
-  full_name='org.sourceflow.gradient.entities.Feature',
+  full_name='org.sourceflow.gradient.dataset.entities.Feature',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='element_id', full_name='org.sourceflow.gradient.entities.Feature.element_id', index=0,
+      name='element_id', full_name='org.sourceflow.gradient.dataset.entities.Feature.element_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='name', full_name='org.sourceflow.gradient.entities.Feature.name', index=1,
+      name='name', full_name='org.sourceflow.gradient.dataset.entities.Feature.name', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='data_type', full_name='org.sourceflow.gradient.entities.Feature.data_type', index=2,
+      name='data_type', full_name='org.sourceflow.gradient.dataset.entities.Feature.data_type', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='feature_type', full_name='org.sourceflow.gradient.entities.Feature.feature_type', index=3,
+      name='feature_type', full_name='org.sourceflow.gradient.dataset.entities.Feature.feature_type', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='alias_ids', full_name='org.sourceflow.gradient.entities.Feature.alias_ids', index=4,
+      name='alias_ids', full_name='org.sourceflow.gradient.dataset.entities.Feature.alias_ids', index=4,
       number=5, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -142,35 +142,35 @@ _FEATURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=177,
-  serialized_end=420,
+  serialized_start=185,
+  serialized_end=448,
 )
 
 
 _FEATUREDESCRIPTION = _descriptor.Descriptor(
   name='FeatureDescription',
-  full_name='org.sourceflow.gradient.entities.FeatureDescription',
+  full_name='org.sourceflow.gradient.dataset.entities.FeatureDescription',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='feature_description_id', full_name='org.sourceflow.gradient.entities.FeatureDescription.feature_description_id', index=0,
+      name='feature_description_id', full_name='org.sourceflow.gradient.dataset.entities.FeatureDescription.feature_description_id', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='element_id', full_name='org.sourceflow.gradient.entities.FeatureDescription.element_id', index=1,
+      name='element_id', full_name='org.sourceflow.gradient.dataset.entities.FeatureDescription.element_id', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='features', full_name='org.sourceflow.gradient.entities.FeatureDescription.features', index=2,
+      name='features', full_name='org.sourceflow.gradient.dataset.entities.FeatureDescription.features', index=2,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -188,21 +188,21 @@ _FEATUREDESCRIPTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=423,
-  serialized_end=596,
+  serialized_start=451,
+  serialized_end=639,
 )
 
 
 _FEATUREDESCRIPTIONDETAIL = _descriptor.Descriptor(
   name='FeatureDescriptionDetail',
-  full_name='org.sourceflow.gradient.entities.FeatureDescriptionDetail',
+  full_name='org.sourceflow.gradient.dataset.entities.FeatureDescriptionDetail',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='feature_descriptions', full_name='org.sourceflow.gradient.entities.FeatureDescriptionDetail.feature_descriptions', index=0,
+      name='feature_descriptions', full_name='org.sourceflow.gradient.dataset.entities.FeatureDescriptionDetail.feature_descriptions', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -220,35 +220,35 @@ _FEATUREDESCRIPTIONDETAIL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=598,
-  serialized_end=708,
+  serialized_start=641,
+  serialized_end=759,
 )
 
 
 _DATASETHANDLEDETAIL = _descriptor.Descriptor(
   name='DatasetHandleDetail',
-  full_name='org.sourceflow.gradient.entities.DatasetHandleDetail',
+  full_name='org.sourceflow.gradient.dataset.entities.DatasetHandleDetail',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='dataset_id', full_name='org.sourceflow.gradient.entities.DatasetHandleDetail.dataset_id', index=0,
+      name='dataset_id', full_name='org.sourceflow.gradient.dataset.entities.DatasetHandleDetail.dataset_id', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='feature_description', full_name='org.sourceflow.gradient.entities.DatasetHandleDetail.feature_description', index=1,
+      name='feature_description', full_name='org.sourceflow.gradient.dataset.entities.DatasetHandleDetail.feature_description', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='datapoint_ids', full_name='org.sourceflow.gradient.entities.DatasetHandleDetail.datapoint_ids', index=2,
+      name='datapoint_ids', full_name='org.sourceflow.gradient.dataset.entities.DatasetHandleDetail.datapoint_ids', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -266,35 +266,35 @@ _DATASETHANDLEDETAIL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=711,
-  serialized_end=938,
+  serialized_start=762,
+  serialized_end=1011,
 )
 
 
 _DATASETDETAIL = _descriptor.Descriptor(
   name='DatasetDetail',
-  full_name='org.sourceflow.gradient.entities.DatasetDetail',
+  full_name='org.sourceflow.gradient.dataset.entities.DatasetDetail',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='dataset_id', full_name='org.sourceflow.gradient.entities.DatasetDetail.dataset_id', index=0,
+      name='dataset_id', full_name='org.sourceflow.gradient.dataset.entities.DatasetDetail.dataset_id', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='feature_description', full_name='org.sourceflow.gradient.entities.DatasetDetail.feature_description', index=1,
+      name='feature_description', full_name='org.sourceflow.gradient.dataset.entities.DatasetDetail.feature_description', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='datapoints', full_name='org.sourceflow.gradient.entities.DatasetDetail.datapoints', index=2,
+      name='datapoints', full_name='org.sourceflow.gradient.dataset.entities.DatasetDetail.datapoints', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -312,21 +312,21 @@ _DATASETDETAIL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=941,
-  serialized_end=1164,
+  serialized_start=1014,
+  serialized_end=1260,
 )
 
 
 _DATAPOINT = _descriptor.Descriptor(
   name='Datapoint',
-  full_name='org.sourceflow.gradient.entities.Datapoint',
+  full_name='org.sourceflow.gradient.dataset.entities.Datapoint',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='datum', full_name='org.sourceflow.gradient.entities.Datapoint.datum', index=0,
+      name='datum', full_name='org.sourceflow.gradient.dataset.entities.Datapoint.datum', index=0,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -344,42 +344,42 @@ _DATAPOINT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1166,
-  serialized_end=1233,
+  serialized_start=1262,
+  serialized_end=1336,
 )
 
 
 _DATASETMESSAGE = _descriptor.Descriptor(
   name='DatasetMessage',
-  full_name='org.sourceflow.gradient.entities.DatasetMessage',
+  full_name='org.sourceflow.gradient.dataset.entities.DatasetMessage',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='project_context', full_name='org.sourceflow.gradient.entities.DatasetMessage.project_context', index=0,
+      name='project_context', full_name='org.sourceflow.gradient.dataset.entities.DatasetMessage.project_context', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='feature_descriptions_detail', full_name='org.sourceflow.gradient.entities.DatasetMessage.feature_descriptions_detail', index=1,
+      name='feature_descriptions_detail', full_name='org.sourceflow.gradient.dataset.entities.DatasetMessage.feature_descriptions_detail', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='dataset_handle_detail', full_name='org.sourceflow.gradient.entities.DatasetMessage.dataset_handle_detail', index=2,
+      name='dataset_handle_detail', full_name='org.sourceflow.gradient.dataset.entities.DatasetMessage.dataset_handle_detail', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='dataset_detail', full_name='org.sourceflow.gradient.entities.DatasetMessage.dataset_detail', index=3,
+      name='dataset_detail', full_name='org.sourceflow.gradient.dataset.entities.DatasetMessage.dataset_detail', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -397,13 +397,13 @@ _DATASETMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='payload', full_name='org.sourceflow.gradient.entities.DatasetMessage.payload',
+      name='payload', full_name='org.sourceflow.gradient.dataset.entities.DatasetMessage.payload',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1236,
-  serialized_end=1600,
+  serialized_start=1339,
+  serialized_end=1734,
 )
 
 _FEATURE.fields_by_name['name'].message_type = org_dot_sourceflow_dot_gradient_dot_entities_dot_common__pb2._CANONICALNAME
@@ -445,49 +445,49 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 Feature = _reflection.GeneratedProtocolMessageType('Feature', (_message.Message,), {
   'DESCRIPTOR' : _FEATURE,
   '__module__' : 'org.sourceflow.gradient.entities.dataset_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Feature)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.dataset.entities.Feature)
   })
 _sym_db.RegisterMessage(Feature)
 
 FeatureDescription = _reflection.GeneratedProtocolMessageType('FeatureDescription', (_message.Message,), {
   'DESCRIPTOR' : _FEATUREDESCRIPTION,
   '__module__' : 'org.sourceflow.gradient.entities.dataset_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.FeatureDescription)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.dataset.entities.FeatureDescription)
   })
 _sym_db.RegisterMessage(FeatureDescription)
 
 FeatureDescriptionDetail = _reflection.GeneratedProtocolMessageType('FeatureDescriptionDetail', (_message.Message,), {
   'DESCRIPTOR' : _FEATUREDESCRIPTIONDETAIL,
   '__module__' : 'org.sourceflow.gradient.entities.dataset_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.FeatureDescriptionDetail)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.dataset.entities.FeatureDescriptionDetail)
   })
 _sym_db.RegisterMessage(FeatureDescriptionDetail)
 
 DatasetHandleDetail = _reflection.GeneratedProtocolMessageType('DatasetHandleDetail', (_message.Message,), {
   'DESCRIPTOR' : _DATASETHANDLEDETAIL,
   '__module__' : 'org.sourceflow.gradient.entities.dataset_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.DatasetHandleDetail)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.dataset.entities.DatasetHandleDetail)
   })
 _sym_db.RegisterMessage(DatasetHandleDetail)
 
 DatasetDetail = _reflection.GeneratedProtocolMessageType('DatasetDetail', (_message.Message,), {
   'DESCRIPTOR' : _DATASETDETAIL,
   '__module__' : 'org.sourceflow.gradient.entities.dataset_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.DatasetDetail)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.dataset.entities.DatasetDetail)
   })
 _sym_db.RegisterMessage(DatasetDetail)
 
 Datapoint = _reflection.GeneratedProtocolMessageType('Datapoint', (_message.Message,), {
   'DESCRIPTOR' : _DATAPOINT,
   '__module__' : 'org.sourceflow.gradient.entities.dataset_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Datapoint)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.dataset.entities.Datapoint)
   })
 _sym_db.RegisterMessage(Datapoint)
 
 DatasetMessage = _reflection.GeneratedProtocolMessageType('DatasetMessage', (_message.Message,), {
   'DESCRIPTOR' : _DATASETMESSAGE,
   '__module__' : 'org.sourceflow.gradient.entities.dataset_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.DatasetMessage)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.dataset.entities.DatasetMessage)
   })
 _sym_db.RegisterMessage(DatasetMessage)
 

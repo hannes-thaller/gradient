@@ -16,16 +16,16 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='org/sourceflow/gradient/entities/common.proto',
-  package='org.sourceflow.gradient.entities',
+  package='org.sourceflow.gradient.common.entities',
   syntax='proto3',
   serialized_options=b'\n\'org.sourceflow.gradient.common.entitiesB\016CommonEntities',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n-org/sourceflow/gradient/entities/common.proto\x12 org.sourceflow.gradient.entities\";\n\x04UUID\x12\x19\n\x11least_significant\x18\x01 \x01(\x04\x12\x18\n\x10most_significant\x18\x02 \x01(\x04\"g\n\rCanonicalName\x12\x12\n\ncomponents\x18\x01 \x03(\t\x12\x42\n\x05types\x18\x02 \x03(\x0e\x32\x33.org.sourceflow.gradient.entities.NameComponentType\"\x88\x01\n\x0eProjectContext\x12:\n\nproject_id\x18\x01 \x01(\x0b\x32&.org.sourceflow.gradient.entities.UUID\x12:\n\nsession_id\x18\x02 \x01(\x0b\x32&.org.sourceflow.gradient.entities.UUID\"\xbf\x04\n\x05\x44\x61tum\x12\x16\n\x0cstring_datum\x18\x01 \x01(\tH\x00\x12\x17\n\rboolean_datum\x18\x02 \x01(\x08H\x00\x12\x17\n\rinteger_datum\x18\x03 \x01(\x05H\x00\x12\x15\n\x0b\x66loat_datum\x18\x04 \x01(\x02H\x00\x12\x16\n\x0c\x64ouble_datum\x18\x05 \x01(\x01H\x00\x12\x14\n\nlong_datum\x18\x06 \x01(\x03H\x00\x12\x42\n\rstrings_datum\x18\x07 \x01(\x0b\x32).org.sourceflow.gradient.entities.StringsH\x00\x12\x44\n\x0e\x62ooleans_datum\x18\x08 \x01(\x0b\x32*.org.sourceflow.gradient.entities.BooleansH\x00\x12\x44\n\x0eintegers_datum\x18\t \x01(\x0b\x32*.org.sourceflow.gradient.entities.IntegersH\x00\x12@\n\x0c\x66loats_datum\x18\n \x01(\x0b\x32(.org.sourceflow.gradient.entities.FloatsH\x00\x12\x42\n\rdoubles_datum\x18\x0b \x01(\x0b\x32).org.sourceflow.gradient.entities.DoublesH\x00\x12>\n\x0blongs_datum\x18\x0c \x01(\x0b\x32\'.org.sourceflow.gradient.entities.LongsH\x00\x42\x11\n\x0f\x64\x61tum_selection\"\x1a\n\x08\x42ooleans\x12\x0e\n\x06values\x18\x01 \x03(\x08\"\x1a\n\x08Integers\x12\x0e\n\x06values\x18\x01 \x03(\x05\"\x17\n\x05Longs\x12\x0e\n\x06values\x18\x01 \x03(\x03\"\x18\n\x06\x46loats\x12\x0e\n\x06values\x18\x01 \x03(\x02\"\x19\n\x07\x44oubles\x12\x0e\n\x06values\x18\x01 \x03(\x01\"\x19\n\x07Strings\x12\x0e\n\x06values\x18\x01 \x03(\t\"}\n\rStreamControl\x12;\n\x04type\x18\x02 \x01(\x0e\x32-.org.sourceflow.gradient.entities.ControlType\x12\x15\n\rsend_messages\x18\x03 \x01(\x03\x12\x18\n\x10maximum_messages\x18\x04 \x01(\x03*\x89\x01\n\x11NameComponentType\x12\t\n\x05GROUP\x10\x00\x12\x0c\n\x08\x41RTIFACT\x10\x01\x12\x0b\n\x07VERSION\x10\x02\x12\x0b\n\x07PACKAGE\x10\x03\x12\x08\n\x04TYPE\x10\x04\x12\x0c\n\x08PROPERTY\x10\x05\x12\x0e\n\nEXECUTABLE\x10\x06\x12\r\n\tPARAMETER\x10\x07\x12\n\n\x06RESULT\x10\x08*1\n\x0b\x43ontrolType\x12\x08\n\x04OPEN\x10\x00\x12\r\n\tHEARTBEAT\x10\x01\x12\t\n\x05\x43LOSE\x10\x02\x42\x39\n\'org.sourceflow.gradient.common.entitiesB\x0e\x43ommonEntitiesb\x06proto3'
+  serialized_pb=b'\n-org/sourceflow/gradient/entities/common.proto\x12\'org.sourceflow.gradient.common.entities\";\n\x04UUID\x12\x19\n\x11least_significant\x18\x01 \x01(\x04\x12\x18\n\x10most_significant\x18\x02 \x01(\x04\"n\n\rCanonicalName\x12\x12\n\ncomponents\x18\x01 \x03(\t\x12I\n\x05types\x18\x02 \x03(\x0e\x32:.org.sourceflow.gradient.common.entities.NameComponentType\"\x96\x01\n\x0eProjectContext\x12\x41\n\nproject_id\x18\x01 \x01(\x0b\x32-.org.sourceflow.gradient.common.entities.UUID\x12\x41\n\nsession_id\x18\x02 \x01(\x0b\x32-.org.sourceflow.gradient.common.entities.UUID\"\xe9\x04\n\x05\x44\x61tum\x12\x16\n\x0cstring_datum\x18\x01 \x01(\tH\x00\x12\x17\n\rboolean_datum\x18\x02 \x01(\x08H\x00\x12\x17\n\rinteger_datum\x18\x03 \x01(\x05H\x00\x12\x15\n\x0b\x66loat_datum\x18\x04 \x01(\x02H\x00\x12\x16\n\x0c\x64ouble_datum\x18\x05 \x01(\x01H\x00\x12\x14\n\nlong_datum\x18\x06 \x01(\x03H\x00\x12I\n\rstrings_datum\x18\x07 \x01(\x0b\x32\x30.org.sourceflow.gradient.common.entities.StringsH\x00\x12K\n\x0e\x62ooleans_datum\x18\x08 \x01(\x0b\x32\x31.org.sourceflow.gradient.common.entities.BooleansH\x00\x12K\n\x0eintegers_datum\x18\t \x01(\x0b\x32\x31.org.sourceflow.gradient.common.entities.IntegersH\x00\x12G\n\x0c\x66loats_datum\x18\n \x01(\x0b\x32/.org.sourceflow.gradient.common.entities.FloatsH\x00\x12I\n\rdoubles_datum\x18\x0b \x01(\x0b\x32\x30.org.sourceflow.gradient.common.entities.DoublesH\x00\x12\x45\n\x0blongs_datum\x18\x0c \x01(\x0b\x32..org.sourceflow.gradient.common.entities.LongsH\x00\x42\x11\n\x0f\x64\x61tum_selection\"\x1a\n\x08\x42ooleans\x12\x0e\n\x06values\x18\x01 \x03(\x08\"\x1a\n\x08Integers\x12\x0e\n\x06values\x18\x01 \x03(\x05\"\x17\n\x05Longs\x12\x0e\n\x06values\x18\x01 \x03(\x03\"\x18\n\x06\x46loats\x12\x0e\n\x06values\x18\x01 \x03(\x02\"\x19\n\x07\x44oubles\x12\x0e\n\x06values\x18\x01 \x03(\x01\"\x19\n\x07Strings\x12\x0e\n\x06values\x18\x01 \x03(\t\"\x84\x01\n\rStreamControl\x12\x42\n\x04type\x18\x02 \x01(\x0e\x32\x34.org.sourceflow.gradient.common.entities.ControlType\x12\x15\n\rsend_messages\x18\x03 \x01(\x03\x12\x18\n\x10maximum_messages\x18\x04 \x01(\x03*\x89\x01\n\x11NameComponentType\x12\t\n\x05GROUP\x10\x00\x12\x0c\n\x08\x41RTIFACT\x10\x01\x12\x0b\n\x07VERSION\x10\x02\x12\x0b\n\x07PACKAGE\x10\x03\x12\x08\n\x04TYPE\x10\x04\x12\x0c\n\x08PROPERTY\x10\x05\x12\x0e\n\nEXECUTABLE\x10\x06\x12\r\n\tPARAMETER\x10\x07\x12\n\n\x06RESULT\x10\x08*1\n\x0b\x43ontrolType\x12\x08\n\x04OPEN\x10\x00\x12\r\n\tHEARTBEAT\x10\x01\x12\t\n\x05\x43LOSE\x10\x02\x42\x39\n\'org.sourceflow.gradient.common.entitiesB\x0e\x43ommonEntitiesb\x06proto3'
 )
 
 _NAMECOMPONENTTYPE = _descriptor.EnumDescriptor(
   name='NameComponentType',
-  full_name='org.sourceflow.gradient.entities.NameComponentType',
+  full_name='org.sourceflow.gradient.common.entities.NameComponentType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -78,15 +78,15 @@ _NAMECOMPONENTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1255,
-  serialized_end=1392,
+  serialized_start=1333,
+  serialized_end=1470,
 )
 _sym_db.RegisterEnumDescriptor(_NAMECOMPONENTTYPE)
 
 NameComponentType = enum_type_wrapper.EnumTypeWrapper(_NAMECOMPONENTTYPE)
 _CONTROLTYPE = _descriptor.EnumDescriptor(
   name='ControlType',
-  full_name='org.sourceflow.gradient.entities.ControlType',
+  full_name='org.sourceflow.gradient.common.entities.ControlType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -109,8 +109,8 @@ _CONTROLTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1394,
-  serialized_end=1443,
+  serialized_start=1472,
+  serialized_end=1521,
 )
 _sym_db.RegisterEnumDescriptor(_CONTROLTYPE)
 
@@ -132,21 +132,21 @@ CLOSE = 2
 
 _UUID = _descriptor.Descriptor(
   name='UUID',
-  full_name='org.sourceflow.gradient.entities.UUID',
+  full_name='org.sourceflow.gradient.common.entities.UUID',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='least_significant', full_name='org.sourceflow.gradient.entities.UUID.least_significant', index=0,
+      name='least_significant', full_name='org.sourceflow.gradient.common.entities.UUID.least_significant', index=0,
       number=1, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='most_significant', full_name='org.sourceflow.gradient.entities.UUID.most_significant', index=1,
+      name='most_significant', full_name='org.sourceflow.gradient.common.entities.UUID.most_significant', index=1,
       number=2, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -164,28 +164,28 @@ _UUID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=83,
-  serialized_end=142,
+  serialized_start=90,
+  serialized_end=149,
 )
 
 
 _CANONICALNAME = _descriptor.Descriptor(
   name='CanonicalName',
-  full_name='org.sourceflow.gradient.entities.CanonicalName',
+  full_name='org.sourceflow.gradient.common.entities.CanonicalName',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='components', full_name='org.sourceflow.gradient.entities.CanonicalName.components', index=0,
+      name='components', full_name='org.sourceflow.gradient.common.entities.CanonicalName.components', index=0,
       number=1, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='types', full_name='org.sourceflow.gradient.entities.CanonicalName.types', index=1,
+      name='types', full_name='org.sourceflow.gradient.common.entities.CanonicalName.types', index=1,
       number=2, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -203,28 +203,28 @@ _CANONICALNAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=144,
-  serialized_end=247,
+  serialized_start=151,
+  serialized_end=261,
 )
 
 
 _PROJECTCONTEXT = _descriptor.Descriptor(
   name='ProjectContext',
-  full_name='org.sourceflow.gradient.entities.ProjectContext',
+  full_name='org.sourceflow.gradient.common.entities.ProjectContext',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='project_id', full_name='org.sourceflow.gradient.entities.ProjectContext.project_id', index=0,
+      name='project_id', full_name='org.sourceflow.gradient.common.entities.ProjectContext.project_id', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='session_id', full_name='org.sourceflow.gradient.entities.ProjectContext.session_id', index=1,
+      name='session_id', full_name='org.sourceflow.gradient.common.entities.ProjectContext.session_id', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -242,98 +242,98 @@ _PROJECTCONTEXT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=250,
-  serialized_end=386,
+  serialized_start=264,
+  serialized_end=414,
 )
 
 
 _DATUM = _descriptor.Descriptor(
   name='Datum',
-  full_name='org.sourceflow.gradient.entities.Datum',
+  full_name='org.sourceflow.gradient.common.entities.Datum',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='string_datum', full_name='org.sourceflow.gradient.entities.Datum.string_datum', index=0,
+      name='string_datum', full_name='org.sourceflow.gradient.common.entities.Datum.string_datum', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='boolean_datum', full_name='org.sourceflow.gradient.entities.Datum.boolean_datum', index=1,
+      name='boolean_datum', full_name='org.sourceflow.gradient.common.entities.Datum.boolean_datum', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='integer_datum', full_name='org.sourceflow.gradient.entities.Datum.integer_datum', index=2,
+      name='integer_datum', full_name='org.sourceflow.gradient.common.entities.Datum.integer_datum', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='float_datum', full_name='org.sourceflow.gradient.entities.Datum.float_datum', index=3,
+      name='float_datum', full_name='org.sourceflow.gradient.common.entities.Datum.float_datum', index=3,
       number=4, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='double_datum', full_name='org.sourceflow.gradient.entities.Datum.double_datum', index=4,
+      name='double_datum', full_name='org.sourceflow.gradient.common.entities.Datum.double_datum', index=4,
       number=5, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='long_datum', full_name='org.sourceflow.gradient.entities.Datum.long_datum', index=5,
+      name='long_datum', full_name='org.sourceflow.gradient.common.entities.Datum.long_datum', index=5,
       number=6, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='strings_datum', full_name='org.sourceflow.gradient.entities.Datum.strings_datum', index=6,
+      name='strings_datum', full_name='org.sourceflow.gradient.common.entities.Datum.strings_datum', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='booleans_datum', full_name='org.sourceflow.gradient.entities.Datum.booleans_datum', index=7,
+      name='booleans_datum', full_name='org.sourceflow.gradient.common.entities.Datum.booleans_datum', index=7,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='integers_datum', full_name='org.sourceflow.gradient.entities.Datum.integers_datum', index=8,
+      name='integers_datum', full_name='org.sourceflow.gradient.common.entities.Datum.integers_datum', index=8,
       number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='floats_datum', full_name='org.sourceflow.gradient.entities.Datum.floats_datum', index=9,
+      name='floats_datum', full_name='org.sourceflow.gradient.common.entities.Datum.floats_datum', index=9,
       number=10, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='doubles_datum', full_name='org.sourceflow.gradient.entities.Datum.doubles_datum', index=10,
+      name='doubles_datum', full_name='org.sourceflow.gradient.common.entities.Datum.doubles_datum', index=10,
       number=11, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='longs_datum', full_name='org.sourceflow.gradient.entities.Datum.longs_datum', index=11,
+      name='longs_datum', full_name='org.sourceflow.gradient.common.entities.Datum.longs_datum', index=11,
       number=12, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -351,26 +351,26 @@ _DATUM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='datum_selection', full_name='org.sourceflow.gradient.entities.Datum.datum_selection',
+      name='datum_selection', full_name='org.sourceflow.gradient.common.entities.Datum.datum_selection',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=389,
-  serialized_end=964,
+  serialized_start=417,
+  serialized_end=1034,
 )
 
 
 _BOOLEANS = _descriptor.Descriptor(
   name='Booleans',
-  full_name='org.sourceflow.gradient.entities.Booleans',
+  full_name='org.sourceflow.gradient.common.entities.Booleans',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='values', full_name='org.sourceflow.gradient.entities.Booleans.values', index=0,
+      name='values', full_name='org.sourceflow.gradient.common.entities.Booleans.values', index=0,
       number=1, type=8, cpp_type=7, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -388,21 +388,21 @@ _BOOLEANS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=966,
-  serialized_end=992,
+  serialized_start=1036,
+  serialized_end=1062,
 )
 
 
 _INTEGERS = _descriptor.Descriptor(
   name='Integers',
-  full_name='org.sourceflow.gradient.entities.Integers',
+  full_name='org.sourceflow.gradient.common.entities.Integers',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='values', full_name='org.sourceflow.gradient.entities.Integers.values', index=0,
+      name='values', full_name='org.sourceflow.gradient.common.entities.Integers.values', index=0,
       number=1, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -420,21 +420,21 @@ _INTEGERS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=994,
-  serialized_end=1020,
+  serialized_start=1064,
+  serialized_end=1090,
 )
 
 
 _LONGS = _descriptor.Descriptor(
   name='Longs',
-  full_name='org.sourceflow.gradient.entities.Longs',
+  full_name='org.sourceflow.gradient.common.entities.Longs',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='values', full_name='org.sourceflow.gradient.entities.Longs.values', index=0,
+      name='values', full_name='org.sourceflow.gradient.common.entities.Longs.values', index=0,
       number=1, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -452,21 +452,21 @@ _LONGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1022,
-  serialized_end=1045,
+  serialized_start=1092,
+  serialized_end=1115,
 )
 
 
 _FLOATS = _descriptor.Descriptor(
   name='Floats',
-  full_name='org.sourceflow.gradient.entities.Floats',
+  full_name='org.sourceflow.gradient.common.entities.Floats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='values', full_name='org.sourceflow.gradient.entities.Floats.values', index=0,
+      name='values', full_name='org.sourceflow.gradient.common.entities.Floats.values', index=0,
       number=1, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -484,21 +484,21 @@ _FLOATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1047,
-  serialized_end=1071,
+  serialized_start=1117,
+  serialized_end=1141,
 )
 
 
 _DOUBLES = _descriptor.Descriptor(
   name='Doubles',
-  full_name='org.sourceflow.gradient.entities.Doubles',
+  full_name='org.sourceflow.gradient.common.entities.Doubles',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='values', full_name='org.sourceflow.gradient.entities.Doubles.values', index=0,
+      name='values', full_name='org.sourceflow.gradient.common.entities.Doubles.values', index=0,
       number=1, type=1, cpp_type=5, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -516,21 +516,21 @@ _DOUBLES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1073,
-  serialized_end=1098,
+  serialized_start=1143,
+  serialized_end=1168,
 )
 
 
 _STRINGS = _descriptor.Descriptor(
   name='Strings',
-  full_name='org.sourceflow.gradient.entities.Strings',
+  full_name='org.sourceflow.gradient.common.entities.Strings',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='values', full_name='org.sourceflow.gradient.entities.Strings.values', index=0,
+      name='values', full_name='org.sourceflow.gradient.common.entities.Strings.values', index=0,
       number=1, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -548,35 +548,35 @@ _STRINGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1100,
-  serialized_end=1125,
+  serialized_start=1170,
+  serialized_end=1195,
 )
 
 
 _STREAMCONTROL = _descriptor.Descriptor(
   name='StreamControl',
-  full_name='org.sourceflow.gradient.entities.StreamControl',
+  full_name='org.sourceflow.gradient.common.entities.StreamControl',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='type', full_name='org.sourceflow.gradient.entities.StreamControl.type', index=0,
+      name='type', full_name='org.sourceflow.gradient.common.entities.StreamControl.type', index=0,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='send_messages', full_name='org.sourceflow.gradient.entities.StreamControl.send_messages', index=1,
+      name='send_messages', full_name='org.sourceflow.gradient.common.entities.StreamControl.send_messages', index=1,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='maximum_messages', full_name='org.sourceflow.gradient.entities.StreamControl.maximum_messages', index=2,
+      name='maximum_messages', full_name='org.sourceflow.gradient.common.entities.StreamControl.maximum_messages', index=2,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -594,8 +594,8 @@ _STREAMCONTROL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1127,
-  serialized_end=1252,
+  serialized_start=1198,
+  serialized_end=1330,
 )
 
 _CANONICALNAME.fields_by_name['types'].enum_type = _NAMECOMPONENTTYPE
@@ -662,77 +662,77 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 UUID = _reflection.GeneratedProtocolMessageType('UUID', (_message.Message,), {
   'DESCRIPTOR' : _UUID,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.UUID)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.UUID)
   })
 _sym_db.RegisterMessage(UUID)
 
 CanonicalName = _reflection.GeneratedProtocolMessageType('CanonicalName', (_message.Message,), {
   'DESCRIPTOR' : _CANONICALNAME,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.CanonicalName)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.CanonicalName)
   })
 _sym_db.RegisterMessage(CanonicalName)
 
 ProjectContext = _reflection.GeneratedProtocolMessageType('ProjectContext', (_message.Message,), {
   'DESCRIPTOR' : _PROJECTCONTEXT,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.ProjectContext)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.ProjectContext)
   })
 _sym_db.RegisterMessage(ProjectContext)
 
 Datum = _reflection.GeneratedProtocolMessageType('Datum', (_message.Message,), {
   'DESCRIPTOR' : _DATUM,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Datum)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.Datum)
   })
 _sym_db.RegisterMessage(Datum)
 
 Booleans = _reflection.GeneratedProtocolMessageType('Booleans', (_message.Message,), {
   'DESCRIPTOR' : _BOOLEANS,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Booleans)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.Booleans)
   })
 _sym_db.RegisterMessage(Booleans)
 
 Integers = _reflection.GeneratedProtocolMessageType('Integers', (_message.Message,), {
   'DESCRIPTOR' : _INTEGERS,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Integers)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.Integers)
   })
 _sym_db.RegisterMessage(Integers)
 
 Longs = _reflection.GeneratedProtocolMessageType('Longs', (_message.Message,), {
   'DESCRIPTOR' : _LONGS,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Longs)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.Longs)
   })
 _sym_db.RegisterMessage(Longs)
 
 Floats = _reflection.GeneratedProtocolMessageType('Floats', (_message.Message,), {
   'DESCRIPTOR' : _FLOATS,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Floats)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.Floats)
   })
 _sym_db.RegisterMessage(Floats)
 
 Doubles = _reflection.GeneratedProtocolMessageType('Doubles', (_message.Message,), {
   'DESCRIPTOR' : _DOUBLES,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Doubles)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.Doubles)
   })
 _sym_db.RegisterMessage(Doubles)
 
 Strings = _reflection.GeneratedProtocolMessageType('Strings', (_message.Message,), {
   'DESCRIPTOR' : _STRINGS,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Strings)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.Strings)
   })
 _sym_db.RegisterMessage(Strings)
 
 StreamControl = _reflection.GeneratedProtocolMessageType('StreamControl', (_message.Message,), {
   'DESCRIPTOR' : _STREAMCONTROL,
   '__module__' : 'org.sourceflow.gradient.entities.common_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.StreamControl)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.common.entities.StreamControl)
   })
 _sym_db.RegisterMessage(StreamControl)
 

@@ -15,6 +15,12 @@ dir_build = pathlib.Path("build")
 dir_project = pathlib.Path(__file__).parent
 
 
+def load_parent_config() -> dict:
+    import yaml
+    with dir_project.parent.joinpath("invoke.yaml").open() as f:
+        return yaml.safe_load(f)
+
+
 def extract_version(version: str):
     pattern = re.compile(r"(?P<major>\d)\.(?P<minor>\d)\.(?P<patch>\d)([-+])(?P<build>\d)")
     result = pattern.search(version)
@@ -40,8 +46,28 @@ def install(c, distilled=False):
 
 
 @task
-def protos_load(c):
+def protos_load(c, dir_local=None):
+    if dir_local:
+        _load_protos_local(dir_local)
+    else:
+        _load_protos_aws(c)
+
+    logger.info(f"Done loading protos")
+
+
+def _load_protos_local(dir_local):
+    logger.info(f"Getting protos from {dir_local}")
+
+    dir_local = pathlib.Path(dir_local).joinpath("gradient-service-domain.jar")
+    if dir_local.exists():
+        _extract_protos_zip(dir_local)
+    else:
+        logger.warning(f"Could not find the configured version {c.config['gradle_gradient_service_domain_version']}")
+
+
+def _load_protos_aws(c):
     from gradient_domain import bootstrap
+    from botocore import errorfactory
 
     logger.info("Pulling protos from maven")
 
@@ -52,54 +78,61 @@ def protos_load(c):
     assert packages, f"Could not load protos"
     version_str, revision_current = packages[0]
 
-    if version_str and c.config["gradle_gradient_service_domain_version"]:
+    config_parent = load_parent_config()
+    if version_str and config_parent["gradient_service_version"]:
         logger.info(f"Found configured version {version_str}")
 
         asset_name = f"gradient-service-domain-{version_str}.jar"
 
-        path_asset = service.download_gradient_service_api_jar(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository_jvm,
-                                                               version_str, revision_current, asset_name, dir_build)
+        try:
+            path_asset = service.download_gradient_service_api_jar(c.code_artifact.domain, str(c.code_artifact.owner), c.code_artifact.repository_jvm,
+                                                                   version_str, revision_current, asset_name, dir_build)
 
-        with zipfile.ZipFile(path_asset) as zipf:
-            dir_zip = dir_build.joinpath("protos")
-
-            logger.info(f"Extracting protos into {dir_zip}")
-            dir_zip.mkdir(parents=True, exist_ok=True)
-            protots = [it for it in zipf.namelist() if it.endswith(".proto")]
-            zipf.extractall(dir_zip, protots)
+            _extract_protos_zip(path_asset)
+        except errorfactory.ClientError as ex:
+            logger.warning(f"Could not pull the most recent proto definitions.", ex)
     else:
         logger.warning(f"Could not find the configured version {c.config['gradle_gradient_service_domain_version']}")
 
-    logger.info(f"Done loading protos")
+
+def _extract_protos_zip(path_asset: pathlib.Path):
+    with zipfile.ZipFile(path_asset) as zipf:
+        dir_zip = dir_build.joinpath("protos")
+
+        logger.info(f"Extracting protos into {dir_zip}")
+        dir_zip.mkdir(parents=True, exist_ok=True)
+        protots = [it for it in zipf.namelist() if it.endswith(".proto")]
+        zipf.extractall(dir_zip, protots)
 
 
-@task(pre=[protos_load])
-def build(c):
+@task
+def assemble(c):
     from gradient_domain import bootstrap
-    from botocore import errorfactory
 
-    logger.info("Building")
+    logger.info("Assembling")
 
     logger.info("Generating python sources from protos.")
     dir_build.mkdir(exist_ok=True)
     service = bootstrap.Container.build_service()
 
-    try:
-        dir_sources = service.generate_source_from_protos(dir_build.joinpath("protos"),
-                                                          dir_build.joinpath("protoc"))
+    dir_sources = service.generate_source_from_protos(dir_build.joinpath("protos"),
+                                                      dir_build.joinpath("protoc"))
 
-        dir_entities_in = dir_sources.joinpath("model", "entities")
-        dir_services_in = dir_sources.joinpath("model", "services")
-        dir_gen_entities_out = dir_project.joinpath("gradient_domain", "entities", "gen")
-        dir_gen_services_out = dir_project.joinpath("gradient_domain", "services", "gen")
+    dir_entities_in = dir_sources.joinpath("model", "entities")
+    dir_gen_entities_out = dir_project.joinpath("gradient_domain", "entities", "gen")
 
-        shutil.rmtree(dir_gen_entities_out, ignore_errors=True)
-        shutil.rmtree(dir_gen_services_out, ignore_errors=True)
+    shutil.rmtree(dir_gen_entities_out, ignore_errors=True)
 
-        shutil.move(str(dir_entities_in), str(dir_gen_entities_out))
-        shutil.move(str(dir_services_in), str(dir_gen_services_out))
-    except errorfactory.ClientError as ex:
-        logger.warning(f"Could not pull the most recent proto definitions.", ex)
+    shutil.move(str(dir_entities_in), str(dir_gen_entities_out))
+
+    logger.info("Assemble done")
+
+
+@task(pre=[protos_load])
+def build(c):
+    logger.info("Building")
+
+    assemble(c)
 
     logger.info("Build done")
 

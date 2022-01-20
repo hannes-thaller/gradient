@@ -16,8 +16,8 @@ def load_and_increment_version() -> str:
 setup(
     name="gradient-service-inference",
     version=load_and_increment_version(),
-    description="The python API domain entities of Gradient",
-    long_description="The python API domain entities of Gradient",
+    description="The Gradient model registry and inference service.",
+    long_description="The Gradient model registry and inference service.",
     url="https://bitbucket.org/sourceflow-ai/gradient-python/src/master/",
     license="Copyright Sourceflow",
     packages=find_packages(),

@@ -1,19 +1,21 @@
 import logging
 import pathlib
-
 from invoke import task
 
 project_name = "gradient-service-inference"
 
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+                    level=logging.INFO)
+logging.getLogger("gradient").setLevel(logging.DEBUG)
 logger = logging.getLogger(project_name)
+logger.setLevel(logging.DEBUG)
 
 dir_build = pathlib.Path("build")
 dir_project = pathlib.Path(__file__).parent
 
 
 @task
-def install(c, distilled=False):
+def install(c, distilled=False, dev=False):
     logger.info("Installing")
 
     if distilled:
@@ -21,6 +23,9 @@ def install(c, distilled=False):
         c.run(f"conda run -n {project_name} conda env export > requirements/requirements.yaml")
     else:
         c.run(f"conda env create --force -f requirements/requirements.yaml")
+
+    if dev:
+        c.run(f" conda run -n {project_name} python ../gradient-service-domain/setup.py install")
 
     logger.info("Installing done")
 
@@ -62,5 +67,4 @@ def auth(c):
 
 @task(default=True)
 def run(c):
-    from gradient_inference import __main__
-    __main__.main()
+    c.run(f"python bin/gradient-service-inference.py")

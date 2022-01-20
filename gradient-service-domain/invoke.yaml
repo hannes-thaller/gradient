@@ -3,5 +3,3 @@ code_artifact:
   domain: sourceflow-gradient
   repository_jvm: sourceflow-gradient-jvm
   repository_python: sourceflow-gradient-python
-
-gradle_gradient_service_domain_version: 0.1.0-6

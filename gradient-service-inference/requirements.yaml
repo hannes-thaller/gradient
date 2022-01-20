@@ -21,4 +21,5 @@ dependencies:
   - hypothesis=6.0.0 # dev
   - pyyaml=5.4.1
   - pip:
+      - pulsar-client==2.8.1
       - gradient-service-domain==0.1.0+6

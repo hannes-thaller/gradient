@@ -64,12 +64,25 @@ class ProtobufSerde:
         )
 
     @staticmethod
+    def from_structure_graph(e: code.StructureGraph) -> entity.StructureGraph:
+        assert e
+        return entity.StructureGraph(
+            types=tuple(ProtobufSerde.from_type(it) for it in e.types),
+            properties=tuple(ProtobufSerde.from_property(it) for it in e.properties),
+            executables=tuple(ProtobufSerde.from_executable(it) for it in e.executables),
+            parameters=tuple(ProtobufSerde.from_parameter(it) for it in e.parameters),
+            results=tuple(ProtobufSerde.from_result(it) for it in e.results),
+        )
+
+    @staticmethod
     def from_type(e: code.Type) -> entity.Type:
         assert e
         return entity.Type(
             id=e.id,
             name=ProtobufSerde.from_canonical_name(e.name),
-            status=entity.ModelUniverseStatus[e.status.name]
+            status=entity.ModelUniverseStatus[e.status.name],
+            properties=tuple(e.properties),
+            executables=tuple(e.executables)
         )
 
     @staticmethod
@@ -79,7 +92,14 @@ class ProtobufSerde:
             id=e.id,
             name=ProtobufSerde.from_canonical_name(e.name),
             status=entity.ModelUniverseStatus[e.status.name],
-            type_data=ProtobufSerde.from_data_type(e.executable.data_type)
+            type_data=ProtobufSerde.from_data_type(e.executable.data_type),
+            is_class_member=e.is_class_member,
+            is_abstract=e.is_abstract,
+            is_constructor=e.is_constructor,
+            parameters=tuple(e.parameters),
+            invokes=tuple(e.invokes),
+            reads=tuple(e.reads),
+            writes=tuple(e.writes)
         )
 
     @staticmethod
@@ -89,7 +109,9 @@ class ProtobufSerde:
             id=e.id,
             name=ProtobufSerde.from_canonical_name(e.name),
             status=entity.ModelUniverseStatus[e.status.name],
-            type_data=ProtobufSerde.from_data_type(e.property.data_type)
+            type_data=ProtobufSerde.from_data_type(e.property.data_type),
+            is_class_member=e.is_class_member,
+            is_immutable=e.is_immutable
         )
 
     @staticmethod
@@ -103,20 +125,83 @@ class ProtobufSerde:
             index=e.parameter.index
         )
 
+    @staticmethod
+    def from_result(e: code.Result) -> entity.Result:
+        assert e
+        return entity.Result(
+            id=e.id,
+            name=ProtobufSerde.from_canonical_name(e.name),
+            status=entity.ModelUniverseStatus[e.status.name],
+            type_data=ProtobufSerde.from_data_type(e.parameter.data_type),
+        )
+
+    @staticmethod
+    def from_project_context(e: entity.ProjectContext) -> entity.ProjectContext:
+        assert e
+        return entity.ProjectContext(
+            ProtobufSerde.from_uuid(e.id_project),
+            ProtobufSerde.from_uuid(e.id_session)
+        )
+
 
 class MongoSerde:
     @staticmethod
-    def to_feature_description(e: "dataset.FeatureDescription"):
-        pass
+    def to_project_context(e: "entity.ProjectContext"):
+        assert e
+        return {
+            "id_project": e.id_project,
+            "id_session": e.id_session
+        }
 
     @staticmethod
-    def from_feature_description():
-        pass
+    def to_factor_graph(e: "entity.FactorGraph"):
+        assert e
+        return {
+            "id": e.id,
+            "factors": e.factors,
+            "variables": e.variables
+        }
 
     @staticmethod
-    def to_model():
-        pass
+    def to_cluster_graph(e: "entity.ClusterGraph"):
+        assert e
+        return {
+            "id": e.id,
+            "clusters": [MongoSerde.to_cluster(it) for it in e.clusters],
+            "variables": [MongoSerde.to_variables(it) for it in e.variables]
+        }
 
     @staticmethod
-    def from_model():
-        pass
+    def to_cluster(e: "entity.Cluster"):
+        assert e
+        return {
+            "id": e.id,
+            "name": e.name,
+            "variables": e.variables
+        }
+
+    @staticmethod
+    def to_factors(e: "entity.Factor"):
+        assert e
+        return {
+            "id": e.id,
+            "name": MongoSerde.to_canonical_name(e.name),
+            "variables": e.variables
+        }
+
+    @staticmethod
+    def to_variables(e: "entity.Variable"):
+        assert e
+        return {
+            "id": e.id,
+            "name": MongoSerde.to_canonical_name(e.name),
+            "type_data": e.type_data.name
+        }
+
+    @staticmethod
+    def to_canonical_name(e: "entity.CanonicalName"):
+        assert e
+        return {
+            "components": e.components,
+            "types": [it.name for it in e.types]
+        }

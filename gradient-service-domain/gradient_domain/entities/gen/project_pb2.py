@@ -16,11 +16,11 @@ from . import common_pb2 as org_dot_sourceflow_dot_gradient_dot_entities_dot_com
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='org/sourceflow/gradient/entities/project.proto',
-  package='org.sourceflow.gradient.entities',
+  package='org.sourceflow.gradient.project.entities',
   syntax='proto3',
   serialized_options=b'\n(org.sourceflow.gradient.project.entitiesB\017ProjectEntities',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n.org/sourceflow/gradient/entities/project.proto\x12 org.sourceflow.gradient.entities\x1a-org/sourceflow/gradient/entities/common.proto\"\xdd\x01\n\x0eProjectMessage\x12:\n\nrequest_id\x18\x01 \x01(\x0b\x32&.org.sourceflow.gradient.entities.UUID\x12?\n\x04name\x18\x02 \x01(\x0b\x32/.org.sourceflow.gradient.entities.CanonicalNameH\x00\x12\x43\n\x07\x63ontext\x18\x03 \x01(\x0b\x32\x30.org.sourceflow.gradient.entities.ProjectContextH\x00\x42\t\n\x07payloadB;\n(org.sourceflow.gradient.project.entitiesB\x0fProjectEntitiesb\x06proto3'
+  serialized_pb=b'\n.org/sourceflow/gradient/entities/project.proto\x12(org.sourceflow.gradient.project.entities\x1a-org/sourceflow/gradient/entities/common.proto\"\xf2\x01\n\x0eProjectMessage\x12\x41\n\nrequest_id\x18\x01 \x01(\x0b\x32-.org.sourceflow.gradient.common.entities.UUID\x12\x46\n\x04name\x18\x02 \x01(\x0b\x32\x36.org.sourceflow.gradient.common.entities.CanonicalNameH\x00\x12J\n\x07\x63ontext\x18\x03 \x01(\x0b\x32\x37.org.sourceflow.gradient.common.entities.ProjectContextH\x00\x42\t\n\x07payloadB;\n(org.sourceflow.gradient.project.entitiesB\x0fProjectEntitiesb\x06proto3'
   ,
   dependencies=[org_dot_sourceflow_dot_gradient_dot_entities_dot_common__pb2.DESCRIPTOR,])
 
@@ -29,28 +29,28 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _PROJECTMESSAGE = _descriptor.Descriptor(
   name='ProjectMessage',
-  full_name='org.sourceflow.gradient.entities.ProjectMessage',
+  full_name='org.sourceflow.gradient.project.entities.ProjectMessage',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='request_id', full_name='org.sourceflow.gradient.entities.ProjectMessage.request_id', index=0,
+      name='request_id', full_name='org.sourceflow.gradient.project.entities.ProjectMessage.request_id', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='name', full_name='org.sourceflow.gradient.entities.ProjectMessage.name', index=1,
+      name='name', full_name='org.sourceflow.gradient.project.entities.ProjectMessage.name', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='context', full_name='org.sourceflow.gradient.entities.ProjectMessage.context', index=2,
+      name='context', full_name='org.sourceflow.gradient.project.entities.ProjectMessage.context', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -68,13 +68,13 @@ _PROJECTMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='payload', full_name='org.sourceflow.gradient.entities.ProjectMessage.payload',
+      name='payload', full_name='org.sourceflow.gradient.project.entities.ProjectMessage.payload',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=132,
-  serialized_end=353,
+  serialized_start=140,
+  serialized_end=382,
 )
 
 _PROJECTMESSAGE.fields_by_name['request_id'].message_type = org_dot_sourceflow_dot_gradient_dot_entities_dot_common__pb2._UUID
@@ -92,7 +92,7 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 ProjectMessage = _reflection.GeneratedProtocolMessageType('ProjectMessage', (_message.Message,), {
   'DESCRIPTOR' : _PROJECTMESSAGE,
   '__module__' : 'org.sourceflow.gradient.entities.project_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.ProjectMessage)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.project.entities.ProjectMessage)
   })
 _sym_db.RegisterMessage(ProjectMessage)
 

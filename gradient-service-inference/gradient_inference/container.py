@@ -29,7 +29,7 @@ class ShutdownCleaner:
 
 @attr.s(slots=True)
 class SystemContainer:
-    _shutdown_cleaner: "ShutdownCleaner" = attr.ib(init=False)
+    _shutdown_cleaner: "ShutdownCleaner" = attr.ib(default=None, init=False)
     INSTANCE: "SystemContainer" = None
 
     def __attrs_post_init__(self):
@@ -53,22 +53,15 @@ class SystemContainer:
         logging.basicConfig(level=logging.INFO,
                             handlers=[stream_handler],
                             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        logging.getLogger("gradient.domain.service").setLevel(logging.DEBUG)
-        logging.getLogger("gradient.domain.dao").setLevel(logging.DEBUG)
-        logging.getLogger("gradient.domain.inference").setLevel(logging.DEBUG)
-        logging.getLogger("gradient.domain.optimization").setLevel(logging.DEBUG)
+        logging.getLogger("gradient_domain").setLevel(logging.DEBUG)
 
 
 @attr.s(slots=True)
 class PersistenceContainer:
-    _client_pulsar = attr.ib(init=False)
-    _client_mongo = attr.ib(init=False)
-    _dao_model = attr.ib(init=False)
+    _client_pulsar: "pulsar.Client" = attr.ib(default=None, init=False)
+    _client_mongo = attr.ib(default=None, init=False)
+    _dao_model = attr.ib(default=None, init=False)
     INSTANCE: "PersistenceContainer" = None
-
-    @staticmethod
-    def grpc_port() -> int:
-        return 15001
 
     @staticmethod
     def url_pulsar() -> str:
@@ -80,7 +73,7 @@ class PersistenceContainer:
     @staticmethod
     def url_mongo() -> str:
         if SystemContainer.INSTANCE.in_container():
-            return "mongodb://gs-code-database:27017"
+            return "mongodb://gs-model-database:27017"
         else:
             return "mongodb://localhost:15002"
 
@@ -122,7 +115,7 @@ class PersistenceContainer:
 
 @attr.s(slots=True)
 class ServiceContainer:
-    _service_model: "service.MessageService" = attr.ib(init=False)
+    _service_model: "service.InferenceService" = attr.ib(default=None, init=False)
     INSTANCE: "ServiceContainer" = None
 
     @staticmethod
@@ -130,10 +123,12 @@ class ServiceContainer:
         from gradient_inference import persistence
         return persistence.ProtobufSerde()
 
-    def service_model(self) -> "service.MessageService":
+    def service_inference(self) -> "service.InferenceService":
         if self._service_model is None:
             from gradient_inference import service
-            self._service_model = service.MessageService(PersistenceContainer.INSTANCE.client_pulsar())
+            self._service_model = service.InferenceService(
+                client=PersistenceContainer.INSTANCE.client_pulsar()
+            )
             SystemContainer.INSTANCE.shutdown_cleaner().add_cleanup_routine(self._service_model.close, 2)
         return self._service_model
 

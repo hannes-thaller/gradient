@@ -17,17 +17,17 @@ from . import common_pb2 as org_dot_sourceflow_dot_gradient_dot_entities_dot_com
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='org/sourceflow/gradient/entities/monitoring.proto',
-  package='org.sourceflow.gradient.entities',
+  package='org.sourceflow.gradient.monitoring.entities',
   syntax='proto3',
   serialized_options=b'\n+org.sourceflow.gradient.monitoring.entitiesB\022MonitoringEntities',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n1org/sourceflow/gradient/entities/monitoring.proto\x12 org.sourceflow.gradient.entities\x1a-org/sourceflow/gradient/entities/common.proto\"\xbf\x01\n\x0fMonitoringEvent\x12\x43\n\x04type\x18\x01 \x01(\x0e\x32\x35.org.sourceflow.gradient.entities.MonitoringEventType\x12\x0f\n\x07\x66rameId\x18\x02 \x01(\x03\x12\x0e\n\x06source\x18\x03 \x01(\x05\x12\x0e\n\x06target\x18\x04 \x01(\x05\x12\x36\n\x05\x64\x61tum\x18\x05 \x01(\x0b\x32\'.org.sourceflow.gradient.entities.Datum\"\xc6\x01\n\x05\x46rame\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x1d\n\x15\x66rame_code_element_id\x18\x03 \x01(\x05\x12\x41\n\x06\x65vents\x18\x04 \x03(\x0b\x32\x31.org.sourceflow.gradient.entities.MonitoringEvent\x12O\n\x14related_child_events\x18\x05 \x03(\x0b\x32\x31.org.sourceflow.gradient.entities.MonitoringEvent\"\x9d\x01\n\x16MonitoringStreamDetail\x12@\n\x07\x63ontrol\x18\x01 \x01(\x0b\x32/.org.sourceflow.gradient.entities.StreamControl\x12\x41\n\x06\x65vents\x18\x02 \x03(\x0b\x32\x31.org.sourceflow.gradient.entities.MonitoringEvent\"\x8e\x01\n\x11\x46rameStreamDetail\x12@\n\x07\x63ontrol\x18\x01 \x01(\x0b\x32/.org.sourceflow.gradient.entities.StreamControl\x12\x37\n\x06\x66rames\x18\x02 \x03(\x0b\x32\'.org.sourceflow.gradient.entities.Frame\"\x9b\x02\n\x11MonitoringMessage\x12I\n\x0fproject_context\x18\x01 \x01(\x0b\x32\x30.org.sourceflow.gradient.entities.ProjectContext\x12\\\n\x18monitoring_stream_detail\x18\x02 \x01(\x0b\x32\x38.org.sourceflow.gradient.entities.MonitoringStreamDetailH\x00\x12R\n\x13\x66rame_stream_detail\x18\x03 \x01(\x0b\x32\x33.org.sourceflow.gradient.entities.FrameStreamDetailH\x00\x42\t\n\x07payload*Z\n\x13MonitoringEventType\x12\t\n\x05\x46RAME\x10\x00\x12\x0b\n\x07RECEIVE\x10\x01\x12\n\n\x06RETURN\x10\x02\x12\n\n\x06\x45XCEPT\x10\x03\x12\x08\n\x04READ\x10\x04\x12\t\n\x05WRITE\x10\x05\x42\x41\n+org.sourceflow.gradient.monitoring.entitiesB\x12MonitoringEntitiesb\x06proto3'
+  serialized_pb=b'\n1org/sourceflow/gradient/entities/monitoring.proto\x12+org.sourceflow.gradient.monitoring.entities\x1a-org/sourceflow/gradient/entities/common.proto\"\xd1\x01\n\x0fMonitoringEvent\x12N\n\x04type\x18\x01 \x01(\x0e\x32@.org.sourceflow.gradient.monitoring.entities.MonitoringEventType\x12\x0f\n\x07\x66rameId\x18\x02 \x01(\x03\x12\x0e\n\x06source\x18\x03 \x01(\x05\x12\x0e\n\x06target\x18\x04 \x01(\x05\x12=\n\x05\x64\x61tum\x18\x05 \x01(\x0b\x32..org.sourceflow.gradient.common.entities.Datum\"\xdc\x01\n\x05\x46rame\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x1d\n\x15\x66rame_code_element_id\x18\x03 \x01(\x05\x12L\n\x06\x65vents\x18\x04 \x03(\x0b\x32<.org.sourceflow.gradient.monitoring.entities.MonitoringEvent\x12Z\n\x14related_child_events\x18\x05 \x03(\x0b\x32<.org.sourceflow.gradient.monitoring.entities.MonitoringEvent\"\xaf\x01\n\x16MonitoringStreamDetail\x12G\n\x07\x63ontrol\x18\x01 \x01(\x0b\x32\x36.org.sourceflow.gradient.common.entities.StreamControl\x12L\n\x06\x65vents\x18\x02 \x03(\x0b\x32<.org.sourceflow.gradient.monitoring.entities.MonitoringEvent\"\xa0\x01\n\x11\x46rameStreamDetail\x12G\n\x07\x63ontrol\x18\x01 \x01(\x0b\x32\x36.org.sourceflow.gradient.common.entities.StreamControl\x12\x42\n\x06\x66rames\x18\x02 \x03(\x0b\x32\x32.org.sourceflow.gradient.monitoring.entities.Frame\"\xb8\x02\n\x11MonitoringMessage\x12P\n\x0fproject_context\x18\x01 \x01(\x0b\x32\x37.org.sourceflow.gradient.common.entities.ProjectContext\x12g\n\x18monitoring_stream_detail\x18\x02 \x01(\x0b\x32\x43.org.sourceflow.gradient.monitoring.entities.MonitoringStreamDetailH\x00\x12]\n\x13\x66rame_stream_detail\x18\x03 \x01(\x0b\x32>.org.sourceflow.gradient.monitoring.entities.FrameStreamDetailH\x00\x42\t\n\x07payload*Z\n\x13MonitoringEventType\x12\t\n\x05\x46RAME\x10\x00\x12\x0b\n\x07RECEIVE\x10\x01\x12\n\n\x06RETURN\x10\x02\x12\n\n\x06\x45XCEPT\x10\x03\x12\x08\n\x04READ\x10\x04\x12\t\n\x05WRITE\x10\x05\x42\x41\n+org.sourceflow.gradient.monitoring.entitiesB\x12MonitoringEntitiesb\x06proto3'
   ,
   dependencies=[org_dot_sourceflow_dot_gradient_dot_entities_dot_common__pb2.DESCRIPTOR,])
 
 _MONITORINGEVENTTYPE = _descriptor.EnumDescriptor(
   name='MonitoringEventType',
-  full_name='org.sourceflow.gradient.entities.MonitoringEventType',
+  full_name='org.sourceflow.gradient.monitoring.entities.MonitoringEventType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -65,8 +65,8 @@ _MONITORINGEVENTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1120,
-  serialized_end=1210,
+  serialized_start=1236,
+  serialized_end=1326,
 )
 _sym_db.RegisterEnumDescriptor(_MONITORINGEVENTTYPE)
 
@@ -82,42 +82,42 @@ WRITE = 5
 
 _MONITORINGEVENT = _descriptor.Descriptor(
   name='MonitoringEvent',
-  full_name='org.sourceflow.gradient.entities.MonitoringEvent',
+  full_name='org.sourceflow.gradient.monitoring.entities.MonitoringEvent',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='type', full_name='org.sourceflow.gradient.entities.MonitoringEvent.type', index=0,
+      name='type', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringEvent.type', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='frameId', full_name='org.sourceflow.gradient.entities.MonitoringEvent.frameId', index=1,
+      name='frameId', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringEvent.frameId', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='source', full_name='org.sourceflow.gradient.entities.MonitoringEvent.source', index=2,
+      name='source', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringEvent.source', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='target', full_name='org.sourceflow.gradient.entities.MonitoringEvent.target', index=3,
+      name='target', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringEvent.target', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='datum', full_name='org.sourceflow.gradient.entities.MonitoringEvent.datum', index=4,
+      name='datum', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringEvent.datum', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -135,42 +135,42 @@ _MONITORINGEVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=135,
-  serialized_end=326,
+  serialized_start=146,
+  serialized_end=355,
 )
 
 
 _FRAME = _descriptor.Descriptor(
   name='Frame',
-  full_name='org.sourceflow.gradient.entities.Frame',
+  full_name='org.sourceflow.gradient.monitoring.entities.Frame',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='org.sourceflow.gradient.entities.Frame.id', index=0,
+      name='id', full_name='org.sourceflow.gradient.monitoring.entities.Frame.id', index=0,
       number=1, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='frame_code_element_id', full_name='org.sourceflow.gradient.entities.Frame.frame_code_element_id', index=1,
+      name='frame_code_element_id', full_name='org.sourceflow.gradient.monitoring.entities.Frame.frame_code_element_id', index=1,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='events', full_name='org.sourceflow.gradient.entities.Frame.events', index=2,
+      name='events', full_name='org.sourceflow.gradient.monitoring.entities.Frame.events', index=2,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='related_child_events', full_name='org.sourceflow.gradient.entities.Frame.related_child_events', index=3,
+      name='related_child_events', full_name='org.sourceflow.gradient.monitoring.entities.Frame.related_child_events', index=3,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -188,28 +188,28 @@ _FRAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=329,
-  serialized_end=527,
+  serialized_start=358,
+  serialized_end=578,
 )
 
 
 _MONITORINGSTREAMDETAIL = _descriptor.Descriptor(
   name='MonitoringStreamDetail',
-  full_name='org.sourceflow.gradient.entities.MonitoringStreamDetail',
+  full_name='org.sourceflow.gradient.monitoring.entities.MonitoringStreamDetail',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='control', full_name='org.sourceflow.gradient.entities.MonitoringStreamDetail.control', index=0,
+      name='control', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringStreamDetail.control', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='events', full_name='org.sourceflow.gradient.entities.MonitoringStreamDetail.events', index=1,
+      name='events', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringStreamDetail.events', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -227,28 +227,28 @@ _MONITORINGSTREAMDETAIL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=530,
-  serialized_end=687,
+  serialized_start=581,
+  serialized_end=756,
 )
 
 
 _FRAMESTREAMDETAIL = _descriptor.Descriptor(
   name='FrameStreamDetail',
-  full_name='org.sourceflow.gradient.entities.FrameStreamDetail',
+  full_name='org.sourceflow.gradient.monitoring.entities.FrameStreamDetail',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='control', full_name='org.sourceflow.gradient.entities.FrameStreamDetail.control', index=0,
+      name='control', full_name='org.sourceflow.gradient.monitoring.entities.FrameStreamDetail.control', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='frames', full_name='org.sourceflow.gradient.entities.FrameStreamDetail.frames', index=1,
+      name='frames', full_name='org.sourceflow.gradient.monitoring.entities.FrameStreamDetail.frames', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -266,35 +266,35 @@ _FRAMESTREAMDETAIL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=690,
-  serialized_end=832,
+  serialized_start=759,
+  serialized_end=919,
 )
 
 
 _MONITORINGMESSAGE = _descriptor.Descriptor(
   name='MonitoringMessage',
-  full_name='org.sourceflow.gradient.entities.MonitoringMessage',
+  full_name='org.sourceflow.gradient.monitoring.entities.MonitoringMessage',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='project_context', full_name='org.sourceflow.gradient.entities.MonitoringMessage.project_context', index=0,
+      name='project_context', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringMessage.project_context', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='monitoring_stream_detail', full_name='org.sourceflow.gradient.entities.MonitoringMessage.monitoring_stream_detail', index=1,
+      name='monitoring_stream_detail', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringMessage.monitoring_stream_detail', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='frame_stream_detail', full_name='org.sourceflow.gradient.entities.MonitoringMessage.frame_stream_detail', index=2,
+      name='frame_stream_detail', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringMessage.frame_stream_detail', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -312,13 +312,13 @@ _MONITORINGMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='payload', full_name='org.sourceflow.gradient.entities.MonitoringMessage.payload',
+      name='payload', full_name='org.sourceflow.gradient.monitoring.entities.MonitoringMessage.payload',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=835,
-  serialized_end=1118,
+  serialized_start=922,
+  serialized_end=1234,
 )
 
 _MONITORINGEVENT.fields_by_name['type'].enum_type = _MONITORINGEVENTTYPE
@@ -349,35 +349,35 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 MonitoringEvent = _reflection.GeneratedProtocolMessageType('MonitoringEvent', (_message.Message,), {
   'DESCRIPTOR' : _MONITORINGEVENT,
   '__module__' : 'org.sourceflow.gradient.entities.monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.MonitoringEvent)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.monitoring.entities.MonitoringEvent)
   })
 _sym_db.RegisterMessage(MonitoringEvent)
 
 Frame = _reflection.GeneratedProtocolMessageType('Frame', (_message.Message,), {
   'DESCRIPTOR' : _FRAME,
   '__module__' : 'org.sourceflow.gradient.entities.monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.Frame)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.monitoring.entities.Frame)
   })
 _sym_db.RegisterMessage(Frame)
 
 MonitoringStreamDetail = _reflection.GeneratedProtocolMessageType('MonitoringStreamDetail', (_message.Message,), {
   'DESCRIPTOR' : _MONITORINGSTREAMDETAIL,
   '__module__' : 'org.sourceflow.gradient.entities.monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.MonitoringStreamDetail)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.monitoring.entities.MonitoringStreamDetail)
   })
 _sym_db.RegisterMessage(MonitoringStreamDetail)
 
 FrameStreamDetail = _reflection.GeneratedProtocolMessageType('FrameStreamDetail', (_message.Message,), {
   'DESCRIPTOR' : _FRAMESTREAMDETAIL,
   '__module__' : 'org.sourceflow.gradient.entities.monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.FrameStreamDetail)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.monitoring.entities.FrameStreamDetail)
   })
 _sym_db.RegisterMessage(FrameStreamDetail)
 
 MonitoringMessage = _reflection.GeneratedProtocolMessageType('MonitoringMessage', (_message.Message,), {
   'DESCRIPTOR' : _MONITORINGMESSAGE,
   '__module__' : 'org.sourceflow.gradient.entities.monitoring_pb2'
-  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.entities.MonitoringMessage)
+  # @@protoc_insertion_point(class_scope:org.sourceflow.gradient.monitoring.entities.MonitoringMessage)
   })
 _sym_db.RegisterMessage(MonitoringMessage)
 
