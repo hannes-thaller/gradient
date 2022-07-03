@@ -8,8 +8,8 @@ export const landing_menu = [
     link: "/services",
   },
   {
-    title: "Company",
-    link: "/company",
+    title: "About Us",
+    link: "/aboutus",
   },
 ];
 
