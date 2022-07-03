@@ -11,81 +11,61 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block class="mb-2">
-            Sign In
-          </v-btn>
-          <v-btn block class="primary">
-            Sign Up
-          </v-btn>
+          <v-btn block color="primary"> Log In </v-btn>
         </div>
       </template>
     </v-navigation-drawer>
 
-    <v-btn
-      class="d-md-none drawer-button"
-      rounded
-      @click="drawer = !drawer"
-    >
+    <v-btn class="d-md-none drawer-button" rounded @click="drawer = !drawer">
       <v-icon right>mdi-menu</v-icon>
     </v-btn>
 
-    <v-app-bar app height="80">
-      <v-container class="py-0 px-0 px-sm-2 fill-height" :fluid="isFluid">
-        <router-link to="#" class="d-flex align-center text-decoration-none mr-2">
-          <img src="/images/v-logo-small.png" alt="" height="48" class="mr-1">
-          <span class="font-weight-black text-uppercase">
-            Carbon UI
-          </span>
-        </router-link>
+    <v-app-bar app flat :height="$vuetify.breakpoint.mdAndUp ? '140' : '60'">
+      <v-container
+        class="py-0 px-0 px-sm-2 d-flex flex-column text-center justify-center align-center"
+      >
+        <div class="mb-md-3">
+          <router-link to="/" class="d-flex align-center text-decoration-none mr-2">
+            <img src="/images/v-logo-small.png" alt="" height="40" class="mr-1" />
+            <span class="font-weight-black text-uppercase secondary--text">
+              Sourceflow
+            </span>
+          </router-link>
+        </div>
 
         <div class="d-none d-md-block">
           <v-btn
             v-for="(item, index) in menu"
             :key="index"
-            text
             :to="item.link"
+            text
             class="mx-1"
           >
             {{ item.title }}
           </v-btn>
         </div>
-
-        <v-spacer></v-spacer>
-
-        <v-btn large text class="mx-1 d-none d-sm-inline-block">
-          Sign In
-        </v-btn>
-        <v-btn color="primary" large>
-          Sign Up
-        </v-btn>
       </v-container>
     </v-app-bar>
   </div>
 </template>
 
 <script>
-import { menu2 as menu } from './menus.js'
+import { landing_menu as menu } from "./menus.js";
 
 export default {
-  props: {
-    isFluid: {
-      type: Boolean,
-      default: false
-    }
-  },
   data() {
     return {
       drawer: null,
-      menu
-    }
-  }
-}
+      menu,
+    };
+  },
+};
 </script>
 
 <style scoped>
 .drawer-button {
   position: fixed;
-  top: 60px;
+  top: 44px;
   left: -22px;
   z-index: 6;
 }

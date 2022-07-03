@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import Toolbar from '@/components/ui/landing/toolbar/Toolbar5.vue'
-import Footer from '@/components/ui/landing/footer/Footer8.vue'
+import Toolbar from "@/components/ui/landing/toolbar/Toolbar.vue";
+import Footer from "@/components/ui/landing/footer/Footer.vue";
 
 export default {
   components: {
     Toolbar,
-    Footer
-  }
-}
+    Footer,
+  },
+};
 </script>

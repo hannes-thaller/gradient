@@ -1,23 +1,4 @@
-export const menu1 = [
-  {
-    title: "Solutions",
-    link: "#solutions",
-  },
-  {
-    title: "Pricing",
-    link: "#pricing",
-  },
-  {
-    title: "Docs",
-    link: "#docs",
-  },
-  {
-    title: "More",
-    link: "#more",
-  },
-];
-
-export const menu2 = [
+export const landing_menu = [
   {
     title: "Products",
     link: "/products",
@@ -33,6 +14,5 @@ export const menu2 = [
 ];
 
 export default {
-  menu1,
-  menu2,
+  landing_menu,
 };
