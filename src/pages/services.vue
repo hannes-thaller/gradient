@@ -1,5 +1,7 @@
 <template>
-  <FeatureHero></FeatureHero>
+  <div>
+    <FeatureHero></FeatureHero>
+  </div>
 </template>
 
 <script>
@@ -9,5 +11,7 @@ export default {
   components: {
     FeatureHero,
   },
+  data: () => ({
+  }),
 };
 </script>

@@ -8,8 +8,8 @@ export default {
   srcDir: 'src/',
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - nuxt',
-    title: 'nuxt',
+    titleTemplate: '%s',
+    title: 'Sourceflow',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -56,9 +56,9 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    '@nuxtjs/google-gtag'
+    '@nuxtjs/google-gtag',
   ],
-
+  content:{},
   'google-gtag': {
     id: gaId,
     debug: true, // enable to track in dev mode
