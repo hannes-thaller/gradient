@@ -1,0 +1,5 @@
+code_artifact:
+  owner: 429689067702
+  domain: sourceflow-gradient
+  repository_jvm: sourceflow-gradient-jvm
+  repository_python: sourceflow-gradient-python

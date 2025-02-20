@@ -1,0 +1,60 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+
+  build:
+    commands:
+      - ./gradlew assemble
+      - ./gradlew test
+
+  post_build:
+    commands:
+      - ./gradlew publish
+    finally:
+      - rm -f  /root/.gradle/caches/modules-2/modules-2.lock
+      - rm -rf /root/.gradle/caches/*/plugin-resolution/
+
+reports:
+  gradient-annotations:
+    files:
+      - "**/*"
+    base-directory: gradient-annotations/build/test-results/test
+    file-format: JUNITXML
+  gradient-sensor:
+    files:
+      - "**/*"
+    base-directory: gradient-sensor/build/test-results/test
+    file-format: JUNITXML
+  gradient-service-code:
+    files:
+      - "**/*"
+    base-directory: gradient-service-code/build/test-results/test
+    file-format: JUNITXML
+  gradient-service-dataset:
+    files:
+      - "**/*"
+    base-directory: gradient-service-dataset/build/test-results/test
+    file-format: JUNITXML
+  gradient-service-domain:
+    files:
+      - "**/*"
+    base-directory: gradient-service-domain/build/test-results/test
+    file-format: JUNITXML
+  gradient-service-monitoring:
+    files:
+      - "**/*"
+    base-directory: gradient-service-monitoring/build/test-results/test
+    file-format: JUNITXML
+  gradient-service-project:
+    files:
+      - "**/*"
+    base-directory: gradient-service-project/build/test-results/test
+    file-format: JUNITXML
+cache:
+  paths:
+    - /root/.m2/**/*
+    - /root/.gradle/caches/**/*
+    - /root/.gradle/wrapper/**/*

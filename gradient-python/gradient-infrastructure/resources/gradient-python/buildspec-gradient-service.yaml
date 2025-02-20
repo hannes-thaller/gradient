@@ -1,0 +1,39 @@
+version: 0.2
+env:
+  shell: bash
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - aws codeartifact login --tool pip --repository sourceflow-gradient-python --domain sourceflow-gradient --domain-owner 429689067702
+      - pip install -r requirements.txt
+      - python -m venv gradient-service-domain/environment
+      - python -m venv gradient-service-inference/environment
+      - pushd gradient-service-domain && source environment/bin/activate && pip install -r requirements/requirements.txt && popd
+      - pushd gradient-service-inference && source environment/bin/activate && pip install -r requirements/requirements.txt && popd
+
+  build:
+    commands:
+      - pushd gradient-service-domain && source environment/bin/activate && inv build && inv test && inv publish && popd
+      - pushd gradient-service-inference && source environment/bin/activate && inv build && inv test && inv publish && popd
+
+reports:
+  test-gradient-service-domain:
+    files:
+      - "*.xml"
+    base-directory: gradient-service-domain/build/pytest/reports
+    file-format: JUNITXML
+  test-gradient-service-inference:
+    files:
+      - "*.xml"
+    base-directory: gradient-service-inference/build/pytest/reports
+    file-format: JUNITXML
+
+
+cache:
+  paths:
+    - /root/.cache/pip/**/*
+    - /root/gradient-service-inference/.hypothesis
+    - /root/gradient-service-inference/tests/.hypothesis

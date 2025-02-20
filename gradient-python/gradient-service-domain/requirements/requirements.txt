@@ -1,0 +1,11 @@
+invoke==1.6.0
+attrs==21.2.0
+boto3==1.18.26
+protobuf==3.18.1
+grpcio==1.33.2
+grpcio-tools==1.33.2
+twine==3.4.2
+pytest==6.2.5
+pyyaml==5.4.1
+wheel==0.37.0
+setuptools==58.2.0

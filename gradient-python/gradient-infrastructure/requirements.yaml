@@ -1,0 +1,22 @@
+name: gradient-infrastructure
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - invoke=1.6.0
+  - attrs=21.2.0
+  - boto3=1.18.26
+  - grpcio-tools=1.33.2
+  - twine=3.4.2
+  - pytest=6.2.5
+  - pyyaml=5.4.1
+  - pip=21.3
+  - pymongo=3.11.0
+  - pip:
+      - aws-cdk.core==1.123.0
+      - aws-cdk.aws-s3==1.123.0
+      - aws-cdk.aws-codebuild==1.123.0
+      - aws-cdk.aws-codepipeline==1.123.0
+      - aws-cdk.aws-codeartifact==1.123.0
+      - aws-cdk.aws-ecr==1.123.0
+      - aws-cdk.aws-iam==1.123.0
