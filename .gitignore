@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
@@ -162,3 +163,10 @@ gradient-infrastructure/cdk.out/
 
 data
 >>>>>>> gradient-python/master
+=======
+build/
+
+.gradle/
+.idea/
+.kotlintest/
+>>>>>>> gradient-testing/master
