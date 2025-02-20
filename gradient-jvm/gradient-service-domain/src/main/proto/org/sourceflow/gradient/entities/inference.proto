@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_outer_classname = "InferenceEntities";
+option java_package = "org.sourceflow.gradient.inference.entities";
+
+package org.sourceflow.gradient.entities;
+
+import "org/sourceflow/gradient/entities/common.proto";
+
+message ModelHandleDetail {
+    UUID model_id = 1;
+}
+
+message ModelMessage {
+    ProjectContext project_context = 1;
+    oneof payload {
+        ModelHandleDetail model_handle_detail = 2;
+    }
+}

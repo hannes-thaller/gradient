@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_package = "org.sourceflow.gradient.monitoring.services";
+
+package org.sourceflow.gradient.services;
+
+import "org/sourceflow/gradient/entities/monitoring.proto";
+
+
+service MonitoringService {
+  rpc Report (stream org.sourceflow.gradient.entities.MonitoringMessage) returns (org.sourceflow.gradient.entities.MonitoringMessage);
+}

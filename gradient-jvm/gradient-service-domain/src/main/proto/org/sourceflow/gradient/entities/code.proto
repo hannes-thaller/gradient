@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+option java_outer_classname = "CodeEntities";
+option java_package = "org.sourceflow.gradient.code.entities";
+
+package org.sourceflow.gradient.entities;
+
+import "org/sourceflow/gradient/entities/common.proto";
+
+enum ModelingUniverseStatus {
+  EXTERNAL = 0;
+  BOUNDARY = 1;
+  BOUNDARY_MODEL = 2;
+  INTERNAL = 3;
+  INTERNAL_MODEL = 4;
+}
+
+enum DataTypeDescriptor {
+  NONE = 0;
+  BOOLEAN = 1;
+  BOOLEANS = 2;
+  INTEGER = 3;
+  INTEGERS = 4;
+  LONG = 5;
+  LONGS = 6;
+  FLOAT = 7;
+  FLOATS = 8;
+  DOUBLE = 9;
+  DOUBLES = 10;
+  STRING = 11;
+  STRINGS = 12;
+  REFERENCE = 13;
+  REFERENCES = 14;
+}
+
+message DataType {
+  DataTypeDescriptor data_type_descriptor = 1;
+  CanonicalName name = 2;
+}
+
+message CodeElement {
+  int32 id = 1;
+  CanonicalName name = 2;
+  ModelingUniverseStatus status = 3;
+  oneof element {
+    Type type = 4;
+    Property property = 5;
+    Executable executable = 6;
+    Parameter parameter = 7;
+  }
+}
+
+message Type {
+  repeated int32 properties = 1 [packed = true];
+  repeated int32 executables = 2 [packed = true];
+}
+
+message Property {
+  bool is_class_member = 1;
+  bool is_immutable = 2;
+  DataType data_type = 3;
+}
+
+message Executable {
+  bool is_class_member = 1;
+  bool is_abstract = 2;
+  bool is_constructor = 3;
+  repeated int32 parameters = 4 [packed = true];
+  repeated int32 invokes = 5 [packed = true];
+  repeated int32 reads = 6 [packed = true];
+  repeated int32 writes = 7 [packed = true];
+  DataType data_type = 8;
+}
+
+message Parameter {
+  int32 index = 1;
+  DataType data_type = 2;
+}
+
+message ProgramDetail {
+  repeated CodeElement types = 2;
+  repeated CodeElement properties = 3;
+  repeated CodeElement executables = 4;
+  repeated CodeElement parameters = 5;
+}
+
+message CodeElementModelUpdateDetail {
+  repeated CodeElementModelUpdate updates = 1;
+}
+
+message CodeElementModelUpdate {
+  int32 element_id = 1;
+  ModelingUniverseStatus status = 2;
+}
+
+message CodeMessage {
+  ProjectContext project_context = 1;
+  oneof payload {
+    ProgramDetail program_detail = 2;
+    CodeElementModelUpdateDetail model_update_detail = 3;
+  }
+}
+

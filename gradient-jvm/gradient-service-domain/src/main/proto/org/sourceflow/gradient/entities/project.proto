@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_outer_classname = "ProjectEntities";
+option java_package = "org.sourceflow.gradient.project.entities";
+
+package org.sourceflow.gradient.entities;
+
+import "org/sourceflow/gradient/entities/common.proto";
+
+message ProjectMessage {
+  UUID request_id = 1;
+  oneof payload {
+    CanonicalName name = 2;
+    ProjectContext context = 3;
+  }
+}

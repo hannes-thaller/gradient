@@ -1,0 +1,20 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="org.sourceflow.gradient.sensor.GradientAgent" level="DEBUG"/>
+    <logger name="org.sourceflow.gradient.sensor.DIContainer" level="DEBUG"/>
+    <logger name="org.sourceflow.gradient.sensor.Configuration" level="DEBUG"/>
+    <logger name="org.sourceflow.gradient.sensor.code.CodeAnalysis" level="DEBUG"/>
+    <logger name="org.sourceflow.gradient.sensor.monitoring.ClassFileTransformer" level="TRACE"/>
+    <logger name="org.sourceflow.gradient.sensor.monitoring.TypeTransformer" level="TRACE"/>
+    <logger name="org.sourceflow.gradient.sensor.persistence.CodeDao" level="DEBUG"/>
+    <logger name="org.sourceflow.gradient.sensor.persistence.ProjectDao" level="DEBUG"/>
+    <logger name="org.sourceflow.gradient.sensor.persistence.MonitoringDao" level="DEBUG"/>
+    <logger name="org.sourceflow.gradient.sensor..MonitoringDao" level="TRACE"/>
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

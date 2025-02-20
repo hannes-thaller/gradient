@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
@@ -89,3 +90,14 @@ sw.*
 # Vim swap files
 *.swp
 *.code-workspace
+=======
+**/.gradle
+.idea
+**/build
+.coverage
+*.iml
+*.ipr
+*.iws
+.data
+gradient-sensor/EventAnalysisTestByteCode.txt
+>>>>>>> gradient-jvm/master

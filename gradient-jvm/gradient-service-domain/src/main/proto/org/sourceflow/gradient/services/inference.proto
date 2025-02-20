@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.sourceflow.gradient.inference.services";
+
+package org.sourceflow.gradient.services;
+
+import "org/sourceflow/gradient/entities/inference.proto";
+
+service ModelService {
+  rpc LoadModel (org.sourceflow.gradient.entities.ModelMessage) returns (org.sourceflow.gradient.entities.ModelMessage);
+}
